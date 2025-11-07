@@ -1,4 +1,3 @@
-import julia
-j = julia.Julia()
-x = j.include("/src_codes/core.jl")
+from julia import Main as MainJulia
+x = MainJulia.include("src_codes/core.jl")
 x
