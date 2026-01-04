@@ -266,99 +266,147 @@
 % ============================================================
 % PART 2: iDMRG as a Warm-up
 % ============================================================
-\section{Warm-up: iDMRG in 1D}
+\section{Warm-up: Transfer Matrix RG in 1D}
 
 % ------------------------------------------------------------
-% Slide 2.1: MPS and MPO
+% Slide 2.1: What is MPO in Classical Systems?
 % ------------------------------------------------------------
-\begin{frame}{MPS and MPO: The Language of 1D}
+\begin{frame}{Row Transfer Matrix = Matrix Product Operator (MPO)}
+    
+    \textbf{Key Point:} The row-to-row transfer matrix has a \highlight{tensor network} structure!
+    
+    \vspace{0.3cm}
     
     \begin{columns}
-        \begin{column}{0.5\textwidth}
-            \textbf{Matrix Product State (MPS):}
+        \begin{column}{0.55\textwidth}
+            \textbf{Decompose} $T_{\text{row}}$ into local tensors:
             \[
-            |\psi\rangle = \sum_{\{s\}} A^{s_1} A^{s_2} \cdots A^{s_N} |s_1 s_2 \cdots s_N\rangle
+            T_{\{\sigma\}, \{\sigma'\}} = \sum_{\text{aux}} W^{\sigma_1 \sigma'_1} W^{\sigma_2 \sigma'_2} \cdots W^{\sigma_L \sigma'_L}
             \]
             
             % === FIGURE PLACEHOLDER ===
-            % Concept: MPS tensor train
+            % Concept: MPO = row transfer matrix decomposed
             %
             % ASCII draft:
-            %   ○──[A]──○──[A]──○──[A]──○──[A]──○
-            %      │       │       │       │
-            %      s₁      s₂      s₃      s₄
+            %   σ₁    σ₂    σ₃    σ₄    (row n config)
+            %    │     │     │     │
+            %   [W]───[W]───[W]───[W]   (local Boltzmann weights)
+            %    │     │     │     │
+            %   σ'₁   σ'₂   σ'₃   σ'₄   (row n+1 config)
             %
-            % Horizontal lines: virtual bonds (dim χ)
-            % Vertical lines: physical indices (dim d)
+            % Horizontal connections = auxiliary indices (bond dim d_W)
+            % Vertical = physical spin indices
             \begin{center}
-                \fbox{\parbox{0.9\textwidth}{
+                \fbox{\parbox{0.95\textwidth}{
                     \centering
-                    \vspace{1.5cm}
-                    \textit{[Figure: MPS tensor diagram]}
-                    \vspace{1.5cm}
+                    \vspace{1.8cm}
+                    \textit{[Figure: MPO = decomposed row transfer matrix]}
+                    \vspace{1.8cm}
+                }}
+            \end{center}
+        \end{column}
+        
+        \begin{column}{0.45\textwidth}
+            \textbf{Physical meaning of $W$:}
+            \[
+            W^{\sigma \sigma'}_{\alpha \beta} = \text{local Boltzmann weight}
+            \]
+            
+            \begin{itemize}
+                \item $\sigma, \sigma'$: spins in rows $n$, $n+1$
+                \item $\alpha, \beta$: auxiliary indices (encode horizontal bonds)
+            \end{itemize}
+            
+            \vspace{0.3cm}
+            
+            \begin{block}{No Quantum Mechanics!}
+                MPO is just a \textbf{factorization} of the classical transfer matrix.
+            \end{block}
+        \end{column}
+    \end{columns}
+\end{frame}
+
+% ------------------------------------------------------------
+% Slide 2.2: What is MPS in Classical Systems?
+% ------------------------------------------------------------
+\begin{frame}{Boundary Vector = Matrix Product State (MPS)}
+    
+    \textbf{Recall:} $Z = \text{Tr}(T^M)$ requires summing over \highlight{boundary configurations}.
+    
+    \vspace{0.3cm}
+    
+    \begin{columns}
+        \begin{column}{0.5\textwidth}
+            % === FIGURE PLACEHOLDER ===
+            % Concept: MPS as boundary vector
+            %
+            % ASCII draft:
+            %   Partition function as contraction:
+            %   
+            %   ⟨boundary| T · T · T · ... · T |boundary⟩
+            %        ↑                              ↑
+            %       MPS                            MPS
+            %   (left boundary)              (right boundary)
+            %
+            % Or for trace: connect top to bottom
+            \begin{center}
+                \fbox{\parbox{0.95\textwidth}{
+                    \centering
+                    \vspace{2.2cm}
+                    \textit{[Figure: MPS as boundary vector in $Z = \langle L | T^M | R \rangle$]}
+                    \vspace{2.2cm}
                 }}
             \end{center}
         \end{column}
         
         \begin{column}{0.5\textwidth}
-            \textbf{Matrix Product Operator (MPO):}
+            \textbf{MPS structure:}
             \[
-            \hat{H} = \sum_{\{s,s'\}} W^{s_1 s'_1} W^{s_2 s'_2} \cdots
+            |R\rangle_{\{\sigma\}} = \sum_{\text{aux}} A^{\sigma_1} A^{\sigma_2} \cdots A^{\sigma_L}
             \]
             
-            % === FIGURE PLACEHOLDER ===
-            % Concept: MPO applied to MPS
-            %
-            % ASCII draft:
-            %   ○──[A]──○──[A]──○──[A]──○  (MPS)
-            %      │       │       │
-            %   ○──[W]──○──[W]──○──[W]──○  (MPO)
-            %      │       │       │
-            %
-            % Show MPO as "sandwich" layer
-            \begin{center}
-                \fbox{\parbox{0.9\textwidth}{
-                    \centering
-                    \vspace{1.5cm}
-                    \textit{[Figure: MPO applied to MPS]}
-                    \vspace{1.5cm}
-                }}
-            \end{center}
+            \begin{itemize}
+                \item $|R\rangle$: vector in $2^L$-dim config space
+                \item $A^{\sigma_i}$: $\chi \times \chi$ matrices
+                \item Total: only $L \cdot \chi^2 \cdot d$ parameters!
+            \end{itemize}
+            
+            \vspace{0.3cm}
+            
+            \begin{block}{Physical Meaning}
+                MPS \textbf{compresses} the $2^L$ boundary configurations into $\chi$ effective states.
+            \end{block}
         \end{column}
     \end{columns}
-    
-    \vspace{0.3cm}
-    \begin{block}{Key Feature}
-        Bond dimension $\chi$ controls both \textbf{accuracy} and \textbf{computational cost}.
-    \end{block}
 \end{frame}
 
 % ------------------------------------------------------------
-% Slide 2.2: iDMRG Setup
+% Slide 2.3: TMRG Setup
 % ------------------------------------------------------------
-\begin{frame}{iDMRG: Infinite System from Finite Environment}
+\begin{frame}{Transfer Matrix RG: The Setup}
     
-    \textbf{Goal:} Represent an \highlight{infinite} chain using \highlight{finite} environment tensors.
+    \textbf{Goal:} Compute $Z = \text{Tr}(T_{\text{row}}^M)$ for \highlight{infinite} $L$ and $M$.
     
-    \vspace{0.5cm}
+    \vspace{0.3cm}
     
     % === FIGURE PLACEHOLDER ===
-    % Concept: Left environment - new sites - right environment
+    % Concept: Environment tensors compressing half-infinite strips
     %
     % ASCII draft:
-    %   ···[L]──○──○──[R]···
-    %       │   │  │   │
-    %      Left  New  Right
-    %      Env  Sites  Env
-    %
-    %   [L] = compressed left half-chain (χ states)
-    %   [R] = compressed right half-chain (χ states)
-    %   ○ = new physical sites being added
+    %   Left half-plane    Center    Right half-plane
+    %   (infinite rows)    (new row)  (infinite rows)
+    %   
+    %       ···─[L]────────[W]────────[R]─···
+    %           χ           d          χ
+    %   
+    %   [L] = left environment = sum over all configs to the left
+    %   [R] = right environment = sum over all configs to the right
+    %   Both compressed to χ "effective configurations"
     \begin{center}
-        \fbox{\parbox{0.75\textwidth}{
+        \fbox{\parbox{0.8\textwidth}{
             \centering
             \vspace{2.5cm}
-            \textit{[Figure: iDMRG setup --- Left Env + New Sites + Right Env]}
+            \textit{[Figure: $L$ and $R$ as compressed half-infinite environments]}
             \vspace{2.5cm}
         }}
     \end{center}
@@ -368,78 +416,47 @@
     \begin{columns}
         \begin{column}{0.5\textwidth}
             \textbf{Left Environment $L$:}
-            \begin{itemize}
-                \item Encodes infinite left half-chain
-                \item Compressed to $\chi$ states
-            \end{itemize}
+            \[
+            L = \sum_{\text{left configs}} (\text{Boltzmann weights})
+            \]
+            Compressed: $2^{\infty} \to \chi$ states
         \end{column}
         \begin{column}{0.5\textwidth}
             \textbf{Right Environment $R$:}
-            \begin{itemize}
-                \item Encodes infinite right half-chain
-                \item Compressed to $\chi$ states
-            \end{itemize}
+            \[
+            R = \sum_{\text{right configs}} (\text{Boltzmann weights})
+            \]
+            Compressed: $2^{\infty} \to \chi$ states
         \end{column}
     \end{columns}
 \end{frame}
 
 % ------------------------------------------------------------
-% Slide 2.3: iDMRG Iteration - Grow
+% Slide 2.4: TMRG Iteration - Grow
 % ------------------------------------------------------------
-\begin{frame}{iDMRG Iteration: Step 1 --- Grow (Add Sites)}
+\begin{frame}{TMRG Iteration: Step 1 --- Grow (Absorb One Row)}
+    
+    \textbf{Absorption:} Multiply environment by one row transfer matrix.
+    
+    \vspace{0.3cm}
     
     % === FIGURE PLACEHOLDER ===
-    % Concept: Adding new site pair to the system
+    % Concept: Absorbing MPO (one row) into environment
     %
     % ASCII draft:
-    %   Before:  [L]──○──○──[R]   (2-site unit cell)
+    %   Before:  [L]─────────[R]     (environments, dim χ)
     %   
-    %   After:   [L]──○──○──○──○──[R]  (grown by absorbing MPO)
-    %                    ↑
-    %               New sites added
+    %   Absorb:  [L]──[W][W][W]──[R]  (apply row transfer T)
+    %   
+    %   After:   [L']────────[R']    (grown, dim χ·d → need truncation!)
     %
-    % This is analogous to "decimation" in real-space RG
+    % L' = L · T  (matrix multiplication)
+    % This adds one more row to the partition function sum
     \begin{center}
         \fbox{\parbox{0.8\textwidth}{
             \centering
-            \vspace{3cm}
-            \textit{[Figure: Growing step --- absorb new site + MPO into environment]}
-            \vspace{3cm}
-        }}
-    \end{center}
-    
-    \vspace{0.3cm}
-    
-    \begin{block}{Analogy to Real-Space RG}
-        Adding sites $\approx$ \textbf{Decimation} in Kadanoff's block-spin RG
-    \end{block}
-\end{frame}
-
-% ------------------------------------------------------------
-% Slide 2.4: iDMRG Iteration - Truncate
-% ------------------------------------------------------------
-\begin{frame}{iDMRG Iteration: Step 2 --- Truncate (SVD)}
-    
-    \textbf{Problem:} After growing, bond dimension becomes $\chi \cdot d$ --- too large!
-    
-    \vspace{0.3cm}
-    
-    % === FIGURE PLACEHOLDER ===
-    % Concept: SVD truncation of the center bond
-    %
-    % ASCII draft:
-    %   [====== ψ ======]     (combined wavefunction)
-    %           ↓ SVD
-    %   [U]──[Σ]──[V†]        (singular value decomposition)
-    %           ↓ truncate to χ
-    %   [U']──[Σ']──[V'†]     (keep χ largest singular values)
-    %
-    % Show singular value spectrum with cutoff
-    \begin{center}
-        \fbox{\parbox{0.75\textwidth}{
-            \centering
             \vspace{2.5cm}
-            \textit{[Figure: SVD truncation --- keep $\chi$ largest singular values]}
+            \textit{[Figure: Absorb row transfer $T$ into environments $L, R$]}
             \vspace{2.5cm}
         }}
     \end{center}
@@ -447,63 +464,276 @@
     \vspace{0.3cm}
     
     \begin{columns}
-        \begin{column}{0.6\textwidth}
-            \textbf{SVD on center bond:}
+        \begin{column}{0.5\textwidth}
+            \textbf{Mathematically:}
             \[
-            \Psi = U \Sigma V^\dagger \xrightarrow{\text{truncate}} U' \Sigma' V'^\dagger
+            L' = L \cdot T, \quad R' = T \cdot R
             \]
+            Dimension grows: $\chi \to \chi \cdot d$
         \end{column}
-        \begin{column}{0.4\textwidth}
-            \begin{block}{Analogy to RG}
-                Truncation $\approx$ \textbf{Rescaling}
+        \begin{column}{0.5\textwidth}
+            \begin{block}{RG Analogy}
+                Absorption $\approx$ \textbf{Decimation}
+                
+                (Adding more degrees of freedom)
             \end{block}
         \end{column}
     \end{columns}
 \end{frame}
 
 % ------------------------------------------------------------
-% Slide 2.5: iDMRG Convergence
+% Slide 2.5: TMRG Iteration - Truncate
 % ------------------------------------------------------------
-\begin{frame}{iDMRG: Convergence to Fixed Point}
+\begin{frame}{TMRG Iteration: Step 2 --- Truncate (SVD)}
+    
+    \textbf{Problem:} Dimension grew to $\chi \cdot d$ --- must compress back to $\chi$!
+    
+    \vspace{0.2cm}
+    
+    \textbf{Solution:} Use \highlight{SVD} --- a pure matrix factorization (no quantum mechanics!).
+    
+    \vspace{0.3cm}
+    
+    \begin{columns}
+        \begin{column}{0.5\textwidth}
+            % === FIGURE PLACEHOLDER ===
+            % Concept: SVD of the combined L-R system
+            %
+            % ASCII draft:
+            %   Combined matrix M = L' · R'  (or the "density matrix" L'·R'^T)
+            %           ↓ SVD
+            %   M = U · Σ · V†
+            %   
+            %   Σ = diag(σ₁, σ₂, ..., σₙ)  with σ₁ ≥ σ₂ ≥ ... ≥ σₙ
+            %   
+            %   Truncate: keep only χ largest singular values
+            %   
+            %   Projector P = U[:, :χ]
+            \begin{center}
+                \fbox{\parbox{0.95\textwidth}{
+                    \centering
+                    \vspace{2.2cm}
+                    \textit{[Figure: SVD and truncation to $\chi$ largest]}
+                    \vspace{2.2cm}
+                }}
+            \end{center}
+        \end{column}
+        
+        \begin{column}{0.5\textwidth}
+            \textbf{SVD of environment product:}
+            \[
+            L' \cdot R'^T = U \Sigma V^\dagger
+            \]
+            
+            \textbf{Truncate to $\chi$ largest:}
+            \[
+            P = U_{:, 1:\chi}, \quad \tilde{P} = V_{:, 1:\chi}
+            \]
+            
+            \textbf{New compressed environments:}
+            \[
+            L_{\text{new}} = P^\dagger L', \quad R_{\text{new}} = R' \tilde{P}
+            \]
+            
+            \begin{block}{RG Analogy}
+                Truncation $\approx$ \textbf{Rescaling}
+                
+                (Coarse-grain to fewer d.o.f.)
+            \end{block}
+        \end{column}
+    \end{columns}
+\end{frame}
+
+% ------------------------------------------------------------
+% Slide 2.6: Why SVD Works
+% ------------------------------------------------------------
+\begin{frame}{Why Does SVD Give the Best Truncation?}
+    
+    \textbf{Theorem (Eckart-Young):} SVD gives the \highlight{optimal low-rank approximation}.
+    
+    \vspace{0.3cm}
+    
+    \begin{columns}
+        \begin{column}{0.5\textwidth}
+            % === FIGURE PLACEHOLDER ===
+            % Concept: Singular value spectrum decay
+            %
+            % ASCII draft:
+            %   σ₁  ████████████████  (dominant)
+            %   σ₂  ███████████
+            %   σ₃  ████████
+            %   σ₄  █████
+            %   σ₅  ███
+            %   σ₆  ██
+            %   ... █               (negligible)
+            %   ────────────────────
+            %        ↑ cutoff at χ
+            %   
+            %   Error ∝ Σ_{i>χ} σᵢ²  (discarded weight)
+            \begin{center}
+                \fbox{\parbox{0.95\textwidth}{
+                    \centering
+                    \vspace{2.5cm}
+                    \textit{[Figure: Singular value spectrum with truncation]}
+                    \vspace{2.5cm}
+                }}
+            \end{center}
+        \end{column}
+        
+        \begin{column}{0.5\textwidth}
+            \textbf{Physical interpretation:}
+            
+            \begin{itemize}
+                \item Large $\sigma_i$: configurations with \textbf{high Boltzmann weight}
+                \item Small $\sigma_i$: configurations with \textbf{negligible contribution} to $Z$
+            \end{itemize}
+            
+            \vspace{0.3cm}
+            
+            \textbf{Truncation error:}
+            \[
+            \epsilon = \sum_{i > \chi} \sigma_i^2 \bigg/ \sum_{i} \sigma_i^2
+            \]
+            
+            \vspace{0.2cm}
+            
+            \begin{alertblock}{Key Point}
+                We keep configs that contribute \textbf{most to $Z$}, discard the rest!
+            \end{alertblock}
+        \end{column}
+    \end{columns}
+\end{frame}
+
+% ------------------------------------------------------------
+% Slide 2.7: TMRG Convergence and RG Fixed Point
+% ------------------------------------------------------------
+\begin{frame}{TMRG: Convergence = RG Fixed Point}
     
     \begin{center}
-        \textbf{Iterate:} Grow $\to$ Truncate $\to$ Grow $\to$ Truncate $\to \cdots$
+        \textbf{Iterate:} Absorb $\to$ Truncate $\to$ Absorb $\to$ Truncate $\to \cdots$
     \end{center}
     
     \vspace{0.3cm}
     
     % === FIGURE PLACEHOLDER ===
-    % Concept: Convergence diagram
+    % Concept: Convergence of largest singular value / free energy
     %
     % ASCII draft:
-    %   Iteration:  1    2    3    4    5    ...   ∞
-    %                ↓    ↓    ↓    ↓    ↓          ↓
-    %   Energy:    ───────────────────────→  E_fixed
+    %   Iteration:  1    2    3    4    5    ...   n
     %   
-    %   Environment tensors converge to fixed point!
+    %   σ₁/Z:     ───•────•────•────•────•────→  σ₁* (converged)
+    %   
+    %   f = -kT ln(σ₁*) / (area)  →  free energy per site
     \begin{center}
         \fbox{\parbox{0.7\textwidth}{
             \centering
-            \vspace{2cm}
-            \textit{[Figure: Convergence of energy/environment to fixed point]}
-            \vspace{2cm}
+            \vspace{1.8cm}
+            \textit{[Figure: Convergence of dominant singular value to fixed point]}
+            \vspace{1.8cm}
         }}
     \end{center}
     
+    \vspace{0.2cm}
+    
+    \begin{columns}
+        \begin{column}{0.5\textwidth}
+            \begin{block}{RG Interpretation}
+                \textbf{Fixed point:} $L^*, R^*$
+                
+                \vspace{0.1cm}
+                
+                The RG transformation
+                \[
+                (L, R) \xrightarrow{\text{absorb+truncate}} (L', R')
+                \]
+                converges to $(L^*, R^*)$.
+            \end{block}
+        \end{column}
+        \begin{column}{0.5\textwidth}
+            \begin{block}{Physical Meaning}
+                $L^*, R^*$ encode the \textbf{thermodynamic limit}:
+                \begin{itemize}
+                    \item Infinite system size
+                    \item Bulk properties (not boundary)
+                \end{itemize}
+            \end{block}
+        \end{column}
+    \end{columns}
+\end{frame}
+
+% ------------------------------------------------------------
+% Slide 2.8: Computing Z and Observables
+% ------------------------------------------------------------
+\begin{frame}{Computing $Z$ and Local Observables}
+    
+    \textbf{With converged environments $L^*, R^*$:}
+    
     \vspace{0.3cm}
     
-    \begin{block}{RG Fixed Point}
-        Converged $L^*, R^*$ = \goodpoint{Fixed point} of the RG transformation.
+    \begin{columns}
+        \begin{column}{0.5\textwidth}
+            \textbf{Partition function (per site):}
+            \[
+            Z \propto \sigma_1^{\text{(area)}}
+            \]
+            where $\sigma_1$ = largest singular value.
+            
+            \vspace{0.2cm}
+            
+            \textbf{Free energy per site:}
+            \[
+            f = -k_B T \ln \sigma_1^*
+            \]
+            
+            % === FIGURE PLACEHOLDER ===
+            % Concept: Z as contraction of L* and R*
+            %
+            % ASCII draft:
+            %   Z ∝ L* ─── R*  (contract all indices)
+            %         ╲   ╱
+            %          ───
+            \begin{center}
+                \fbox{\parbox{0.9\textwidth}{
+                    \centering
+                    \vspace{1.2cm}
+                    \textit{[Figure: $Z$ from contracting $L^*, R^*$]}
+                    \vspace{1.2cm}
+                }}
+            \end{center}
+        \end{column}
         
-        These encode the \textbf{compressed infinite environment}.
-    \end{block}
-    
-    \vspace{0.3cm}
-    
-    \textbf{Computing observables:}
-    \[
-    \langle O \rangle = \frac{\langle L^* | O | R^* \rangle}{\langle L^* | R^* \rangle}
-    \]
+        \begin{column}{0.5\textwidth}
+            \textbf{Local observable $\langle \sigma_i \rangle$:}
+            
+            Insert operator at site $i$:
+            \[
+            \langle \sigma_i \rangle = \frac{L^* \cdot \sigma_i \cdot R^*}{L^* \cdot R^*}
+            \]
+            
+            % === FIGURE PLACEHOLDER ===
+            % Concept: Insert σ between L* and R*
+            %
+            % ASCII draft:
+            %         L* ──[σ]── R*
+            %   <σ> = ─────────────
+            %           L* ─── R*
+            \begin{center}
+                \fbox{\parbox{0.9\textwidth}{
+                    \centering
+                    \vspace{1.2cm}
+                    \textit{[Figure: Insert $\sigma$ to compute $\langle \sigma \rangle$]}
+                    \vspace{1.2cm}
+                }}
+            \end{center}
+            
+            \vspace{0.2cm}
+            
+            \textbf{Correlation functions:}
+            \[
+            \langle \sigma_i \sigma_j \rangle = \frac{L^* \cdot \sigma_i \cdot T^{|i-j|} \cdot \sigma_j \cdot R^*}{Z}
+            \]
+        \end{column}
+    \end{columns}
 \end{frame}
 
 % ============================================================
