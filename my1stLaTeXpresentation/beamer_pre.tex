@@ -95,21 +95,9 @@
         \end{column}
         
         \begin{column}{0.5\textwidth}
-            % === FIGURE PLACEHOLDER ===
-            % Concept: 1D chain with transfer matrices connecting sites
-            % 
-            % ASCII draft:
-            %   σ₁ ──[T]── σ₂ ──[T]── σ₃ ──[T]── σ₄ ──[T]── ...
-            %
-            % Show T as a small box/tensor between each pair
-            % Emphasize: T is only 2×2, very manageable!
+            % === FIGURE: 1D chain with transfer matrices ===
             \begin{center}
-                \fbox{\parbox{0.9\textwidth}{
-                    \centering
-                    \vspace{2cm}
-                    \textit{[Figure: 1D chain with transfer matrices]}
-                    \vspace{2cm}
-                }}
+                \includegraphics[width=0.95\textwidth]{figures/fig_1d_transfer_chain.pdf}
             \end{center}
         \end{column}
     \end{columns}
@@ -121,619 +109,308 @@
 \end{frame}
 
 % ------------------------------------------------------------
-% Slide 1.2: Going to 2D
+% Slide 1.2: When 1D Becomes Hard
 % ------------------------------------------------------------
-\begin{frame}{2D Square Lattice: Row-to-Row Transfer}
+\begin{frame}{When Even 1D Has an Exponential Wall}
     
-    \begin{columns}
-        \begin{column}{0.45\textwidth}
-            \textbf{2D Ising Model:}
-            \[
-            H = -J \sum_{\langle i,j \rangle} \sigma_i \sigma_j
-            \]
-            
-            \vspace{0.3cm}
-            
-            \textbf{Row-to-Row Transfer:}
-            \[
-            Z = \text{Tr}(T_{\text{row}}^{M})
-            \]
-            
-            \vspace{0.3cm}
-            
-            Row has $L$ spins $\Rightarrow$
-            \[
-            T_{\text{row}} \in \mathbb{R}^{2^L \times 2^L}
-            \]
-        \end{column}
-        
-        \begin{column}{0.55\textwidth}
-            % === FIGURE PLACEHOLDER ===
-            % Concept: 2D lattice with row-to-row transfer
-            %
-            % ASCII draft:
-            %   Row n:   ○──○──○──○──○  (L spins = one "super-spin")
-            %            │  │  │  │  │
-            %          [====T_row====]  (transfer slab)
-            %            │  │  │  │  │
-            %   Row n+1: ○──○──○──○──○
-            %
-            % Emphasize the "slab" nature of T_row
-            \begin{center}
-                \fbox{\parbox{0.95\textwidth}{
-                    \centering
-                    \vspace{2.5cm}
-                    \textit{[Figure: 2D lattice with row-to-row transfer matrix]}
-                    \vspace{2.5cm}
-                }}
-            \end{center}
-        \end{column}
-    \end{columns}
-\end{frame}
-
-% ------------------------------------------------------------
-% Slide 1.3: The Exponential Wall
-% ------------------------------------------------------------
-\begin{frame}{The Exponential Wall: A Dimensional Curse}
-    
-    \begin{center}
-        % === FIGURE PLACEHOLDER ===
-        % Concept: Exponential growth visualization
-        %
-        % ASCII draft: Bar chart or exponential curve
-        %   L=10:  2^10 = 1,024         (small bar)
-        %   L=20:  2^20 ≈ 10^6          (medium bar)
-        %   L=50:  2^50 ≈ 10^15         (huge bar, off-scale)
-        %   L=100: 2^100 ≈ 10^30        (impossibly large)
-        %
-        % Could also show: memory/time requirements
-        \fbox{\parbox{0.7\textwidth}{
-            \centering
-            \vspace{2cm}
-            \textit{[Figure: Exponential growth of $2^L$ with system size]}
-            \vspace{2cm}
-        }}
-    \end{center}
+    \textbf{Recall:} For uniform 1D Ising, $Z = \text{Tr}(T^N)$ with $T \in \mathbb{R}^{2\times 2}$ is \goodpoint{exact}.
     
     \vspace{0.3cm}
     
     \begin{columns}
         \begin{column}{0.5\textwidth}
-            \begin{table}
-                \centering
-                \begin{tabular}{c|c}
-                    \toprule
-                    $L$ & Matrix Size $2^L$ \\
-                    \midrule
-                    10 & $\sim 10^3$ \\
-                    20 & $\sim 10^6$ \\
-                    50 & $\sim 10^{15}$ \\
-                    100 & $\sim 10^{30}$ \\
-                    \bottomrule
-                \end{tabular}
-            \end{table}
+            \textbf{But what if...}
+            \begin{itemize}
+                \item Couplings $J_i$ are \highlight{site-dependent}?
+                \item Random disorder: $J_i \sim \mathcal{N}(\bar{J}, \sigma)$?
+                \item Open boundary conditions (no translation symmetry)?
+            \end{itemize}
+            
+            \vspace{0.3cm}
+            
+            \textbf{Then:} Cannot diagonalize $T$ once!
+            \[
+            Z = \text{Tr}(T_1 \cdot T_2 \cdot T_3 \cdots T_N)
+            \]
+            Each $T_i$ is different $\Rightarrow$ no simple $\lambda^N$ formula.
         \end{column}
         
         \begin{column}{0.5\textwidth}
+            % === FIGURE PLACEHOLDER ===
+            % Concept: Chain with varying couplings
+            %
+            % ASCII draft:
+            %   ○──J₁──○──J₂──○──J₃──○──J₄──○
+            %      T₁     T₂     T₃     T₄
+            %   
+            %   Z = Tr(T₁ · T₂ · T₃ · T₄ · ...)
+            %   
+            %   "No single eigenvalue trick!"
+            \begin{center}
+                \fbox{\parbox{0.95\textwidth}{
+                    \centering
+                    \vspace{2cm}
+                    \textit{[Figure: 1D chain with non-uniform couplings $J_i$]}
+                    \vspace{2cm}
+                }}
+            \end{center}
+            
             \begin{alertblock}{The Problem}
-                \highlight{Exponential growth} is intrinsic to \textbf{higher dimensions}, not specific to row-to-row vs corner methods!
+                For $N$ sites: need $O(N)$ matrix multiplications.
+                
+                Not exponential, but \highlight{no closed-form solution}.
             \end{alertblock}
         \end{column}
     \end{columns}
 \end{frame}
 
 % ------------------------------------------------------------
-% Slide 1.4: Need for Compression
+% Slide 1.3: 1D Solution - Transfer Matrix RG
 % ------------------------------------------------------------
-\begin{frame}{The Solution: Compress the Correlations!}
+\begin{frame}{Solution: Transfer Matrix Renormalization Group (TMRG)}
     
     \begin{center}
-        \textbf{Key Insight:} Not all $2^L$ configurations are equally important.
+        \textbf{Key Insight:} Not all configurations contribute equally to $Z$.
+        
+        \vspace{0.2cm}
+        
+        $\Rightarrow$ Keep only the \goodpoint{most relevant} ones!
+    \end{center}
+    
+    \vspace{0.3cm}
+    
+    \begin{columns}
+        \begin{column}{0.55\textwidth}
+            % === FIGURE PLACEHOLDER ===
+            % Concept: Left environment - local site - Right environment
+            %
+            % ASCII draft:
+            %   Z = Tr([L] · T · T · [R])
+            %         ↑              ↑
+            %    Left env.      Right env.
+            %   (compressed)    (compressed)
+            %   
+            %   L = sum over all left configs  → χ states
+            %   R = sum over all right configs → χ states
+            \begin{center}
+                \fbox{\parbox{0.95\textwidth}{
+                    \centering
+                    \vspace{2.5cm}
+                    \textit{[Figure: $Z \approx \text{Tr}(L \cdot T \cdot T \cdot R)$]}
+                    \vspace{2.5cm}
+                }}
+            \end{center}
+        \end{column}
+        
+        \begin{column}{0.45\textwidth}
+            \textbf{TMRG Algorithm:}
+            \begin{enumerate}
+                \item \textbf{Grow:} $L' = L \cdot T$ 
+                
+                (add sites $\approx$ decimation)
+                
+                \item \textbf{Truncate:} SVD $\to$ keep $\chi$ largest
+                
+                (coarse-grain $\approx$ rescaling)
+            \end{enumerate}
+            
+            \vspace{0.3cm}
+            
+            \begin{block}{RG Fixed Point}
+                Iterate until $L^*, R^*$ converge.
+                
+                $\Rightarrow$ Thermodynamic limit!
+            \end{block}
+        \end{column}
+    \end{columns}
+    
+    \vspace{0.2cm}
+    
+    \begin{center}
+        \textit{(Detailed derivation in Appendix)}
+    \end{center}
+\end{frame}
+
+% ============================================================
+% PART 2: Going to 2D - The Network Problem
+% ============================================================
+\section{Going to 2D: A Fundamentally Harder Problem}
+
+% ------------------------------------------------------------
+% Slide 2.1: 2D is a Network!
+% ------------------------------------------------------------
+\begin{frame}{2D: The Transfer Matrix Becomes a \highlight{Network}}
+    
+    \begin{columns}
+        \begin{column}{0.45\textwidth}
+            \textbf{1D:} Ordered product of matrices
+            \[
+            Z = \text{Tr}(T_1 \cdot T_2 \cdots T_N)
+            \]
+            Contract left-to-right: $O(N)$.
+            
+            \vspace{0.5cm}
+            
+            \textbf{2D:} Each site couples to \highlight{4 neighbors}!
+            \[
+            T^{\sigma_i}_{\sigma_\text{up}, \sigma_\text{down}, \sigma_\text{left}, \sigma_\text{right}}
+            \]
+            
+            This is a \highlight{rank-4 tensor}, not a matrix!
+        \end{column}
+        
+        \begin{column}{0.55\textwidth}
+            % === FIGURE PLACEHOLDER ===
+            % Concept: 2D lattice showing each site has 4 bonds
+            %
+            % ASCII draft:
+            %   σ_{i,j-1}
+            %       │
+            %   σ_{i-1,j}──[T]──σ_{i+1,j}
+            %       │
+            %   σ_{i,j+1}
+            %
+            %   Z = Σ_{all σ} Π_{sites} T^σ_{neighbors}
+            %
+            %   "No natural ordering for contraction!"
+            \begin{center}
+                \fbox{\parbox{0.95\textwidth}{
+                    \centering
+                    \vspace{2.5cm}
+                    \textit{[Figure: 2D lattice --- each site is a rank-4 tensor]}
+                    \vspace{2.5cm}
+                }}
+            \end{center}
+        \end{column}
+    \end{columns}
+    
+    \vspace{0.3cm}
+    
+    \begin{alertblock}{The Fundamental Problem}
+        \highlight{No natural contraction order!} The 2D tensor network cannot be reduced to a simple trace of matrix products. \textbf{Exact contraction is \#P-hard!}
+    \end{alertblock}
+\end{frame}
+
+% ------------------------------------------------------------
+% Slide 2.2: One Approach - Row-to-Row (Brief)
+% ------------------------------------------------------------
+\begin{frame}{One Approach: Row-to-Row Transfer (DMRG-style)}
+    
+    \textbf{Idea:} Group one row of $L$ spins $\to$ treat as a ``super-spin'' with $2^L$ states.
+    
+    \vspace{0.3cm}
+    
+    \begin{columns}
+        \begin{column}{0.5\textwidth}
+            % === FIGURE PLACEHOLDER ===
+            % Concept: Row grouped as super-spin
+            %
+            % ASCII draft:
+            %   Row n:   ○──○──○──○──○  →  [σ_row] (2^L states)
+            %            │  │  │  │  │
+            %   Row n+1: ○──○──○──○──○  →  [σ'_row]
+            %
+            %   T_row ∈ R^{2^L × 2^L}
+            \begin{center}
+                \fbox{\parbox{0.95\textwidth}{
+                    \centering
+                    \vspace{1.8cm}
+                    \textit{[Figure: Row $\to$ super-spin, $T_{\text{row}} \in \mathbb{R}^{2^L \times 2^L}$]}
+                    \vspace{1.8cm}
+                }}
+            \end{center}
+            
+            Then $Z = \text{Tr}(T_{\text{row}}^M)$ looks like 1D!
+        \end{column}
+        
+        \begin{column}{0.5\textwidth}
+            \textbf{Apply DMRG/TMRG ideas:}
+            \begin{itemize}
+                \item Row config space $\to$ MPS
+                \item Row-to-row transfer $\to$ MPO
+                \item Truncate via SVD
+            \end{itemize}
+            
+            \vspace{0.3cm}
+            
+            \begin{block}{Pros \& Cons}
+                \textcolor{accentgreen}{\textbf{+}} Systematic, well-understood
+                
+                \textcolor{accentred}{\textbf{--}} Breaks 2D symmetry
+                
+                \textcolor{accentred}{\textbf{--}} Hard to generalize to other lattices
+            \end{block}
+            
+            \vspace{0.2cm}
+            
+            \textit{(Details in Appendix)}
+        \end{column}
+    \end{columns}
+\end{frame}
+
+% ------------------------------------------------------------
+% Slide 2.3: A More Natural 2D Perspective
+% ------------------------------------------------------------
+\begin{frame}{A More Natural Approach: Think in 2D!}
+    
+    \begin{center}
+        \textbf{Question:} If we only want \highlight{local observables} $\langle \sigma_{i,j} \rangle$, 
+        
+        do we really need to contract the \textit{entire} infinite lattice?
     \end{center}
     
     \vspace{0.5cm}
     
-    % === FIGURE PLACEHOLDER ===
-    % Concept: Spectrum of singular values / eigenvalues
-    %
-    % ASCII draft:
-    %   Eigenvalue spectrum: 
-    %   λ₁ ████████████████  (dominant)
-    %   λ₂ ████████████
-    %   λ₃ ████████
-    %   λ₄ █████
-    %   λ₅ ███
-    %   ...
-    %   λₙ █                 (negligible)
-    %
-    %   Arrow: "Keep only χ largest!"
-    \begin{center}
-        \fbox{\parbox{0.6\textwidth}{
-            \centering
-            \vspace{2.5cm}
-            \textit{[Figure: Eigenvalue spectrum decay --- keep only $\chi$ largest]}
-            \vspace{2.5cm}
-        }}
-    \end{center}
-    
-    \vspace{0.3cm}
-    
-    \begin{block}{Strategy}
-        \textbf{Renormalization Group:} Keep only the $\chi$ most \goodpoint{relevant} degrees of freedom!
-    \end{block}
-\end{frame}
-
-% ============================================================
-% PART 2: iDMRG as a Warm-up
-% ============================================================
-\section{Warm-up: Transfer Matrix RG in 1D}
-
-% ------------------------------------------------------------
-% Slide 2.1: What is MPO in Classical Systems?
-% ------------------------------------------------------------
-\begin{frame}{Row Transfer Matrix = Matrix Product Operator (MPO)}
-    
-    \textbf{Key Point:} The row-to-row transfer matrix has a \highlight{tensor network} structure!
-    
-    \vspace{0.3cm}
-    
     \begin{columns}
-        \begin{column}{0.55\textwidth}
-            \textbf{Decompose} $T_{\text{row}}$ into local tensors:
-            \[
-            T_{\{\sigma\}, \{\sigma'\}} = \sum_{\text{aux}} W^{\sigma_1 \sigma'_1} W^{\sigma_2 \sigma'_2} \cdots W^{\sigma_L \sigma'_L}
-            \]
-            
+        \begin{column}{0.5\textwidth}
             % === FIGURE PLACEHOLDER ===
-            % Concept: MPO = row transfer matrix decomposed
+            % Concept: Local site surrounded by environment
             %
             % ASCII draft:
-            %   σ₁    σ₂    σ₃    σ₄    (row n config)
-            %    │     │     │     │
-            %   [W]───[W]───[W]───[W]   (local Boltzmann weights)
-            %    │     │     │     │
-            %   σ'₁   σ'₂   σ'₃   σ'₄   (row n+1 config)
+            %   ┌─────────────────┐
+            %   │  Environment    │
+            %   │    ┌───┐        │
+            %   │    │ σ │ ← local│
+            %   │    └───┘        │
+            %   │                 │
+            %   └─────────────────┘
             %
-            % Horizontal connections = auxiliary indices (bond dim d_W)
-            % Vertical = physical spin indices
+            %   "Environment encodes the rest of the lattice"
             \begin{center}
                 \fbox{\parbox{0.95\textwidth}{
                     \centering
-                    \vspace{1.8cm}
-                    \textit{[Figure: MPO = decomposed row transfer matrix]}
-                    \vspace{1.8cm}
+                    \vspace{2.2cm}
+                    \textit{[Figure: Local site surrounded by 2D environment]}
+                    \vspace{2.2cm}
                 }}
             \end{center}
         \end{column}
         
-        \begin{column}{0.45\textwidth}
-            \textbf{Physical meaning of $W$:}
-            \[
-            W^{\sigma \sigma'}_{\alpha \beta} = \text{local Boltzmann weight}
-            \]
+        \begin{column}{0.5\textwidth}
+            \textbf{Key Insight:}
+            
+            Decompose the infinite 2D environment into \highlight{geometrically natural} pieces:
+            
+            \vspace{0.3cm}
             
             \begin{itemize}
-                \item $\sigma, \sigma'$: spins in rows $n$, $n+1$
-                \item $\alpha, \beta$: auxiliary indices (encode horizontal bonds)
+                \item \textbf{4 Corners} (quarter-planes)
+                \item \textbf{4 Edges} (half-infinite strips)
             \end{itemize}
             
             \vspace{0.3cm}
             
-            \begin{block}{No Quantum Mechanics!}
-                MPO is just a \textbf{factorization} of the classical transfer matrix.
+            \begin{block}{Baxter's Insight (1968)}
+                The \textbf{Corner Transfer Matrix} encodes a quarter of the infinite plane!
             \end{block}
         \end{column}
     \end{columns}
-\end{frame}
-
-% ------------------------------------------------------------
-% Slide 2.2: What is MPS in Classical Systems?
-% ------------------------------------------------------------
-\begin{frame}{Boundary Vector = Matrix Product State (MPS)}
-    
-    \textbf{Recall:} $Z = \text{Tr}(T^M)$ requires summing over \highlight{boundary configurations}.
     
     \vspace{0.3cm}
-    
-    \begin{columns}
-        \begin{column}{0.5\textwidth}
-            % === FIGURE PLACEHOLDER ===
-            % Concept: MPS as boundary vector
-            %
-            % ASCII draft:
-            %   Partition function as contraction:
-            %   
-            %   ⟨boundary| T · T · T · ... · T |boundary⟩
-            %        ↑                              ↑
-            %       MPS                            MPS
-            %   (left boundary)              (right boundary)
-            %
-            % Or for trace: connect top to bottom
-            \begin{center}
-                \fbox{\parbox{0.95\textwidth}{
-                    \centering
-                    \vspace{2.2cm}
-                    \textit{[Figure: MPS as boundary vector in $Z = \langle L | T^M | R \rangle$]}
-                    \vspace{2.2cm}
-                }}
-            \end{center}
-        \end{column}
-        
-        \begin{column}{0.5\textwidth}
-            \textbf{MPS structure:}
-            \[
-            |R\rangle_{\{\sigma\}} = \sum_{\text{aux}} A^{\sigma_1} A^{\sigma_2} \cdots A^{\sigma_L}
-            \]
-            
-            \begin{itemize}
-                \item $|R\rangle$: vector in $2^L$-dim config space
-                \item $A^{\sigma_i}$: $\chi \times \chi$ matrices
-                \item Total: only $L \cdot \chi^2 \cdot d$ parameters!
-            \end{itemize}
-            
-            \vspace{0.3cm}
-            
-            \begin{block}{Physical Meaning}
-                MPS \textbf{compresses} the $2^L$ boundary configurations into $\chi$ effective states.
-            \end{block}
-        \end{column}
-    \end{columns}
-\end{frame}
-
-% ------------------------------------------------------------
-% Slide 2.3: TMRG Setup
-% ------------------------------------------------------------
-\begin{frame}{Transfer Matrix RG: The Setup}
-    
-    \textbf{Goal:} Compute $Z = \text{Tr}(T_{\text{row}}^M)$ for \highlight{infinite} $L$ and $M$.
-    
-    \vspace{0.3cm}
-    
-    % === FIGURE PLACEHOLDER ===
-    % Concept: Environment tensors compressing half-infinite strips
-    %
-    % ASCII draft:
-    %   Left half-plane    Center    Right half-plane
-    %   (infinite rows)    (new row)  (infinite rows)
-    %   
-    %       ···─[L]────────[W]────────[R]─···
-    %           χ           d          χ
-    %   
-    %   [L] = left environment = sum over all configs to the left
-    %   [R] = right environment = sum over all configs to the right
-    %   Both compressed to χ "effective configurations"
-    \begin{center}
-        \fbox{\parbox{0.8\textwidth}{
-            \centering
-            \vspace{2.5cm}
-            \textit{[Figure: $L$ and $R$ as compressed half-infinite environments]}
-            \vspace{2.5cm}
-        }}
-    \end{center}
-    
-    \vspace{0.3cm}
-    
-    \begin{columns}
-        \begin{column}{0.5\textwidth}
-            \textbf{Left Environment $L$:}
-            \[
-            L = \sum_{\text{left configs}} (\text{Boltzmann weights})
-            \]
-            Compressed: $2^{\infty} \to \chi$ states
-        \end{column}
-        \begin{column}{0.5\textwidth}
-            \textbf{Right Environment $R$:}
-            \[
-            R = \sum_{\text{right configs}} (\text{Boltzmann weights})
-            \]
-            Compressed: $2^{\infty} \to \chi$ states
-        \end{column}
-    \end{columns}
-\end{frame}
-
-% ------------------------------------------------------------
-% Slide 2.4: TMRG Iteration - Grow
-% ------------------------------------------------------------
-\begin{frame}{TMRG Iteration: Step 1 --- Grow (Absorb One Row)}
-    
-    \textbf{Absorption:} Multiply environment by one row transfer matrix.
-    
-    \vspace{0.3cm}
-    
-    % === FIGURE PLACEHOLDER ===
-    % Concept: Absorbing MPO (one row) into environment
-    %
-    % ASCII draft:
-    %   Before:  [L]─────────[R]     (environments, dim χ)
-    %   
-    %   Absorb:  [L]──[W][W][W]──[R]  (apply row transfer T)
-    %   
-    %   After:   [L']────────[R']    (grown, dim χ·d → need truncation!)
-    %
-    % L' = L · T  (matrix multiplication)
-    % This adds one more row to the partition function sum
-    \begin{center}
-        \fbox{\parbox{0.8\textwidth}{
-            \centering
-            \vspace{2.5cm}
-            \textit{[Figure: Absorb row transfer $T$ into environments $L, R$]}
-            \vspace{2.5cm}
-        }}
-    \end{center}
-    
-    \vspace{0.3cm}
-    
-    \begin{columns}
-        \begin{column}{0.5\textwidth}
-            \textbf{Mathematically:}
-            \[
-            L' = L \cdot T, \quad R' = T \cdot R
-            \]
-            Dimension grows: $\chi \to \chi \cdot d$
-        \end{column}
-        \begin{column}{0.5\textwidth}
-            \begin{block}{RG Analogy}
-                Absorption $\approx$ \textbf{Decimation}
-                
-                (Adding more degrees of freedom)
-            \end{block}
-        \end{column}
-    \end{columns}
-\end{frame}
-
-% ------------------------------------------------------------
-% Slide 2.5: TMRG Iteration - Truncate
-% ------------------------------------------------------------
-\begin{frame}{TMRG Iteration: Step 2 --- Truncate (SVD)}
-    
-    \textbf{Problem:} Dimension grew to $\chi \cdot d$ --- must compress back to $\chi$!
-    
-    \vspace{0.2cm}
-    
-    \textbf{Solution:} Use \highlight{SVD} --- a pure matrix factorization (no quantum mechanics!).
-    
-    \vspace{0.3cm}
-    
-    \begin{columns}
-        \begin{column}{0.5\textwidth}
-            % === FIGURE PLACEHOLDER ===
-            % Concept: SVD of the combined L-R system
-            %
-            % ASCII draft:
-            %   Combined matrix M = L' · R'  (or the "density matrix" L'·R'^T)
-            %           ↓ SVD
-            %   M = U · Σ · V†
-            %   
-            %   Σ = diag(σ₁, σ₂, ..., σₙ)  with σ₁ ≥ σ₂ ≥ ... ≥ σₙ
-            %   
-            %   Truncate: keep only χ largest singular values
-            %   
-            %   Projector P = U[:, :χ]
-            \begin{center}
-                \fbox{\parbox{0.95\textwidth}{
-                    \centering
-                    \vspace{2.2cm}
-                    \textit{[Figure: SVD and truncation to $\chi$ largest]}
-                    \vspace{2.2cm}
-                }}
-            \end{center}
-        \end{column}
-        
-        \begin{column}{0.5\textwidth}
-            \textbf{SVD of environment product:}
-            \[
-            L' \cdot R'^T = U \Sigma V^\dagger
-            \]
-            
-            \textbf{Truncate to $\chi$ largest:}
-            \[
-            P = U_{:, 1:\chi}, \quad \tilde{P} = V_{:, 1:\chi}
-            \]
-            
-            \textbf{New compressed environments:}
-            \[
-            L_{\text{new}} = P^\dagger L', \quad R_{\text{new}} = R' \tilde{P}
-            \]
-            
-            \begin{block}{RG Analogy}
-                Truncation $\approx$ \textbf{Rescaling}
-                
-                (Coarse-grain to fewer d.o.f.)
-            \end{block}
-        \end{column}
-    \end{columns}
-\end{frame}
-
-% ------------------------------------------------------------
-% Slide 2.6: Why SVD Works
-% ------------------------------------------------------------
-\begin{frame}{Why Does SVD Give the Best Truncation?}
-    
-    \textbf{Theorem (Eckart-Young):} SVD gives the \highlight{optimal low-rank approximation}.
-    
-    \vspace{0.3cm}
-    
-    \begin{columns}
-        \begin{column}{0.5\textwidth}
-            % === FIGURE PLACEHOLDER ===
-            % Concept: Singular value spectrum decay
-            %
-            % ASCII draft:
-            %   σ₁  ████████████████  (dominant)
-            %   σ₂  ███████████
-            %   σ₃  ████████
-            %   σ₄  █████
-            %   σ₅  ███
-            %   σ₆  ██
-            %   ... █               (negligible)
-            %   ────────────────────
-            %        ↑ cutoff at χ
-            %   
-            %   Error ∝ Σ_{i>χ} σᵢ²  (discarded weight)
-            \begin{center}
-                \fbox{\parbox{0.95\textwidth}{
-                    \centering
-                    \vspace{2.5cm}
-                    \textit{[Figure: Singular value spectrum with truncation]}
-                    \vspace{2.5cm}
-                }}
-            \end{center}
-        \end{column}
-        
-        \begin{column}{0.5\textwidth}
-            \textbf{Physical interpretation:}
-            
-            \begin{itemize}
-                \item Large $\sigma_i$: configurations with \textbf{high Boltzmann weight}
-                \item Small $\sigma_i$: configurations with \textbf{negligible contribution} to $Z$
-            \end{itemize}
-            
-            \vspace{0.3cm}
-            
-            \textbf{Truncation error:}
-            \[
-            \epsilon = \sum_{i > \chi} \sigma_i^2 \bigg/ \sum_{i} \sigma_i^2
-            \]
-            
-            \vspace{0.2cm}
-            
-            \begin{alertblock}{Key Point}
-                We keep configs that contribute \textbf{most to $Z$}, discard the rest!
-            \end{alertblock}
-        \end{column}
-    \end{columns}
-\end{frame}
-
-% ------------------------------------------------------------
-% Slide 2.7: TMRG Convergence and RG Fixed Point
-% ------------------------------------------------------------
-\begin{frame}{TMRG: Convergence = RG Fixed Point}
     
     \begin{center}
-        \textbf{Iterate:} Absorb $\to$ Truncate $\to$ Absorb $\to$ Truncate $\to \cdots$
+        $\Rightarrow$ \textbf{CTMRG:} Apply RG to corners and edges!
     \end{center}
-    
-    \vspace{0.3cm}
-    
-    % === FIGURE PLACEHOLDER ===
-    % Concept: Convergence of largest singular value / free energy
-    %
-    % ASCII draft:
-    %   Iteration:  1    2    3    4    5    ...   n
-    %   
-    %   σ₁/Z:     ───•────•────•────•────•────→  σ₁* (converged)
-    %   
-    %   f = -kT ln(σ₁*) / (area)  →  free energy per site
-    \begin{center}
-        \fbox{\parbox{0.7\textwidth}{
-            \centering
-            \vspace{1.8cm}
-            \textit{[Figure: Convergence of dominant singular value to fixed point]}
-            \vspace{1.8cm}
-        }}
-    \end{center}
-    
-    \vspace{0.2cm}
-    
-    \begin{columns}
-        \begin{column}{0.5\textwidth}
-            \begin{block}{RG Interpretation}
-                \textbf{Fixed point:} $L^*, R^*$
-                
-                \vspace{0.1cm}
-                
-                The RG transformation
-                \[
-                (L, R) \xrightarrow{\text{absorb+truncate}} (L', R')
-                \]
-                converges to $(L^*, R^*)$.
-            \end{block}
-        \end{column}
-        \begin{column}{0.5\textwidth}
-            \begin{block}{Physical Meaning}
-                $L^*, R^*$ encode the \textbf{thermodynamic limit}:
-                \begin{itemize}
-                    \item Infinite system size
-                    \item Bulk properties (not boundary)
-                \end{itemize}
-            \end{block}
-        \end{column}
-    \end{columns}
-\end{frame}
-
-% ------------------------------------------------------------
-% Slide 2.8: Computing Z and Observables
-% ------------------------------------------------------------
-\begin{frame}{Computing $Z$ and Local Observables}
-    
-    \textbf{With converged environments $L^*, R^*$:}
-    
-    \vspace{0.3cm}
-    
-    \begin{columns}
-        \begin{column}{0.5\textwidth}
-            \textbf{Partition function (per site):}
-            \[
-            Z \propto \sigma_1^{\text{(area)}}
-            \]
-            where $\sigma_1$ = largest singular value.
-            
-            \vspace{0.2cm}
-            
-            \textbf{Free energy per site:}
-            \[
-            f = -k_B T \ln \sigma_1^*
-            \]
-            
-            % === FIGURE PLACEHOLDER ===
-            % Concept: Z as contraction of L* and R*
-            %
-            % ASCII draft:
-            %   Z ∝ L* ─── R*  (contract all indices)
-            %         ╲   ╱
-            %          ───
-            \begin{center}
-                \fbox{\parbox{0.9\textwidth}{
-                    \centering
-                    \vspace{1.2cm}
-                    \textit{[Figure: $Z$ from contracting $L^*, R^*$]}
-                    \vspace{1.2cm}
-                }}
-            \end{center}
-        \end{column}
-        
-        \begin{column}{0.5\textwidth}
-            \textbf{Local observable $\langle \sigma_i \rangle$:}
-            
-            Insert operator at site $i$:
-            \[
-            \langle \sigma_i \rangle = \frac{L^* \cdot \sigma_i \cdot R^*}{L^* \cdot R^*}
-            \]
-            
-            % === FIGURE PLACEHOLDER ===
-            % Concept: Insert σ between L* and R*
-            %
-            % ASCII draft:
-            %         L* ──[σ]── R*
-            %   <σ> = ─────────────
-            %           L* ─── R*
-            \begin{center}
-                \fbox{\parbox{0.9\textwidth}{
-                    \centering
-                    \vspace{1.2cm}
-                    \textit{[Figure: Insert $\sigma$ to compute $\langle \sigma \rangle$]}
-                    \vspace{1.2cm}
-                }}
-            \end{center}
-            
-            \vspace{0.2cm}
-            
-            \textbf{Correlation functions:}
-            \[
-            \langle \sigma_i \sigma_j \rangle = \frac{L^* \cdot \sigma_i \cdot T^{|i-j|} \cdot \sigma_j \cdot R^*}{Z}
-            \]
-        \end{column}
-    \end{columns}
 \end{frame}
 
 % ============================================================
@@ -989,6 +666,7 @@
 % ------------------------------------------------------------
 % Slide 3.6: Computing Observables
 % ------------------------------------------------------------
+加个local极化，能量……
 \begin{frame}{Computing Observables with CTMRG}
     
     \textbf{Partition function:}
@@ -1097,6 +775,7 @@
 % ------------------------------------------------------------
 % Slide 5.2: DMRG vs CTMRG
 % ------------------------------------------------------------
+直接放附录！直接放附录！直接放附录！
 \begin{frame}{Comparison: iDMRG vs CTMRG}
     
     \begin{table}
@@ -1148,6 +827,368 @@
 % ============================================================
 \appendix
 \section*{Appendix}
+
+% ============================================================
+% Appendix B: 1D Transfer Matrix RG (TMRG) - Detailed
+% ============================================================
+
+% ------------------------------------------------------------
+% Appendix B.1: TMRG Setup
+% ------------------------------------------------------------
+\begin{frame}{Appendix: TMRG Setup in Detail}
+    
+    \textbf{Goal:} Compute $Z = \text{Tr}(T_1 \cdot T_2 \cdots T_N)$ for large $N$.
+    
+    \vspace{0.3cm}
+    
+    % === FIGURE PLACEHOLDER ===
+    \begin{center}
+        \fbox{\parbox{0.8\textwidth}{
+            \centering
+            \vspace{2cm}
+            \textit{[Figure: Left environment $L$, local site $T$, right environment $R$]}
+            \vspace{2cm}
+        }}
+    \end{center}
+    
+    \vspace{0.3cm}
+    
+    \begin{columns}
+        \begin{column}{0.5\textwidth}
+            \textbf{Left Environment $L$:}
+            \[
+            L_{\sigma} = \sum_{\sigma_1, \ldots, \sigma_{k-1}} T_1 \cdot T_2 \cdots T_{k-1}
+            \]
+            Encodes all configs to the left of site $k$.
+        \end{column}
+        \begin{column}{0.5\textwidth}
+            \textbf{Right Environment $R$:}
+            \[
+            R_{\sigma} = \sum_{\sigma_{k+1}, \ldots, \sigma_N} T_{k+1} \cdots T_N
+            \]
+            Encodes all configs to the right of site $k$.
+        \end{column}
+    \end{columns}
+\end{frame}
+
+% ------------------------------------------------------------
+% Appendix B.2: TMRG Grow Step
+% ------------------------------------------------------------
+\begin{frame}{Appendix: TMRG Step 1 --- Grow (Absorption)}
+    
+    \textbf{Absorption:} Add one more site to the environment.
+    
+    \vspace{0.3cm}
+    
+    \begin{center}
+        \fbox{\parbox{0.8\textwidth}{
+            \centering
+            \vspace{2cm}
+            \textit{[Figure: $L' = L \cdot T_k$, growing the left environment]}
+            \vspace{2cm}
+        }}
+    \end{center}
+    
+    \vspace{0.3cm}
+    
+    \textbf{Mathematically:}
+    \[
+    L'_{\sigma_k} = \sum_{\sigma_{k-1}} L_{\sigma_{k-1}} \cdot (T_k)_{\sigma_{k-1}, \sigma_k}
+    \]
+    
+    \begin{alertblock}{Problem}
+        If $L$ has dimension $\chi$, after absorption $L'$ has dimension $\chi \cdot d$.
+        
+        After $N$ absorptions: dimension $\sim d^N$ --- \highlight{exponential}!
+    \end{alertblock}
+\end{frame}
+
+% ------------------------------------------------------------
+% Appendix B.3: TMRG Truncate Step
+% ------------------------------------------------------------
+\begin{frame}{Appendix: TMRG Step 2 --- Truncate (SVD)}
+    
+    \textbf{Idea:} Compress $L'$ back to dimension $\chi$ using SVD.
+    
+    \vspace{0.3cm}
+    
+    \begin{columns}
+        \begin{column}{0.5\textwidth}
+            \textbf{Form the ``density matrix'':}
+            \[
+            \rho = L' \cdot R'^T
+            \]
+            
+            \textbf{SVD:}
+            \[
+            \rho = U \Sigma V^\dagger
+            \]
+            
+            \textbf{Truncate:}
+            \[
+            P = U_{:, 1:\chi}
+            \]
+            
+            \textbf{New environment:}
+            \[
+            L_{\text{new}} = P^\dagger L'
+            \]
+        \end{column}
+        
+        \begin{column}{0.5\textwidth}
+            \begin{center}
+                \fbox{\parbox{0.95\textwidth}{
+                    \centering
+                    \vspace{2cm}
+                    \textit{[Figure: SVD spectrum, keep $\chi$ largest]}
+                    \vspace{2cm}
+                }}
+            \end{center}
+            
+            \begin{block}{Eckart-Young Theorem}
+                SVD gives the \textbf{optimal} rank-$\chi$ approximation in Frobenius norm.
+            \end{block}
+        \end{column}
+    \end{columns}
+\end{frame}
+
+% ------------------------------------------------------------
+% Appendix B.4: TMRG Convergence
+% ------------------------------------------------------------
+\begin{frame}{Appendix: TMRG Convergence and Observables}
+    
+    \textbf{Iterate:} Grow $\to$ Truncate $\to$ Grow $\to$ Truncate $\to \cdots$
+    
+    \vspace{0.3cm}
+    
+    \begin{columns}
+        \begin{column}{0.5\textwidth}
+            \textbf{Convergence criterion:}
+            
+            Fixed point: $L^*, R^*$ such that
+            \[
+            L^* \xrightarrow{\text{grow+truncate}} L^*
+            \]
+            
+            \vspace{0.3cm}
+            
+            \textbf{Free energy:}
+            \[
+            f = -k_B T \lim_{N\to\infty} \frac{1}{N} \ln Z
+            \]
+            \[
+            = -k_B T \ln \sigma_1^*
+            \]
+        \end{column}
+        
+        \begin{column}{0.5\textwidth}
+            \textbf{Local observables:}
+            \[
+            \langle \sigma_k \rangle = \frac{L^* \cdot \sigma_k \cdot R^*}{L^* \cdot R^*}
+            \]
+            
+            \textbf{Correlation functions:}
+            \[
+            \langle \sigma_i \sigma_j \rangle = \frac{L^* \cdot \sigma_i \cdot T^{|i-j|} \cdot \sigma_j \cdot R^*}{Z}
+            \]
+            
+            \vspace{0.3cm}
+            
+            \begin{block}{Physical Meaning}
+                $L^*, R^*$ encode the \textbf{thermodynamic limit}.
+            \end{block}
+        \end{column}
+    \end{columns}
+\end{frame}
+
+% ============================================================
+% Appendix C: 2D Row-to-Row DMRG - Detailed
+% ============================================================
+
+% ------------------------------------------------------------
+% Appendix C.1: Row as Super-Spin
+% ------------------------------------------------------------
+\begin{frame}{Appendix: 2D Row-to-Row --- Row as Super-Spin}
+    
+    \textbf{Idea:} Treat one row of $L$ spins as a single ``super-spin''.
+    
+    \vspace{0.3cm}
+    
+    \begin{columns}
+        \begin{column}{0.5\textwidth}
+            \begin{center}
+                \fbox{\parbox{0.95\textwidth}{
+                    \centering
+                    \vspace{2cm}
+                    \textit{[Figure: Row $\to$ super-spin with $2^L$ states]}
+                    \vspace{2cm}
+                }}
+            \end{center}
+        \end{column}
+        
+        \begin{column}{0.5\textwidth}
+            \textbf{Row configuration:}
+            \[
+            \vec{\sigma} = (\sigma_1, \sigma_2, \ldots, \sigma_L)
+            \]
+            
+            Total states: $2^L$.
+            
+            \vspace{0.3cm}
+            
+            \textbf{Row-to-row transfer:}
+            \[
+            (T_{\text{row}})_{\vec{\sigma}, \vec{\sigma}'} = \prod_{i=1}^L e^{\beta J \sigma_i \sigma'_i} \prod_{i=1}^{L-1} e^{\beta J \sigma_i \sigma_{i+1}}
+            \]
+            
+            $T_{\text{row}} \in \mathbb{R}^{2^L \times 2^L}$.
+        \end{column}
+    \end{columns}
+    
+    \vspace{0.3cm}
+    
+    \begin{block}{Key Point}
+        Now $Z = \text{Tr}(T_{\text{row}}^M)$ looks like 1D problem with $2^L$-dimensional transfer matrix!
+    \end{block}
+\end{frame}
+
+% ------------------------------------------------------------
+% Appendix C.2: MPO Decomposition
+% ------------------------------------------------------------
+\begin{frame}{Appendix: Row Transfer Matrix = MPO}
+    
+    \textbf{Key insight:} $T_{\text{row}}$ has a \highlight{tensor network} structure!
+    
+    \vspace{0.3cm}
+    
+    \begin{columns}
+        \begin{column}{0.55\textwidth}
+            \textbf{Decompose} $T_{\text{row}}$ into local tensors:
+            \[
+            T_{\vec{\sigma}, \vec{\sigma}'} = \sum_{\alpha_1, \ldots} W^{\sigma_1 \sigma'_1}_{\alpha_0 \alpha_1} W^{\sigma_2 \sigma'_2}_{\alpha_1 \alpha_2} \cdots
+            \]
+            
+            \begin{center}
+                \fbox{\parbox{0.95\textwidth}{
+                    \centering
+                    \vspace{1.5cm}
+                    \textit{[Figure: MPO structure of $T_{\text{row}}$]}
+                    \vspace{1.5cm}
+                }}
+            \end{center}
+        \end{column}
+        
+        \begin{column}{0.45\textwidth}
+            \textbf{Local tensor $W$:}
+            \[
+            W^{\sigma \sigma'}_{\alpha \beta} = \text{local Boltzmann weight}
+            \]
+            
+            \begin{itemize}
+                \item $\sigma, \sigma'$: spins in rows $n$, $n+1$
+                \item $\alpha, \beta$: auxiliary (horizontal bonds)
+            \end{itemize}
+            
+            \vspace{0.2cm}
+            
+            \begin{block}{No Quantum!}
+                ``MPO'' is just a factorization of the classical transfer matrix.
+            \end{block}
+        \end{column}
+    \end{columns}
+\end{frame}
+
+% ------------------------------------------------------------
+% Appendix C.3: MPS for Row Configuration
+% ------------------------------------------------------------
+\begin{frame}{Appendix: Boundary = MPS}
+    
+    \textbf{MPS:} Efficient representation of row configuration space.
+    
+    \vspace{0.3cm}
+    
+    \begin{columns}
+        \begin{column}{0.5\textwidth}
+            \textbf{Full vector:}
+            \[
+            |R\rangle = \sum_{\vec{\sigma}} R_{\vec{\sigma}} |\vec{\sigma}\rangle
+            \]
+            has $2^L$ components.
+            
+            \vspace{0.3cm}
+            
+            \textbf{MPS compression:}
+            \[
+            R_{\vec{\sigma}} = A^{\sigma_1} A^{\sigma_2} \cdots A^{\sigma_L}
+            \]
+            
+            Only $L \cdot \chi^2 \cdot 2$ parameters!
+        \end{column}
+        
+        \begin{column}{0.5\textwidth}
+            \begin{center}
+                \fbox{\parbox{0.95\textwidth}{
+                    \centering
+                    \vspace{1.8cm}
+                    \textit{[Figure: MPS tensor network]}
+                    \vspace{1.8cm}
+                }}
+            \end{center}
+            
+            \begin{block}{Physical Meaning}
+                MPS compresses $2^L$ row configs into $\chi$ effective states with \textbf{limited entanglement}.
+            \end{block}
+        \end{column}
+    \end{columns}
+\end{frame}
+
+% ------------------------------------------------------------
+% Appendix C.4: Row-to-Row DMRG Algorithm
+% ------------------------------------------------------------
+\begin{frame}{Appendix: Row-to-Row DMRG Algorithm}
+    
+    \textbf{Combine:} MPS (boundary) + MPO (transfer) + SVD (truncation).
+    
+    \vspace{0.3cm}
+    
+    \begin{enumerate}
+        \item Initialize MPS $|L\rangle$, $|R\rangle$ for boundaries
+        
+        \item \textbf{Grow:} Apply MPO $T_{\text{row}}$ to boundaries
+        \[
+        |L'\rangle = T_{\text{row}} |L\rangle
+        \]
+        
+        \item \textbf{Truncate:} SVD to compress bond dimension back to $\chi$
+        
+        \item Iterate until convergence to fixed point $|L^*\rangle$, $|R^*\rangle$
+    \end{enumerate}
+    
+    \vspace{0.3cm}
+    
+    \begin{columns}
+        \begin{column}{0.5\textwidth}
+            \begin{block}{Pros}
+                \begin{itemize}
+                    \item Systematic, well-understood
+                    \item Controlled approximation
+                \end{itemize}
+            \end{block}
+        \end{column}
+        \begin{column}{0.5\textwidth}
+            \begin{alertblock}{Cons}
+                \begin{itemize}
+                    \item Breaks 2D rotational symmetry
+                    \item Hard to generalize to other lattices
+                \end{itemize}
+            \end{alertblock}
+        \end{column}
+    \end{columns}
+\end{frame}
+
+% ============================================================
+% Appendix A: Additional Topics
+% ============================================================
 
 % ------------------------------------------------------------
 % Appendix A.1: No Sign Problem

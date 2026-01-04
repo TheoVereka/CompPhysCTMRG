@@ -1,5 +1,5 @@
 \beamer@sectionintoc {1}{From 1D to 2D: The Exponential Wall}{3}{0}{1}
-\beamer@sectionintoc {2}{Warm-up: Transfer Matrix RG in 1D}{7}{0}{2}
-\beamer@sectionintoc {3}{CTMRG: Extending to 2D}{15}{0}{3}
-\beamer@sectionintoc {4}{Results}{21}{0}{4}
-\beamer@sectionintoc {5}{Summary}{22}{0}{5}
+\beamer@sectionintoc {2}{Going to 2D: A Fundamentally Harder Problem}{6}{0}{2}
+\beamer@sectionintoc {3}{CTMRG: Extending to 2D}{9}{0}{3}
+\beamer@sectionintoc {4}{Results}{15}{0}{4}
+\beamer@sectionintoc {5}{Summary}{16}{0}{5}

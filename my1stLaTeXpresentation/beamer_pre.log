@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.141592653-2.6-0.999997 (TeX Live 2025) (preloaded format=xelatex 2025.9.11)  4 JAN 2026 16:57
+This is XeTeX, Version 3.141592653-2.6-0.999997 (TeX Live 2025) (preloaded format=xelatex 2025.9.11)  4 JAN 2026 19:45
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1105,42 +1105,48 @@ Dictionary: translator-theorem-dictionary, Language: English
 [2
 
 ]
-LaTeX Font Info:    Trying to load font information for U+msa on input line 121
+LaTeX Font Info:    Trying to load font information for U+msa on input line 109
 .
  (d:/Programs/TeXLive/2025/texmf-dist/tex/latex/amsfonts/umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
-LaTeX Font Info:    Trying to load font information for U+msb on input line 121
+LaTeX Font Info:    Trying to load font information for U+msb on input line 109
 .
 
 (d:/Programs/TeXLive/2025/texmf-dist/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 )
 LaTeX Font Info:    Font shape `TU/lmss/m/it' in size <10.95> not available
-(Font)              Font shape `TU/lmss/m/sl' tried instead on input line 121.
+(Font)              Font shape `TU/lmss/m/sl' tried instead on input line 109.
 LaTeX Font Info:    Font shape `TU/lmss/m/it' in size <8> not available
-(Font)              Font shape `TU/lmss/m/sl' tried instead on input line 121.
+(Font)              Font shape `TU/lmss/m/sl' tried instead on input line 109.
 LaTeX Font Info:    Font shape `TU/lmss/m/it' in size <6> not available
-(Font)              Font shape `TU/lmss/m/sl' tried instead on input line 121.
+(Font)              Font shape `TU/lmss/m/sl' tried instead on input line 109.
 LaTeX Font Info:    Font shape `TU/lmss/bx/it' in size <10.95> not available
-(Font)              Font shape `TU/lmss/bx/sl' tried instead on input line 121.
+(Font)              Font shape `TU/lmss/bx/sl' tried instead on input line 109.
 
 LaTeX Font Info:    Font shape `TU/lmss/bx/it' in size <8> not available
-(Font)              Font shape `TU/lmss/bx/sl' tried instead on input line 121.
+(Font)              Font shape `TU/lmss/bx/sl' tried instead on input line 109.
 
 LaTeX Font Info:    Font shape `TU/lmss/bx/it' in size <6> not available
-(Font)              Font shape `TU/lmss/bx/sl' tried instead on input line 121.
+(Font)              Font shape `TU/lmss/bx/sl' tried instead on input line 109.
 
+File: figures/fig_1d_transfer_chain.pdf Graphic file (type pdf)
+<use figures/fig_1d_transfer_chain.pdf>
 
 
 [3
 
 ]
+Overfull \vbox (32.83452pt too high) detected at line 165
+ []
+
+
 
 [4
 
 ]
-Overfull \vbox (37.93027pt too high) detected at line 223
+Overfull \vbox (35.33064pt too high) detected at line 232
  []
 
 
@@ -1148,7 +1154,7 @@ Overfull \vbox (37.93027pt too high) detected at line 223
 [5
 
 ]
-Overfull \vbox (59.29344pt too high) detected at line 264
+Overfull \vbox (35.3366pt too high) detected at line 292
  []
 
 
@@ -1156,19 +1162,19 @@ Overfull \vbox (59.29344pt too high) detected at line 264
 [6
 
 ]
-Overfull \vbox (5.15475pt too high) detected at line 327
- []
-
-
 
 [7
 
 ]
+Overfull \vbox (33.74066pt too high) detected at line 414
+ []
+
+
 
 [8
 
 ]
-Overfull \vbox (61.90488pt too high) detected at line 432
+Overfull \vbox (103.512pt too high) detected at line 472
  []
 
 
@@ -1176,15 +1182,11 @@ Overfull \vbox (61.90488pt too high) detected at line 432
 [9
 
 ]
-Overfull \vbox (48.99065pt too high) detected at line 482
- []
-
-
 
 [10
 
 ]
-Overfull \vbox (33.0254pt too high) detected at line 545
+Overfull \vbox (60.41356pt too high) detected at line 563
  []
 
 
@@ -1192,7 +1194,7 @@ Overfull \vbox (33.0254pt too high) detected at line 545
 [11
 
 ]
-Overfull \vbox (20.7348pt too high) detected at line 605
+Overfull \vbox (50.6644pt too high) detected at line 621
  []
 
 
@@ -1200,7 +1202,7 @@ Overfull \vbox (20.7348pt too high) detected at line 605
 [12
 
 ]
-Overfull \vbox (62.02905pt too high) detected at line 662
+Overfull \vbox (41.37737pt too high) detected at line 664
  []
 
 
@@ -1208,23 +1210,7 @@ Overfull \vbox (62.02905pt too high) detected at line 662
 [13
 
 ]
-LaTeX Font Info:    Font shape `TU/lmss/m/it' in size <14.4> not available
-(Font)              Font shape `TU/lmss/m/sl' tried instead on input line 737.
-LaTeX Font Info:    Font shape `TU/lmss/m/it' in size <10> not available
-(Font)              Font shape `TU/lmss/m/sl' tried instead on input line 737.
-LaTeX Font Info:    Font shape `TU/lmss/m/it' in size <7> not available
-(Font)              Font shape `TU/lmss/m/sl' tried instead on input line 737.
-LaTeX Font Info:    Font shape `TU/lmss/bx/it' in size <14.4> not available
-(Font)              Font shape `TU/lmss/bx/sl' tried instead on input line 737.
-
-LaTeX Font Info:    Font shape `TU/lmss/bx/it' in size <10> not available
-(Font)              Font shape `TU/lmss/bx/sl' tried instead on input line 737.
-
-LaTeX Font Info:    Font shape `TU/lmss/bx/it' in size <7> not available
-(Font)              Font shape `TU/lmss/bx/sl' tried instead on input line 737.
-
-
-Overfull \vbox (29.55629pt too high) detected at line 737
+Overfull \vbox (51.51479pt too high) detected at line 704
  []
 
 
@@ -1232,7 +1218,7 @@ Overfull \vbox (29.55629pt too high) detected at line 737
 [14
 
 ]
-Overfull \vbox (103.512pt too high) detected at line 795
+Overfull \vbox (98.28288pt too high) detected at line 733
  []
 
 
@@ -1240,11 +1226,15 @@ Overfull \vbox (103.512pt too high) detected at line 795
 [15
 
 ]
+Overfull \vbox (46.53456pt too high) detected at line 772
+ []
+
+
 
 [16
 
 ]
-Overfull \vbox (60.41356pt too high) detected at line 886
+Overfull \vbox (35.31856pt too high) detected at line 808
  []
 
 
@@ -1252,15 +1242,16 @@ Overfull \vbox (60.41356pt too high) detected at line 886
 [17
 
 ]
-Overfull \vbox (50.6644pt too high) detected at line 944
- []
-
-
 
 [18
 
 ]
-Overfull \vbox (41.37737pt too high) detected at line 987
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `\translate ' on input line 827.
+
+
+Overfull \vbox (33.02466pt too high) detected at line 870
  []
 
 
@@ -1268,7 +1259,7 @@ Overfull \vbox (41.37737pt too high) detected at line 987
 [19
 
 ]
-Overfull \vbox (51.51479pt too high) detected at line 1027
+Overfull \vbox (59.33939pt too high) detected at line 902
  []
 
 
@@ -1276,7 +1267,7 @@ Overfull \vbox (51.51479pt too high) detected at line 1027
 [20
 
 ]
-Overfull \vbox (98.28288pt too high) detected at line 1056
+Overfull \vbox (17.33656pt too high) detected at line 951
  []
 
 
@@ -1284,15 +1275,11 @@ Overfull \vbox (98.28288pt too high) detected at line 1056
 [21
 
 ]
-Overfull \vbox (46.53456pt too high) detected at line 1095
- []
-
-
 
 [22
 
 ]
-Overfull \vbox (35.31856pt too high) detected at line 1131
+Overfull \vbox (16.6042pt too high) detected at line 1051
  []
 
 
@@ -1304,12 +1291,7 @@ Overfull \vbox (35.31856pt too high) detected at line 1131
 [24
 
 ]
-
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\translate ' on input line 1150.
-
-
-Overfull \vbox (67.65768pt too high) detected at line 1190
+Overfull \vbox (9.77637pt too high) detected at line 1141
  []
 
 
@@ -1317,19 +1299,19 @@ Overfull \vbox (67.65768pt too high) detected at line 1190
 [25
 
 ]
-Overfull \vbox (58.95158pt too high) detected at line 1227
- []
-
-
 
 [26
 
 ]
+Overfull \vbox (67.65768pt too high) detected at line 1229
+ []
+
+
 
 [27
 
 ]
-Overfull \vbox (11.41086pt too high) detected at line 1310
+Overfull \vbox (58.95158pt too high) detected at line 1266
  []
 
 
@@ -1339,6 +1321,18 @@ Overfull \vbox (11.41086pt too high) detected at line 1310
 ]
 
 [29
+
+]
+Overfull \vbox (11.41086pt too high) detected at line 1349
+ []
+
+
+
+[30
+
+]
+
+[31
 
 ]
 \tf@nav=\write6
@@ -1362,16 +1356,16 @@ Package rerunfilecheck Warning: File `beamer_pre.out' has changed.
 (rerunfilecheck)                or use package `bookmark'.
 
 Package rerunfilecheck Info: Checksums for `beamer_pre.out':
-(rerunfilecheck)             Before: E44AE2C1B740772D4BD8A8DF805A7F4D;878
-(rerunfilecheck)             After:  F0A342CE24DB35F9499B0352845F0F08;949.
+(rerunfilecheck)             Before: F0A342CE24DB35F9499B0352845F0F08;949
+(rerunfilecheck)             After:  44DE757758CE2DB283D48117E5B4EDE6;1002.
  ) 
 Here is how much of TeX's memory you used:
- 28402 strings out of 468441
- 596145 string characters out of 5445089
- 985797 words of memory out of 5000000
- 56254 multiletter control sequences out of 15000+600000
- 640782 words of font info for 115 fonts, out of 8000000 for 9000
+ 28398 strings out of 468441
+ 597008 string characters out of 5445089
+ 993307 words of memory out of 5000000
+ 56263 multiletter control sequences out of 15000+600000
+ 634744 words of font info for 85 fonts, out of 8000000 for 9000
  1348 hyphenation exceptions out of 8191
- 128i,18n,123p,423b,954s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 128i,15n,123p,423b,976s stack positions out of 10000i,1000n,20000p,200000b,200000s
 
-Output written on beamer_pre.pdf (29 pages).
+Output written on beamer_pre.pdf (31 pages).
