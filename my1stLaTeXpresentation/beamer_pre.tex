@@ -1,0 +1,1117 @@
+% !TEX program = xelatex
+\documentclass[aspectratio=169, 11pt]{beamer}
+
+% ============================================================
+% Packages
+% ============================================================
+\usepackage{amsmath, amssymb, amsfonts}
+\usepackage{graphicx}
+\usepackage{tikz}
+\usetikzlibrary{shapes, arrows, positioning, calc, decorations.pathreplacing}
+\usepackage{booktabs}
+\usepackage{bm}
+\usepackage{physics}
+\usepackage{xcolor}
+\usepackage{hyperref}
+
+% ============================================================
+% Theme and Colors
+% ============================================================
+\usetheme{Madrid}
+\usecolortheme{seahorse}
+
+\definecolor{darkblue}{RGB}{0, 51, 102}
+\definecolor{lightblue}{RGB}{173, 216, 230}
+\definecolor{accentred}{RGB}{178, 34, 34}
+\definecolor{accentgreen}{RGB}{34, 139, 34}
+
+\setbeamercolor{frametitle}{fg=darkblue}
+\setbeamercolor{title}{fg=darkblue}
+\setbeamercolor{structure}{fg=darkblue}
+\setbeamercolor{block title}{bg=darkblue, fg=white}
+\setbeamercolor{block body}{bg=lightblue!30}
+
+% ============================================================
+% Title Information
+% ============================================================
+\title[CTMRG]{\textbf{Corner Transfer Matrix Renormalization Group}}
+\subtitle{Efficient Contraction of 2D Classical Lattice Models}
+\author{Your Name}
+\institute{Your Institution}
+\date{\today}
+
+% ============================================================
+% Custom Commands
+% ============================================================
+\newcommand{\highlight}[1]{\textcolor{accentred}{\textbf{#1}}}
+\newcommand{\goodpoint}[1]{\textcolor{accentgreen}{\textbf{#1}}}
+
+% ============================================================
+% Document Begin
+% ============================================================
+\begin{document}
+
+% ------------------------------------------------------------
+% Title Slide
+% ------------------------------------------------------------
+\begin{frame}
+    \titlepage
+\end{frame}
+
+% ------------------------------------------------------------
+% Outline
+% ------------------------------------------------------------
+\begin{frame}{Outline}
+    \tableofcontents
+\end{frame}
+
+% ============================================================
+% PART 1: From 1D to 2D - The Exponential Wall
+% ============================================================
+\section{From 1D to 2D: The Exponential Wall}
+
+% ------------------------------------------------------------
+% Slide 1.1: 1D Ising Review
+% ------------------------------------------------------------
+\begin{frame}{Review: 1D Transfer Matrix (Your Pre-knowledge)}
+    
+    \begin{columns}
+        \begin{column}{0.5\textwidth}
+            \textbf{1D Ising Model:}
+            \[
+            H = -J \sum_i \sigma_i \sigma_{i+1}
+            \]
+            
+            \vspace{0.5cm}
+            
+            \textbf{Transfer Matrix:}
+            \[
+            Z = \text{Tr}(T^N), \quad T \in \mathbb{R}^{2 \times 2}
+            \]
+            
+            \[
+            T = \begin{pmatrix} e^{\beta J} & e^{-\beta J} \\ e^{-\beta J} & e^{\beta J} \end{pmatrix}
+            \]
+        \end{column}
+        
+        \begin{column}{0.5\textwidth}
+            % === FIGURE PLACEHOLDER ===
+            % Concept: 1D chain with transfer matrices connecting sites
+            % 
+            % ASCII draft:
+            %   σ₁ ──[T]── σ₂ ──[T]── σ₃ ──[T]── σ₄ ──[T]── ...
+            %
+            % Show T as a small box/tensor between each pair
+            % Emphasize: T is only 2×2, very manageable!
+            \begin{center}
+                \fbox{\parbox{0.9\textwidth}{
+                    \centering
+                    \vspace{2cm}
+                    \textit{[Figure: 1D chain with transfer matrices]}
+                    \vspace{2cm}
+                }}
+            \end{center}
+        \end{column}
+    \end{columns}
+    
+    \vspace{0.3cm}
+    \begin{block}{Key Point}
+        $T$ is $2 \times 2$ $\Rightarrow$ \goodpoint{Exact diagonalization is trivial!}
+    \end{block}
+\end{frame}
+
+% ------------------------------------------------------------
+% Slide 1.2: Going to 2D
+% ------------------------------------------------------------
+\begin{frame}{2D Square Lattice: Row-to-Row Transfer}
+    
+    \begin{columns}
+        \begin{column}{0.45\textwidth}
+            \textbf{2D Ising Model:}
+            \[
+            H = -J \sum_{\langle i,j \rangle} \sigma_i \sigma_j
+            \]
+            
+            \vspace{0.3cm}
+            
+            \textbf{Row-to-Row Transfer:}
+            \[
+            Z = \text{Tr}(T_{\text{row}}^{M})
+            \]
+            
+            \vspace{0.3cm}
+            
+            Row has $L$ spins $\Rightarrow$
+            \[
+            T_{\text{row}} \in \mathbb{R}^{2^L \times 2^L}
+            \]
+        \end{column}
+        
+        \begin{column}{0.55\textwidth}
+            % === FIGURE PLACEHOLDER ===
+            % Concept: 2D lattice with row-to-row transfer
+            %
+            % ASCII draft:
+            %   Row n:   ○──○──○──○──○  (L spins = one "super-spin")
+            %            │  │  │  │  │
+            %          [====T_row====]  (transfer slab)
+            %            │  │  │  │  │
+            %   Row n+1: ○──○──○──○──○
+            %
+            % Emphasize the "slab" nature of T_row
+            \begin{center}
+                \fbox{\parbox{0.95\textwidth}{
+                    \centering
+                    \vspace{2.5cm}
+                    \textit{[Figure: 2D lattice with row-to-row transfer matrix]}
+                    \vspace{2.5cm}
+                }}
+            \end{center}
+        \end{column}
+    \end{columns}
+\end{frame}
+
+% ------------------------------------------------------------
+% Slide 1.3: The Exponential Wall
+% ------------------------------------------------------------
+\begin{frame}{The Exponential Wall: A Dimensional Curse}
+    
+    \begin{center}
+        % === FIGURE PLACEHOLDER ===
+        % Concept: Exponential growth visualization
+        %
+        % ASCII draft: Bar chart or exponential curve
+        %   L=10:  2^10 = 1,024         (small bar)
+        %   L=20:  2^20 ≈ 10^6          (medium bar)
+        %   L=50:  2^50 ≈ 10^15         (huge bar, off-scale)
+        %   L=100: 2^100 ≈ 10^30        (impossibly large)
+        %
+        % Could also show: memory/time requirements
+        \fbox{\parbox{0.7\textwidth}{
+            \centering
+            \vspace{2cm}
+            \textit{[Figure: Exponential growth of $2^L$ with system size]}
+            \vspace{2cm}
+        }}
+    \end{center}
+    
+    \vspace{0.3cm}
+    
+    \begin{columns}
+        \begin{column}{0.5\textwidth}
+            \begin{table}
+                \centering
+                \begin{tabular}{c|c}
+                    \toprule
+                    $L$ & Matrix Size $2^L$ \\
+                    \midrule
+                    10 & $\sim 10^3$ \\
+                    20 & $\sim 10^6$ \\
+                    50 & $\sim 10^{15}$ \\
+                    100 & $\sim 10^{30}$ \\
+                    \bottomrule
+                \end{tabular}
+            \end{table}
+        \end{column}
+        
+        \begin{column}{0.5\textwidth}
+            \begin{alertblock}{The Problem}
+                \highlight{Exponential growth} is intrinsic to \textbf{higher dimensions}, not specific to row-to-row vs corner methods!
+            \end{alertblock}
+        \end{column}
+    \end{columns}
+\end{frame}
+
+% ------------------------------------------------------------
+% Slide 1.4: Need for Compression
+% ------------------------------------------------------------
+\begin{frame}{The Solution: Compress the Correlations!}
+    
+    \begin{center}
+        \textbf{Key Insight:} Not all $2^L$ configurations are equally important.
+    \end{center}
+    
+    \vspace{0.5cm}
+    
+    % === FIGURE PLACEHOLDER ===
+    % Concept: Spectrum of singular values / eigenvalues
+    %
+    % ASCII draft:
+    %   Eigenvalue spectrum: 
+    %   λ₁ ████████████████  (dominant)
+    %   λ₂ ████████████
+    %   λ₃ ████████
+    %   λ₄ █████
+    %   λ₅ ███
+    %   ...
+    %   λₙ █                 (negligible)
+    %
+    %   Arrow: "Keep only χ largest!"
+    \begin{center}
+        \fbox{\parbox{0.6\textwidth}{
+            \centering
+            \vspace{2.5cm}
+            \textit{[Figure: Eigenvalue spectrum decay --- keep only $\chi$ largest]}
+            \vspace{2.5cm}
+        }}
+    \end{center}
+    
+    \vspace{0.3cm}
+    
+    \begin{block}{Strategy}
+        \textbf{Renormalization Group:} Keep only the $\chi$ most \goodpoint{relevant} degrees of freedom!
+    \end{block}
+\end{frame}
+
+% ============================================================
+% PART 2: iDMRG as a Warm-up
+% ============================================================
+\section{Warm-up: iDMRG in 1D}
+
+% ------------------------------------------------------------
+% Slide 2.1: MPS and MPO
+% ------------------------------------------------------------
+\begin{frame}{MPS and MPO: The Language of 1D}
+    
+    \begin{columns}
+        \begin{column}{0.5\textwidth}
+            \textbf{Matrix Product State (MPS):}
+            \[
+            |\psi\rangle = \sum_{\{s\}} A^{s_1} A^{s_2} \cdots A^{s_N} |s_1 s_2 \cdots s_N\rangle
+            \]
+            
+            % === FIGURE PLACEHOLDER ===
+            % Concept: MPS tensor train
+            %
+            % ASCII draft:
+            %   ○──[A]──○──[A]──○──[A]──○──[A]──○
+            %      │       │       │       │
+            %      s₁      s₂      s₃      s₄
+            %
+            % Horizontal lines: virtual bonds (dim χ)
+            % Vertical lines: physical indices (dim d)
+            \begin{center}
+                \fbox{\parbox{0.9\textwidth}{
+                    \centering
+                    \vspace{1.5cm}
+                    \textit{[Figure: MPS tensor diagram]}
+                    \vspace{1.5cm}
+                }}
+            \end{center}
+        \end{column}
+        
+        \begin{column}{0.5\textwidth}
+            \textbf{Matrix Product Operator (MPO):}
+            \[
+            \hat{H} = \sum_{\{s,s'\}} W^{s_1 s'_1} W^{s_2 s'_2} \cdots
+            \]
+            
+            % === FIGURE PLACEHOLDER ===
+            % Concept: MPO applied to MPS
+            %
+            % ASCII draft:
+            %   ○──[A]──○──[A]──○──[A]──○  (MPS)
+            %      │       │       │
+            %   ○──[W]──○──[W]──○──[W]──○  (MPO)
+            %      │       │       │
+            %
+            % Show MPO as "sandwich" layer
+            \begin{center}
+                \fbox{\parbox{0.9\textwidth}{
+                    \centering
+                    \vspace{1.5cm}
+                    \textit{[Figure: MPO applied to MPS]}
+                    \vspace{1.5cm}
+                }}
+            \end{center}
+        \end{column}
+    \end{columns}
+    
+    \vspace{0.3cm}
+    \begin{block}{Key Feature}
+        Bond dimension $\chi$ controls both \textbf{accuracy} and \textbf{computational cost}.
+    \end{block}
+\end{frame}
+
+% ------------------------------------------------------------
+% Slide 2.2: iDMRG Setup
+% ------------------------------------------------------------
+\begin{frame}{iDMRG: Infinite System from Finite Environment}
+    
+    \textbf{Goal:} Represent an \highlight{infinite} chain using \highlight{finite} environment tensors.
+    
+    \vspace{0.5cm}
+    
+    % === FIGURE PLACEHOLDER ===
+    % Concept: Left environment - new sites - right environment
+    %
+    % ASCII draft:
+    %   ···[L]──○──○──[R]···
+    %       │   │  │   │
+    %      Left  New  Right
+    %      Env  Sites  Env
+    %
+    %   [L] = compressed left half-chain (χ states)
+    %   [R] = compressed right half-chain (χ states)
+    %   ○ = new physical sites being added
+    \begin{center}
+        \fbox{\parbox{0.75\textwidth}{
+            \centering
+            \vspace{2.5cm}
+            \textit{[Figure: iDMRG setup --- Left Env + New Sites + Right Env]}
+            \vspace{2.5cm}
+        }}
+    \end{center}
+    
+    \vspace{0.3cm}
+    
+    \begin{columns}
+        \begin{column}{0.5\textwidth}
+            \textbf{Left Environment $L$:}
+            \begin{itemize}
+                \item Encodes infinite left half-chain
+                \item Compressed to $\chi$ states
+            \end{itemize}
+        \end{column}
+        \begin{column}{0.5\textwidth}
+            \textbf{Right Environment $R$:}
+            \begin{itemize}
+                \item Encodes infinite right half-chain
+                \item Compressed to $\chi$ states
+            \end{itemize}
+        \end{column}
+    \end{columns}
+\end{frame}
+
+% ------------------------------------------------------------
+% Slide 2.3: iDMRG Iteration - Grow
+% ------------------------------------------------------------
+\begin{frame}{iDMRG Iteration: Step 1 --- Grow (Add Sites)}
+    
+    % === FIGURE PLACEHOLDER ===
+    % Concept: Adding new site pair to the system
+    %
+    % ASCII draft:
+    %   Before:  [L]──○──○──[R]   (2-site unit cell)
+    %   
+    %   After:   [L]──○──○──○──○──[R]  (grown by absorbing MPO)
+    %                    ↑
+    %               New sites added
+    %
+    % This is analogous to "decimation" in real-space RG
+    \begin{center}
+        \fbox{\parbox{0.8\textwidth}{
+            \centering
+            \vspace{3cm}
+            \textit{[Figure: Growing step --- absorb new site + MPO into environment]}
+            \vspace{3cm}
+        }}
+    \end{center}
+    
+    \vspace{0.3cm}
+    
+    \begin{block}{Analogy to Real-Space RG}
+        Adding sites $\approx$ \textbf{Decimation} in Kadanoff's block-spin RG
+    \end{block}
+\end{frame}
+
+% ------------------------------------------------------------
+% Slide 2.4: iDMRG Iteration - Truncate
+% ------------------------------------------------------------
+\begin{frame}{iDMRG Iteration: Step 2 --- Truncate (SVD)}
+    
+    \textbf{Problem:} After growing, bond dimension becomes $\chi \cdot d$ --- too large!
+    
+    \vspace{0.3cm}
+    
+    % === FIGURE PLACEHOLDER ===
+    % Concept: SVD truncation of the center bond
+    %
+    % ASCII draft:
+    %   [====== ψ ======]     (combined wavefunction)
+    %           ↓ SVD
+    %   [U]──[Σ]──[V†]        (singular value decomposition)
+    %           ↓ truncate to χ
+    %   [U']──[Σ']──[V'†]     (keep χ largest singular values)
+    %
+    % Show singular value spectrum with cutoff
+    \begin{center}
+        \fbox{\parbox{0.75\textwidth}{
+            \centering
+            \vspace{2.5cm}
+            \textit{[Figure: SVD truncation --- keep $\chi$ largest singular values]}
+            \vspace{2.5cm}
+        }}
+    \end{center}
+    
+    \vspace{0.3cm}
+    
+    \begin{columns}
+        \begin{column}{0.6\textwidth}
+            \textbf{SVD on center bond:}
+            \[
+            \Psi = U \Sigma V^\dagger \xrightarrow{\text{truncate}} U' \Sigma' V'^\dagger
+            \]
+        \end{column}
+        \begin{column}{0.4\textwidth}
+            \begin{block}{Analogy to RG}
+                Truncation $\approx$ \textbf{Rescaling}
+            \end{block}
+        \end{column}
+    \end{columns}
+\end{frame}
+
+% ------------------------------------------------------------
+% Slide 2.5: iDMRG Convergence
+% ------------------------------------------------------------
+\begin{frame}{iDMRG: Convergence to Fixed Point}
+    
+    \begin{center}
+        \textbf{Iterate:} Grow $\to$ Truncate $\to$ Grow $\to$ Truncate $\to \cdots$
+    \end{center}
+    
+    \vspace{0.3cm}
+    
+    % === FIGURE PLACEHOLDER ===
+    % Concept: Convergence diagram
+    %
+    % ASCII draft:
+    %   Iteration:  1    2    3    4    5    ...   ∞
+    %                ↓    ↓    ↓    ↓    ↓          ↓
+    %   Energy:    ───────────────────────→  E_fixed
+    %   
+    %   Environment tensors converge to fixed point!
+    \begin{center}
+        \fbox{\parbox{0.7\textwidth}{
+            \centering
+            \vspace{2cm}
+            \textit{[Figure: Convergence of energy/environment to fixed point]}
+            \vspace{2cm}
+        }}
+    \end{center}
+    
+    \vspace{0.3cm}
+    
+    \begin{block}{RG Fixed Point}
+        Converged $L^*, R^*$ = \goodpoint{Fixed point} of the RG transformation.
+        
+        These encode the \textbf{compressed infinite environment}.
+    \end{block}
+    
+    \vspace{0.3cm}
+    
+    \textbf{Computing observables:}
+    \[
+    \langle O \rangle = \frac{\langle L^* | O | R^* \rangle}{\langle L^* | R^* \rangle}
+    \]
+\end{frame}
+
+% ============================================================
+% PART 3: CTMRG for 2D
+% ============================================================
+\section{CTMRG: Extending to 2D}
+
+% ------------------------------------------------------------
+% Slide 3.1: 2D Environment Structure
+% ------------------------------------------------------------
+\begin{frame}{2D Analog: Four Corners + Four Edges}
+    
+    \textbf{Key Idea:} Divide infinite 2D lattice into \highlight{4 corners} + \highlight{4 edges}.
+    
+    \vspace{0.3cm}
+    
+    % === FIGURE PLACEHOLDER ===
+    % Concept: The full 2D environment structure
+    %
+    % ASCII draft:
+    %        C₄ ─── T₄ ─── C₁
+    %         │             │
+    %        T₃      ●     T₁
+    %         │             │
+    %        C₃ ─── T₂ ─── C₂
+    %
+    % C = corner matrices (χ × χ)
+    % T = edge tensors (χ × d × χ)
+    % ● = local tensor (center)
+    %
+    % Color code: corners in one color, edges in another
+    \begin{center}
+        \fbox{\parbox{0.55\textwidth}{
+            \centering
+            \vspace{3.5cm}
+            \textit{[Figure: 2D environment structure --- 4 corners + 4 edges]}
+            \vspace{3.5cm}
+        }}
+    \end{center}
+    
+    \vspace{0.3cm}
+    
+    \begin{columns}
+        \begin{column}{0.5\textwidth}
+            \textbf{Corners $C_1, C_2, C_3, C_4$:}
+            \begin{itemize}
+                \item Encode quadrant contributions
+                \item Size: $\chi \times \chi$
+            \end{itemize}
+        \end{column}
+        \begin{column}{0.5\textwidth}
+            \textbf{Edges $T_1, T_2, T_3, T_4$:}
+            \begin{itemize}
+                \item Half-infinite row/column
+                \item Size: $\chi \times d \times \chi$
+            \end{itemize}
+        \end{column}
+    \end{columns}
+\end{frame}
+
+% ------------------------------------------------------------
+% Slide 3.2: Local Tensor
+% ------------------------------------------------------------
+\begin{frame}{The Local Tensor: Building Block}
+    
+    \begin{columns}
+        \begin{column}{0.5\textwidth}
+            \textbf{Local Boltzmann weight tensor $a$:}
+            
+            \vspace{0.5cm}
+            
+            % === FIGURE PLACEHOLDER ===
+            % Concept: 4-leg tensor for one site
+            %
+            % ASCII draft:
+            %              up
+            %               │
+            %    left ──── [a] ──── right
+            %               │
+            %             down
+            %
+            % Each leg connects to a neighbor
+            \begin{center}
+                \fbox{\parbox{0.8\textwidth}{
+                    \centering
+                    \vspace{2cm}
+                    \textit{[Figure: Local tensor $a$ with 4 legs]}
+                    \vspace{2cm}
+                }}
+            \end{center}
+        \end{column}
+        
+        \begin{column}{0.5\textwidth}
+            \textbf{For 2D Ising:}
+            \[
+            a_{u,d,l,r} = \sum_{\sigma} W_{\sigma,u} W_{\sigma,d} W_{\sigma,l} W_{\sigma,r}
+            \]
+            
+            where
+            \[
+            W_{\sigma, \sigma'} = e^{\frac{\beta J}{2} \sigma \sigma'}
+            \]
+            
+            \vspace{0.3cm}
+            
+            \begin{block}{Physical Meaning}
+                $a$ encodes the Boltzmann weight at one site, with bond weights split symmetrically.
+            \end{block}
+        \end{column}
+    \end{columns}
+\end{frame}
+
+% ------------------------------------------------------------
+% Slide 3.3: CTMRG Grow Step
+% ------------------------------------------------------------
+\begin{frame}{CTMRG Iteration: Step 1 --- Grow (Absorb Row/Column)}
+    
+    \textbf{Absorption:} Add one row \textbf{and} one column to expand the environment.
+    
+    \vspace{0.3cm}
+    
+    % === FIGURE PLACEHOLDER ===
+    % Concept: Corner absorption step
+    %
+    % ASCII draft (showing one direction):
+    %   Before:           After absorption:
+    %   
+    %   C₁ ─── T₁         C₁'────────
+    %    │      │    →     │         │
+    %   T₄ ─── a          T₄'       T₁'
+    %                      │         │
+    %                      └─── a ───┘
+    %
+    % Show how corner "eats" the local tensor
+    % Bond dimension grows: χ → χ·d
+    \begin{center}
+        \fbox{\parbox{0.8\textwidth}{
+            \centering
+            \vspace{3cm}
+            \textit{[Figure: Absorption step --- corner grows by absorbing $a$ and edges]}
+            \vspace{3cm}
+        }}
+    \end{center}
+    
+    \vspace{0.3cm}
+    
+    \begin{alertblock}{Bond Dimension Growth}
+        After absorption: $C'$ has size $(\chi \cdot d) \times (\chi \cdot d)$ --- \highlight{too large!}
+    \end{alertblock}
+\end{frame}
+
+% ------------------------------------------------------------
+% Slide 3.4: CTMRG Truncate Step
+% ------------------------------------------------------------
+\begin{frame}{CTMRG Iteration: Step 2 --- Truncate (The Key Difference!)}
+    
+    \textbf{Truncation in 2D:} Use the \highlight{full environment} to determine projectors.
+    
+    \vspace{0.3cm}
+    
+    % === FIGURE PLACEHOLDER ===
+    % Concept: How to compute projector in 2D
+    %
+    % ASCII draft:
+    %   Build "half-system" density matrix:
+    %   
+    %        C₄' ─── T₄' ─── C₁'
+    %         │               │
+    %        T₃'             T₁'
+    %         │               │
+    %        ─────── ρ ───────
+    %                ↓
+    %         SVD/Eigendecomposition
+    %                ↓
+    %         Projector P (keep χ largest)
+    %
+    % This is different from 1D: need to consider 2D geometry!
+    \begin{center}
+        \fbox{\parbox{0.75\textwidth}{
+            \centering
+            \vspace{2.5cm}
+            \textit{[Figure: Building density matrix from environment for truncation]}
+            \vspace{2.5cm}
+        }}
+    \end{center}
+    
+    \vspace{0.3cm}
+    
+    \begin{columns}
+        \begin{column}{0.55\textwidth}
+            \textbf{Compute projector $P$:}
+            \begin{enumerate}
+                \item Contract half-environment $\to \rho$
+                \item SVD: $\rho = U \Sigma V^\dagger$
+                \item Keep $\chi$ largest: $P = U_{:\chi}$
+            \end{enumerate}
+        \end{column}
+        \begin{column}{0.45\textwidth}
+            \textbf{Apply truncation:}
+            \[
+            C_{\text{new}} = P^\dagger C' P
+            \]
+            \[
+            T_{\text{new}} = P^\dagger T' P
+            \]
+        \end{column}
+    \end{columns}
+\end{frame}
+
+% ------------------------------------------------------------
+% Slide 3.5: CTMRG Full Algorithm
+% ------------------------------------------------------------
+\begin{frame}{CTMRG: Complete Algorithm}
+    
+    % === FIGURE PLACEHOLDER ===
+    % Concept: Flowchart of CTMRG algorithm
+    %
+    % ASCII draft:
+    %   ┌─────────────────────────────────────┐
+    %   │ Initialize: C₁, C₂, C₃, C₄, T₁-T₄  │
+    %   └───────────────┬─────────────────────┘
+    %                   ↓
+    %   ┌─────────────────────────────────────┐
+    %   │ 1. Absorb: grow all corners & edges │◄───┐
+    %   └───────────────┬─────────────────────┘    │
+    %                   ↓                          │
+    %   ┌─────────────────────────────────────┐    │
+    %   │ 2. Compute projectors P from ρ      │    │
+    %   └───────────────┬─────────────────────┘    │
+    %                   ↓                          │
+    %   ┌─────────────────────────────────────┐    │
+    %   │ 3. Truncate: C_new = P† C' P        │    │
+    %   └───────────────┬─────────────────────┘    │
+    %                   ↓                          │
+    %   ┌─────────────────────────────────────┐    │
+    %   │ 4. Converged?  ──No──────────────────────┘
+    %   └───────────────┬─────────────────────┘
+    %                   │ Yes
+    %                   ↓
+    %   ┌─────────────────────────────────────┐
+    %   │ Output: Fixed-point environment     │
+    %   └─────────────────────────────────────┘
+    \begin{center}
+        \fbox{\parbox{0.7\textwidth}{
+            \centering
+            \vspace{4cm}
+            \textit{[Figure: CTMRG algorithm flowchart]}
+            \vspace{4cm}
+        }}
+    \end{center}
+\end{frame}
+
+% ------------------------------------------------------------
+% Slide 3.6: Computing Observables
+% ------------------------------------------------------------
+\begin{frame}{Computing Observables with CTMRG}
+    
+    \textbf{Partition function:}
+    \[
+    Z \propto \text{Tr}(C_1 T_1 C_2 T_2 C_3 T_3 C_4 T_4)
+    \]
+    
+    \vspace{0.3cm}
+    
+    % === FIGURE PLACEHOLDER ===
+    % Concept: How to compute local magnetization
+    %
+    % ASCII draft:
+    %        C₄ ─── T₄ ─── C₁
+    %         │             │
+    %        T₃      σ     T₁    ← insert σ at center
+    %         │             │
+    %        C₃ ─── T₂ ─── C₂
+    %
+    % Contract everything to get <σ>
+    \begin{center}
+        \fbox{\parbox{0.6\textwidth}{
+            \centering
+            \vspace{2.5cm}
+            \textit{[Figure: Computing $\langle \sigma \rangle$ by inserting operator]}
+            \vspace{2.5cm}
+        }}
+    \end{center}
+    
+    \vspace{0.3cm}
+    
+    \textbf{Local magnetization:}
+    \[
+    \langle \sigma_{\text{center}} \rangle = \frac{\text{Tr}(C_1 T_1 C_2 T_2 C_3 T_3 C_4 T_4 \cdot \sigma)}{Z}
+    \]
+\end{frame}
+
+% ============================================================
+% PART 4: Results
+% ============================================================
+\section{Results}
+
+% ------------------------------------------------------------
+% Slide 4.1: Results (Placeholder)
+% ------------------------------------------------------------
+\begin{frame}{Numerical Results: 2D Ising Model}
+    
+    % === RESULTS PLACEHOLDER ===
+    % To be filled with actual numerical results
+    % Suggestions:
+    % - Magnetization vs temperature curve
+    % - Comparison with exact Onsager solution
+    % - Convergence with bond dimension χ
+    % - Critical exponents
+    
+    \begin{center}
+        \fbox{\parbox{0.85\textwidth}{
+            \centering
+            \vspace{5cm}
+            \textit{[Results to be added: magnetization, critical behavior, etc.]}
+            \vspace{5cm}
+        }}
+    \end{center}
+    
+\end{frame}
+
+% ============================================================
+% PART 5: Summary
+% ============================================================
+\section{Summary}
+
+% ------------------------------------------------------------
+% Slide 5.1: Core Steps
+% ------------------------------------------------------------
+\begin{frame}{Summary: The Core of CTMRG}
+    
+    \begin{block}{CTMRG in Three Steps}
+        \begin{enumerate}
+            \item \textbf{Decompose:} Infinite 2D lattice $\to$ 4 corners + 4 edges
+            \item \textbf{Grow:} Absorb local tensors (add row/column)
+            \item \textbf{Truncate:} SVD-based RG to keep $\chi$ most relevant states
+        \end{enumerate}
+    \end{block}
+    
+    \vspace{0.5cm}
+    
+    % === FIGURE PLACEHOLDER ===
+    % Concept: Visual summary of the three steps
+    %
+    % ASCII draft:
+    %   [Decompose]      [Grow]          [Truncate]
+    %   4 corners    →   absorb a    →   SVD + keep χ
+    %   + 4 edges        (larger)        (back to χ)
+    %
+    % Show as three-panel diagram
+    \begin{center}
+        \fbox{\parbox{0.85\textwidth}{
+            \centering
+            \vspace{2.5cm}
+            \textit{[Figure: Visual summary --- Decompose $\to$ Grow $\to$ Truncate]}
+            \vspace{2.5cm}
+        }}
+    \end{center}
+\end{frame}
+
+% ------------------------------------------------------------
+% Slide 5.2: DMRG vs CTMRG
+% ------------------------------------------------------------
+\begin{frame}{Comparison: iDMRG vs CTMRG}
+    
+    \begin{table}
+        \centering
+        \renewcommand{\arraystretch}{1.3}
+        \begin{tabular}{l|c|c}
+            \toprule
+            \textbf{Aspect} & \textbf{iDMRG (1D)} & \textbf{CTMRG (2D)} \\
+            \midrule
+            Dimension & 1D chain & 2D square lattice \\
+            \midrule
+            Environment & Left + Right & 4 Corners + 4 Edges \\
+            \midrule
+            Grow step & Add site pair & Add row + column \\
+            \midrule
+            Truncation & SVD on center bond & SVD on corner boundaries \\
+            \midrule
+            Bond dimension & $\chi$ (MPS) & $\chi$ (environment) \\
+            \midrule
+            Fixed point & $L^*, R^*$ & $C_i^*, T_i^*$ \\
+            \midrule
+            Computational cost & $O(\chi^3)$ & $O(\chi^6)$ or $O(\chi^5)$ \\
+            \bottomrule
+        \end{tabular}
+    \end{table}
+    
+    \vspace{0.3cm}
+    
+    \begin{block}{Take-Home Message}
+        \goodpoint{Same RG philosophy}, different geometric structure!
+    \end{block}
+\end{frame}
+
+% ============================================================
+% Thank You Slide
+% ============================================================
+\begin{frame}
+    \begin{center}
+        \Huge \textbf{Thank You!}
+        
+        \vspace{1cm}
+        
+        \Large Questions?
+    \end{center}
+\end{frame}
+
+% ============================================================
+% APPENDIX
+% ============================================================
+\appendix
+\section*{Appendix}
+
+% ------------------------------------------------------------
+% Appendix A.1: No Sign Problem
+% ------------------------------------------------------------
+\begin{frame}{Appendix: No Monte Carlo Sign Problem}
+    
+    \textbf{Classical models:} All Boltzmann weights are \highlight{positive}!
+    
+    \[
+    W = e^{-\beta H} > 0 \quad \text{always}
+    \]
+    
+    \vspace{0.3cm}
+    
+    % === FIGURE PLACEHOLDER ===
+    % Concept: Comparison of classical vs quantum MC
+    %
+    % ASCII draft:
+    %   Classical:  W > 0  →  No sign problem  →  MC works!
+    %   Quantum:    W can be < 0 (fermions, frustration)
+    %                      →  Sign problem  →  MC fails
+    \begin{center}
+        \fbox{\parbox{0.7\textwidth}{
+            \centering
+            \vspace{2cm}
+            \textit{[Figure: Classical (positive) vs Quantum (sign problem)]}
+            \vspace{2cm}
+        }}
+    \end{center}
+    
+    \vspace{0.3cm}
+    
+    \begin{block}{Advantage of Tensor Network Methods}
+        \begin{itemize}
+            \item No statistical sampling $\Rightarrow$ no sign problem issue
+            \item Deterministic algorithm with controlled error (via $\chi$)
+            \item Works equally well for frustrated/quantum systems
+        \end{itemize}
+    \end{block}
+\end{frame}
+
+% ------------------------------------------------------------
+% Appendix A.2: Why Not 3D?
+% ------------------------------------------------------------
+\begin{frame}{Appendix: Why is 3D Difficult?}
+    
+    \textbf{In 2D:} Environment tensors are \highlight{1D objects} (edges).
+    
+    \textbf{In 3D:} Environment would be \highlight{2D surfaces} --- back to exponential!
+    
+    \vspace{0.3cm}
+    
+    % === FIGURE PLACEHOLDER ===
+    % Concept: 2D boundary in 3D vs 1D boundary in 2D
+    %
+    % ASCII draft:
+    %   2D system:  boundary is 1D line (manageable with χ)
+    %   3D system:  boundary is 2D surface (exponential again!)
+    %
+    % Show schematic of 3D cube with 2D boundary
+    \begin{center}
+        \fbox{\parbox{0.75\textwidth}{
+            \centering
+            \vspace{2.5cm}
+            \textit{[Figure: 2D boundary problem in 3D systems]}
+            \vspace{2.5cm}
+        }}
+    \end{center}
+    
+    \vspace{0.3cm}
+    
+    \begin{alertblock}{The 3D Challenge}
+        No simple analog of CTMRG for 3D --- active research area!
+        
+        Possible approaches: Higher-order tensor RG, Monte Carlo + TN hybrids
+    \end{alertblock}
+\end{frame}
+
+% ------------------------------------------------------------
+% Appendix A.3: Extensions
+% ------------------------------------------------------------
+\begin{frame}{Appendix: Extensions and Generalizations}
+    
+    \textbf{Beyond square lattice Ising:}
+    
+    \vspace{0.3cm}
+    
+    \begin{columns}
+        \begin{column}{0.5\textwidth}
+            \textbf{Different lattices:}
+            \begin{itemize}
+                \item Honeycomb
+                \item Triangular
+                \item Kagome
+            \end{itemize}
+            
+            \vspace{0.3cm}
+            
+            \textbf{Different models:}
+            \begin{itemize}
+                \item Potts model
+                \item Clock model
+                \item Vertex models
+            \end{itemize}
+        \end{column}
+        
+        \begin{column}{0.5\textwidth}
+            \textbf{Quantum systems (via iPEPS):}
+            \begin{itemize}
+                \item 2D Heisenberg model
+                \item Frustrated magnets
+                \item Topological phases
+            \end{itemize}
+            
+            \vspace{0.3cm}
+            
+            \textbf{Improvements:}
+            \begin{itemize}
+                \item Directional CTMRG
+                \item Full-update vs simple-update
+                \item Gradient optimization
+            \end{itemize}
+        \end{column}
+    \end{columns}
+\end{frame}
+
+% ------------------------------------------------------------
+% Appendix A.4: Computational Complexity
+% ------------------------------------------------------------
+\begin{frame}{Appendix: Computational Complexity}
+    
+    \textbf{CTMRG scaling:}
+    
+    \begin{table}
+        \centering
+        \begin{tabular}{l|c|c}
+            \toprule
+            \textbf{Operation} & \textbf{Cost} & \textbf{Bottleneck?} \\
+            \midrule
+            Corner absorption & $O(\chi^4 d^2)$ & \\
+            Edge absorption & $O(\chi^3 d^2)$ & \\
+            Build density matrix & $O(\chi^4)$ & \\
+            SVD for projector & $O(\chi^3 d^3)$ & \checkmark \\
+            Apply truncation & $O(\chi^3 d)$ & \\
+            \midrule
+            \textbf{Total per iteration} & $O(\chi^3 d^3)$ to $O(\chi^6)$ & \\
+            \bottomrule
+        \end{tabular}
+    \end{table}
+    
+    \vspace{0.3cm}
+    
+    \begin{block}{Comparison}
+        \begin{itemize}
+            \item iDMRG (1D): $O(\chi^3)$ per sweep
+            \item CTMRG (2D): $O(\chi^5)$ -- $O(\chi^6)$ per iteration
+            \item More expensive, but still \goodpoint{polynomial} in $\chi$!
+        \end{itemize}
+    \end{block}
+\end{frame}
+
+% ------------------------------------------------------------
+% Appendix A.5: Key References
+% ------------------------------------------------------------
+\begin{frame}{Appendix: Key References}
+    
+    \textbf{Original works:}
+    \begin{itemize}
+        \item R. J. Baxter, \textit{J. Math. Phys.} \textbf{9}, 650 (1968) --- Corner transfer matrices
+        \item R. J. Baxter, \textit{J. Stat. Phys.} \textbf{19}, 461 (1978) --- CTM method
+    \end{itemize}
+    
+    \vspace{0.3cm}
+    
+    \textbf{Modern CTMRG:}
+    \begin{itemize}
+        \item T. Nishino \& K. Okunishi, \textit{J. Phys. Soc. Jpn.} \textbf{65}, 891 (1996)
+        \item T. Nishino \& K. Okunishi, \textit{J. Phys. Soc. Jpn.} \textbf{66}, 3040 (1997)
+    \end{itemize}
+    
+    \vspace{0.3cm}
+    
+    \textbf{CTMRG for iPEPS:}
+    \begin{itemize}
+        \item R. Orús \& G. Vidal, \textit{Phys. Rev. B} \textbf{80}, 094403 (2009)
+        \item P. Corboz et al., \textit{Phys. Rev. B} \textbf{84}, 041108(R) (2011)
+    \end{itemize}
+    
+    \vspace{0.3cm}
+    
+    \textbf{Reviews:}
+    \begin{itemize}
+        \item R. Orús, \textit{Ann. Phys.} \textbf{349}, 117 (2014) --- Tensor networks review
+    \end{itemize}
+\end{frame}
+
+\end{document}
