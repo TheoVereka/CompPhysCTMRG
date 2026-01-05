@@ -132,11 +132,11 @@ arc_x_right = R_x + env_width/2
 
 # Draw double arc
 for offset in [-0.1, 0.1]:
-    ax.plot([arc_x_left, arc_x_left], [y2 - env_height/2 - 0.1, arc_y2 + offset],
+    ax.plot([arc_x_left, arc_x_left], [y2 - env_height/2 + 0.6, arc_y2 + offset],
            '--', color='darkblue', linewidth=2.5, zorder=1)
     ax.plot([arc_x_left, arc_x_right], [arc_y2 + offset, arc_y2 + offset],
            '--', color='darkblue', linewidth=2.5, zorder=1)
-    ax.plot([arc_x_right, arc_x_right], [arc_y2 + offset, y2 - env_height/2 - 0.1],
+    ax.plot([arc_x_right, arc_x_right], [arc_y2 + offset, y2 - env_height/2 + 0.6],
            '--', color='darkblue', linewidth=2.5, zorder=1)
 
 # Label χ on the double arc
@@ -243,11 +243,11 @@ arc_x_left3 = L_new_x - env_width*0.65
 arc_x_right3 = R_new_x + env_width*0.65
 
 for offset in [-0.1, 0.1]:
-    ax.plot([arc_x_left3, arc_x_left3], [y3 - env_height/2 - 0.1, arc_y3 + offset],
+    ax.plot([arc_x_left3, arc_x_left3], [y3 - env_height/2 + 0.6, arc_y3 + offset],
            '--', color='darkgreen', linewidth=2.5, zorder=1)
     ax.plot([arc_x_left3, arc_x_right3], [arc_y3 + offset, arc_y3 + offset],
            '--', color='darkgreen', linewidth=2.5, zorder=1)
-    ax.plot([arc_x_right3, arc_x_right3], [arc_y3 + offset, y3 - env_height/2 - 0.1],
+    ax.plot([arc_x_right3, arc_x_right3], [arc_y3 + offset, y3 - env_height/2 + 0.6],
            '--', color='darkgreen', linewidth=2.5, zorder=1)
 
 # Label χ

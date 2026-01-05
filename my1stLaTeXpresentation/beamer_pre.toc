@@ -1,5 +1,4 @@
 \beamer@sectionintoc {1}{From 1D to 2D: The Contraction Issue}{3}{0}{1}
 \beamer@sectionintoc {2}{Going to 2D: A Fundamentally Harder Problem}{6}{0}{2}
 \beamer@sectionintoc {3}{CTMRG: Extending to 2D}{9}{0}{3}
-\beamer@sectionintoc {4}{Results}{16}{0}{4}
-\beamer@sectionintoc {5}{Summary}{17}{0}{5}
+\beamer@sectionintoc {4}{Summary}{14}{0}{4}

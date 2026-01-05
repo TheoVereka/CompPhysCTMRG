@@ -35,9 +35,9 @@
 % Title Information
 % ============================================================
 \title[CTMRG]{\textbf{Corner Transfer Matrix Renormalization Group}}
-\subtitle{Efficient Contraction of 2D Classical Lattice Models}
-\author{Your Name}
-\institute{Your Institution}
+\subtitle{an Algorithm for 2D Classical Lattice Models\\a Literature Digestion of T. Nishino and K. Okunishi's article (1996).}
+\author{Chengzhi Ye}
+\institute{ENS de Lyon}
 \date{\today}
 
 % ============================================================
@@ -73,7 +73,7 @@
 % ------------------------------------------------------------
 % Slide 1.1: 1D Ising Review
 % ------------------------------------------------------------
-\begin{frame}{Review: 1D Transfer Matrix (Your Pre-knowledge)}
+\begin{frame}{Review: 1D Transfer Matrix (Audience's Pre-knowledge)}
     
     \begin{columns}
         \begin{column}{0.5\textwidth}
@@ -245,7 +245,7 @@
     \vspace{-0.8cm}
     
     \begin{alertblock}{The Fundamental Problem}
-        \highlight{No natural contraction order!} The 2D tensor network cannot be reduced to a simple trace of matrix products. \textbf{Exact contraction is \#P-hard!}
+        \highlight{No natural contraction order!} The 2D tensor network cannot be reduced to a simple trace of matrix products. \textbf{Exact contraction is way too slow!}
     \end{alertblock}
 \end{frame}
 
@@ -309,7 +309,7 @@
 % ------------------------------------------------------------
 % Slide 2.3: A More Natural 2D Perspective
 % ------------------------------------------------------------
-\begin{frame}{A More Natural Approach: Think in 2D!}
+\begin{frame}{A More Natural Approach: Use Environment just like in 1D TMRG}
     
     \begin{center}
         \textbf{Question:} If we only want \highlight{local observables} $\langle \sigma_{i,j} \rangle$, 
@@ -317,7 +317,7 @@
         do we really need to contract the \textit{entire} infinite lattice?
     \end{center}
     
-    \vspace{0.5cm}
+    \vspace{0.2cm}
     
     \begin{columns}
         \begin{column}{0.5\textwidth}
@@ -364,26 +364,24 @@
 % ------------------------------------------------------------
 \begin{frame}{2D Analog: Four Corners + Four Edges}
     
-    \begin{center}
-        \includegraphics[width=0.7\textwidth]{figures/fig_2d_ctmrg_structure.pdf}
-    \end{center}
     
-    \vspace{0.1cm}
+    \vspace{-0.2cm}
     
     \begin{columns}
-        \begin{column}{0.33\textwidth}
-            \textbf{Corners $C$:}
-            \begin{itemize}
-                \item Quadrant ($\chi \times \chi$)
-            \end{itemize}
+        \begin{column}{0.6\textwidth}
+        	\begin{center}
+        		\includegraphics[width=0.9\textwidth]{figures/fig_2d_ctmrg_structure.png}
+        	\end{center}
         \end{column}
-        \begin{column}{0.33\textwidth}
+        \begin{column}{0.4\textwidth}
+        	\textbf{Corners $C$:}
+        	\begin{itemize}
+        		\item Quadrant ($\chi \times \chi$)
+        	\end{itemize}
             \textbf{Edges $T$:}
             \begin{itemize}
                 \item Half-strip ($\chi \times d \times \chi$)
             \end{itemize}
-        \end{column}
-        \begin{column}{0.33\textwidth}
             \textbf{Local tensor $a$:}
             \begin{itemize}
                 \item Rank-4 ($d^4$)
@@ -391,10 +389,10 @@
         \end{column}
     \end{columns}
     
-    \vspace{0.2cm}
+    \vspace{0.1cm}
     
     \begin{block}{Key: What is $a$?}
-        $a$ is a \highlight{rank-4 local tensor} --- for computing $Z$: $a = W$; for $\langle \sigma \rangle$: $a = \sigma \cdot W$.
+        $a$ is a \highlight{rank-4 tensor} --- for computing $Z$: $a = W$ \textit{plaquette tensor}; for $\langle \sigma \rangle$: $a = s_1\delta_{s_1s_2s_3s_4}$, etc.
     \end{block}
 \end{frame}
 
@@ -403,44 +401,23 @@
 % ------------------------------------------------------------
 \begin{frame}{The Plaquette Tensor: From Bonds to Faces}
     
+    \begin{center}
+        \includegraphics[width=0.9\textwidth]{figures/fig_plaquette_tensor.pdf}
+    \end{center}
+    
+    \vspace{-0.3cm}
+    
     \begin{columns}
         \begin{column}{0.5\textwidth}
-            \textbf{Key transformation:}
-            
-            \vspace{0.3cm}
-            
-            Bond-based $T$ (rank-2) $\to$ Plaquette-based $W$ (rank-4)
-            
-            \vspace{0.5cm}
-            
-            % === FIGURE PLACEHOLDER ===
-            \begin{center}
-                \fbox{\parbox{0.8\textwidth}{
-                    \centering
-                    \vspace{2cm}
-                    \textit{[Figure: 4 bonds around a plaquette $\to$ $W$]}
-                    \vspace{2cm}
-                }}
-            \end{center}
-        \end{column}
-        
-        \begin{column}{0.5\textwidth}
             \textbf{For 2D Ising:}
-            
-            Combine 4 bond tensors $T$ around a face:
             \[
             W_{u,d,l,r} = \sum_{\sigma} T_{\sigma,u} T_{\sigma,d} T_{\sigma,l} T_{\sigma,r}
             \]
+        \end{column}
+        \begin{column}{0.5\textwidth}
+            \textbf{Result:} $W$ is the \highlight{rank-4 local tensor}
             
-            where $T_{\sigma, \sigma'} = e^{\frac{\beta J}{2} \sigma \sigma'}$
-            
-            \vspace{0.3cm}
-            
-            \begin{block}{Why Plaquette?}
-                $W$ is the \highlight{rank-4 local tensor} used in CTMRG.
-                
-                Each $W$ encodes one face of the tilted lattice.
-            \end{block}
+            Each $W$ encodes one \textit{face} of the tilted lattice.
         \end{column}
     \end{columns}
 \end{frame}
@@ -448,98 +425,21 @@
 % ------------------------------------------------------------
 % Slide 3.3: CTMRG Grow Step
 % ------------------------------------------------------------
-\begin{frame}{CTMRG Iteration: Step 1 --- Grow (Absorb Row/Column)}
+\begin{frame}{CTMRG Iteration: Step 1 --- Grow (Absorb)}
     
-    \textbf{Absorption:} Add one row \textbf{and} one column to expand the environment.
-    
-    \vspace{0.3cm}
-    
-    % === FIGURE PLACEHOLDER ===
-    % Concept: Corner absorption step
-    %
-    % ASCII draft (showing one direction):
-    %   Before:           After absorption:
-    %   
-    %   C₁ ─── T₁         C₁'────────
-    %    │      │    →     │         │
-    %   T₄ ─── a          T₄'       T₁'
-    %                      │         │
-    %                      └─── a ───┘
-    %
-    % Show how corner "eats" the local tensor
-    % Bond dimension grows: χ → χ·d
     \begin{center}
-        \fbox{\parbox{0.8\textwidth}{
-            \centering
-            \vspace{3cm}
-            \textit{[Figure: Absorption step --- corner grows by absorbing $a$ and edges]}
-            \vspace{3cm}
-        }}
+        \includegraphics[width=0.85\textwidth]{figures/fig_ctmrg_grow.pdf}
     \end{center}
-    
-    \vspace{0.3cm}
-    
-    \begin{alertblock}{Bond Dimension Growth}
-        After absorption: $C'$ has size $(\chi \cdot d) \times (\chi \cdot d)$ --- \highlight{too large!}
-    \end{alertblock}
 \end{frame}
 
 % ------------------------------------------------------------
 % Slide 3.4: CTMRG Truncate Step
 % ------------------------------------------------------------
-\begin{frame}{CTMRG Iteration: Step 2 --- Truncate (The Key Difference!)}
+\begin{frame}{CTMRG Iteration: Step 2 --- Truncate}
     
-    \textbf{Truncation in 2D:} Use the \highlight{full environment} to determine projectors.
-    
-    \vspace{0.3cm}
-    
-    % === FIGURE PLACEHOLDER ===
-    % Concept: How to compute projector in 2D
-    %
-    % ASCII draft:
-    %   Build "half-system" density matrix:
-    %   
-    %        C₄' ─── T₄' ─── C₁'
-    %         │               │
-    %        T₃'             T₁'
-    %         │               │
-    %        ─────── ρ ───────
-    %                ↓
-    %         SVD/Eigendecomposition
-    %                ↓
-    %         Projector P (keep χ largest)
-    %
-    % This is different from 1D: need to consider 2D geometry!
     \begin{center}
-        \fbox{\parbox{0.75\textwidth}{
-            \centering
-            \vspace{2.5cm}
-            \textit{[Figure: Building density matrix from environment for truncation]}
-            \vspace{2.5cm}
-        }}
+        \includegraphics[width=0.85\textwidth]{figures/fig_ctmrg_truncate.pdf}
     \end{center}
-    
-    \vspace{0.3cm}
-    
-    \begin{columns}
-        \begin{column}{0.55\textwidth}
-            \textbf{Compute projector $P$:}
-            \begin{enumerate}
-                \item Contract half-environment $\to \rho$
-                \item SVD: $\rho = U \Sigma V^\dagger$
-                \item Keep $\chi$ largest: $P = U_{:\chi}$
-            \end{enumerate}
-        \end{column}
-        \begin{column}{0.45\textwidth}
-            \textbf{Apply truncation:}
-            \[
-            C_{\text{new}} = P^\dagger C' P
-            \]
-            \[
-            T_{\text{new}} = P^\dagger T' P
-            \]
-        \end{column}
-    \end{columns}
 \end{frame}
 
 % ------------------------------------------------------------
@@ -547,113 +447,13 @@
 % ------------------------------------------------------------
 \begin{frame}{CTMRG: Complete Algorithm}
     
-    % === FIGURE PLACEHOLDER ===
-    % Concept: Flowchart of CTMRG algorithm
-    %
-    % ASCII draft:
-    %   ┌─────────────────────────────────────┐
-    %   │ Initialize: C₁, C₂, C₃, C₄, T₁-T₄  │
-    %   └───────────────┬─────────────────────┘
-    %                   ↓
-    %   ┌─────────────────────────────────────┐
-    %   │ 1. Absorb: grow all corners & edges │◄───┐
-    %   └───────────────┬─────────────────────┘    │
-    %                   ↓                          │
-    %   ┌─────────────────────────────────────┐    │
-    %   │ 2. Compute projectors P from ρ      │    │
-    %   └───────────────┬─────────────────────┘    │
-    %                   ↓                          │
-    %   ┌─────────────────────────────────────┐    │
-    %   │ 3. Truncate: C_new = P† C' P        │    │
-    %   └───────────────┬─────────────────────┘    │
-    %                   ↓                          │
-    %   ┌─────────────────────────────────────┐    │
-    %   │ 4. Converged?  ──No──────────────────────┘
-    %   └───────────────┬─────────────────────┘
-    %                   │ Yes
-    %                   ↓
-    %   ┌─────────────────────────────────────┐
-    %   │ Output: Fixed-point environment     │
-    %   └─────────────────────────────────────┘
     \begin{center}
-        \fbox{\parbox{0.7\textwidth}{
-            \centering
-            \vspace{4cm}
-            \textit{[Figure: CTMRG algorithm flowchart]}
-            \vspace{4cm}
-        }}
+        \includegraphics[width=0.65\textwidth]{figures/fig_ctmrg_algorithm.pdf}
     \end{center}
 \end{frame}
 
-% ------------------------------------------------------------
-% Slide 3.6: Computing Observables
-% ------------------------------------------------------------
-加个local极化，能量……
-\begin{frame}{Computing Observables with CTMRG}
-    
-    \textbf{Partition function:}
-    \[
-    Z \propto \text{Tr}(C_1 T_1 C_2 T_2 C_3 T_3 C_4 T_4)
-    \]
-    
-    \vspace{0.3cm}
-    
-    % === FIGURE PLACEHOLDER ===
-    % Concept: How to compute local magnetization
-    %
-    % ASCII draft:
-    %        C₄ ─── T₄ ─── C₁
-    %         │             │
-    %        T₃      σ     T₁    ← insert σ at center
-    %         │             │
-    %        C₃ ─── T₂ ─── C₂
-    %
-    % Contract everything to get <σ>
-    \begin{center}
-        \fbox{\parbox{0.6\textwidth}{
-            \centering
-            \vspace{2.5cm}
-            \textit{[Figure: Computing $\langle \sigma \rangle$ by inserting operator]}
-            \vspace{2.5cm}
-        }}
-    \end{center}
-    
-    \vspace{0.3cm}
-    
-    \textbf{Local magnetization:}
-    \[
-    \langle \sigma_{\text{center}} \rangle = \frac{\text{Tr}(C_1 T_1 C_2 T_2 C_3 T_3 C_4 T_4 \cdot \sigma)}{Z}
-    \]
-\end{frame}
 
-% ============================================================
-% PART 4: Results
-% ============================================================
-\section{Results}
 
-% ------------------------------------------------------------
-% Slide 4.1: Results (Placeholder)
-% ------------------------------------------------------------
-\begin{frame}{Numerical Results: 2D Ising Model}
-    
-    % === RESULTS PLACEHOLDER ===
-    % To be filled with actual numerical results
-    % Suggestions:
-    % - Magnetization vs temperature curve
-    % - Comparison with exact Onsager solution
-    % - Convergence with bond dimension χ
-    % - Critical exponents
-    
-    \begin{center}
-        \fbox{\parbox{0.85\textwidth}{
-            \centering
-            \vspace{5cm}
-            \textit{[Results to be added: magnetization, critical behavior, etc.]}
-            \vspace{5cm}
-        }}
-    \end{center}
-    
-\end{frame}
 
 % ============================================================
 % PART 5: Summary
@@ -667,9 +467,10 @@
     
     \begin{block}{CTMRG in Three Steps}
         \begin{enumerate}
-            \item \textbf{Decompose:} Infinite 2D lattice $\to$ 4 corners + 4 edges
-            \item \textbf{Grow:} Absorb local tensors (add row/column)
-            \item \textbf{Truncate:} SVD-based RG to keep $\chi$ most relevant states
+            \item \textbf{Decompose:} Infinite square lattice $\to$ 4 corners + 4 edges (customed for other lattice);
+            \item \textbf{Grow and Truncate (RG):} add row+column then absorb, SVD to keep $\chi$ most relevant; 
+            \item    $ Z = W_{s_1s_2s_3s_4} \text{Tr}(C_1 T^{s_1}_1 C_2 T^{s_2}_2 C_3 T^{s_3}_3 C_4 T^{s_4}_4)~$;$~~
+            \langle \mathcal{O} \rangle = \frac{ \mathcal{O}_{s_1s_2s_3s_4}}{Z}\text{Tr}(C_1 T^{s_1}_1 C_2 T^{s_2}_2 C_3 T^{s_3}_3 C_4 T^{s_4}_4)$
         \end{enumerate}
     \end{block}
     
@@ -694,53 +495,16 @@
     \end{center}
 \end{frame}
 
-% ------------------------------------------------------------
-% Slide 5.2: DMRG vs CTMRG
-% ------------------------------------------------------------
-直接放附录！直接放附录！直接放附录！
-\begin{frame}{Comparison: iDMRG vs CTMRG}
-    
-    \begin{table}
-        \centering
-        \renewcommand{\arraystretch}{1.3}
-        \begin{tabular}{l|c|c}
-            \toprule
-            \textbf{Aspect} & \textbf{iDMRG (1D)} & \textbf{CTMRG (2D)} \\
-            \midrule
-            Dimension & 1D chain & 2D square lattice \\
-            \midrule
-            Environment & Left + Right & 4 Corners + 4 Edges \\
-            \midrule
-            Grow step & Add site pair & Add row + column \\
-            \midrule
-            Truncation & SVD on center bond & SVD on corner boundaries \\
-            \midrule
-            Bond dimension & $\chi$ (MPS) & $\chi$ (environment) \\
-            \midrule
-            Fixed point & $L^*, R^*$ & $C_i^*, T_i^*$ \\
-            \midrule
-            Computational cost & $O(\chi^3)$ & $O(\chi^6)$ or $O(\chi^5)$ \\
-            \bottomrule
-        \end{tabular}
-    \end{table}
-    
-    \vspace{0.3cm}
-    
-    \begin{block}{Take-Home Message}
-        \goodpoint{Same RG philosophy}, different geometric structure!
-    \end{block}
-\end{frame}
-
 % ============================================================
 % Thank You Slide
 % ============================================================
 \begin{frame}
     \begin{center}
-        \Huge \textbf{Thank You!}
+        \Huge \textbf{Thank You All for Your Attention!}
         
         \vspace{1cm}
         
-        \Large Questions?
+        \Large And thanks to Prof. Tommaso Roscilde, Dr. Fabio Mezzacapo, Filippo Caleca and Saverio Bocini for your teaching and assistance!
     \end{center}
 \end{frame}
 
@@ -1237,6 +1001,43 @@
     \end{columns}
 \end{frame}
 
+
+% ------------------------------------------------------------
+% Slide 5.2: DMRG vs CTMRG
+% ------------------------------------------------------------
+
+\begin{frame}{Comparison: iDMRG vs CTMRG}
+	
+	\begin{table}
+		\centering
+		\renewcommand{\arraystretch}{1.3}
+		\begin{tabular}{l|c|c}
+			\toprule
+			\textbf{Aspect} & \textbf{iDMRG (1D)} & \textbf{CTMRG (2D)} \\
+			\midrule
+			Dimension & 1D chain & 2D square lattice \\
+			\midrule
+			Environment & Left + Right & 4 Corners + 4 Edges \\
+			\midrule
+			Grow step & Add site pair & Add row + column \\
+			\midrule
+			Truncation & SVD on center bond & SVD on corner boundaries \\
+			\midrule
+			Bond dimension & $\chi$ (MPS) & $\chi$ (environment) \\
+			\midrule
+			Fixed point & $L^*, R^*$ & $C_i^*, T_i^*$ \\
+			\midrule
+			Computational cost & $O(\chi^3)$ & $O(\chi^6)$ or $O(\chi^5)$ \\
+			\bottomrule
+		\end{tabular}
+	\end{table}
+	
+	\vspace{0.3cm}
+	
+	\begin{block}{Take-Home Message}
+		\goodpoint{Same RG philosophy}, different geometric structure!
+	\end{block}
+\end{frame}
 % ------------------------------------------------------------
 % Appendix A.4: Computational Complexity
 % ------------------------------------------------------------
