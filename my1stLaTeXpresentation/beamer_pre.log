@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.141592653-2.6-0.999997 (TeX Live 2025) (preloaded format=xelatex 2025.9.11)  4 JAN 2026 19:45
+This is XeTeX, Version 3.141592653-2.6-0.999997 (TeX Live 2025) (preloaded format=xelatex 2025.9.11)  5 JAN 2026 18:09
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1105,48 +1105,70 @@ Dictionary: translator-theorem-dictionary, Language: English
 [2
 
 ]
-LaTeX Font Info:    Trying to load font information for U+msa on input line 109
+LaTeX Font Info:    Trying to load font information for U+msa on input line 118
 .
  (d:/Programs/TeXLive/2025/texmf-dist/tex/latex/amsfonts/umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
-LaTeX Font Info:    Trying to load font information for U+msb on input line 109
+LaTeX Font Info:    Trying to load font information for U+msb on input line 118
 .
 
 (d:/Programs/TeXLive/2025/texmf-dist/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 )
 LaTeX Font Info:    Font shape `TU/lmss/m/it' in size <10.95> not available
-(Font)              Font shape `TU/lmss/m/sl' tried instead on input line 109.
+(Font)              Font shape `TU/lmss/m/sl' tried instead on input line 118.
 LaTeX Font Info:    Font shape `TU/lmss/m/it' in size <8> not available
-(Font)              Font shape `TU/lmss/m/sl' tried instead on input line 109.
+(Font)              Font shape `TU/lmss/m/sl' tried instead on input line 118.
 LaTeX Font Info:    Font shape `TU/lmss/m/it' in size <6> not available
-(Font)              Font shape `TU/lmss/m/sl' tried instead on input line 109.
+(Font)              Font shape `TU/lmss/m/sl' tried instead on input line 118.
 LaTeX Font Info:    Font shape `TU/lmss/bx/it' in size <10.95> not available
-(Font)              Font shape `TU/lmss/bx/sl' tried instead on input line 109.
+(Font)              Font shape `TU/lmss/bx/sl' tried instead on input line 118.
 
 LaTeX Font Info:    Font shape `TU/lmss/bx/it' in size <8> not available
-(Font)              Font shape `TU/lmss/bx/sl' tried instead on input line 109.
+(Font)              Font shape `TU/lmss/bx/sl' tried instead on input line 118.
 
 LaTeX Font Info:    Font shape `TU/lmss/bx/it' in size <6> not available
-(Font)              Font shape `TU/lmss/bx/sl' tried instead on input line 109.
+(Font)              Font shape `TU/lmss/bx/sl' tried instead on input line 118.
 
 File: figures/fig_1d_transfer_chain.pdf Graphic file (type pdf)
 <use figures/fig_1d_transfer_chain.pdf>
+
+Overfull \vbox (42.36533pt too high) detected at line 118
+ []
+
 
 
 [3
 
 ]
-Overfull \vbox (32.83452pt too high) detected at line 165
- []
-
+File: figures/fig_1d_varying_couplings.pdf Graphic file (type pdf)
+<use figures/fig_1d_varying_couplings.pdf>
 
 
 [4
 
 ]
-Overfull \vbox (35.33064pt too high) detected at line 232
+File: figures/fig_1d_tmrg_environments.png Graphic file (type bmp)
+<figures/fig_1d_tmrg_environments.png>
+LaTeX Font Info:    Font shape `TU/lmss/m/it' in size <10> not available
+(Font)              Font shape `TU/lmss/m/sl' tried instead on input line 208.
+LaTeX Font Info:    Font shape `TU/lmss/m/it' in size <7> not available
+(Font)              Font shape `TU/lmss/m/sl' tried instead on input line 208.
+LaTeX Font Info:    Font shape `TU/lmss/m/it' in size <5> not available
+(Font)              Font shape `TU/lmss/m/sl' tried instead on input line 208.
+LaTeX Font Info:    Font shape `TU/lmss/bx/it' in size <10> not available
+(Font)              Font shape `TU/lmss/bx/sl' tried instead on input line 208.
+
+LaTeX Font Info:    Font shape `TU/lmss/bx/it' in size <7> not available
+(Font)              Font shape `TU/lmss/bx/sl' tried instead on input line 208.
+
+LaTeX Font Info:    Font shape `TU/lmss/bx/it' in size <5> not available
+(Font)              Font shape `TU/lmss/bx/sl' tried instead on input line 208.
+
+
+Overfull \hbox (23.86797pt too wide) detected at line 208
+[] [][][] $[]$[][][][][][][][] $[]$[][][][][][] 
  []
 
 
@@ -1154,7 +1176,10 @@ Overfull \vbox (35.33064pt too high) detected at line 232
 [5
 
 ]
-Overfull \vbox (35.3366pt too high) detected at line 292
+File: figures/fig_2d_tensor_network.pdf Graphic file (type pdf)
+<use figures/fig_2d_tensor_network.pdf>
+
+Overfull \vbox (31.69101pt too high) detected at line 251
  []
 
 
@@ -1166,7 +1191,10 @@ Overfull \vbox (35.3366pt too high) detected at line 292
 [7
 
 ]
-Overfull \vbox (33.74066pt too high) detected at line 414
+File: figures/fig_2d_local_environment.pdf Graphic file (type pdf)
+<use figures/fig_2d_local_environment.pdf>
+
+Overfull \vbox (29.38464pt too high) detected at line 356
  []
 
 
@@ -1174,7 +1202,10 @@ Overfull \vbox (33.74066pt too high) detected at line 414
 [8
 
 ]
-Overfull \vbox (103.512pt too high) detected at line 472
+File: figures/fig_2d_ctmrg_structure.pdf Graphic file (type pdf)
+<use figures/fig_2d_ctmrg_structure.pdf>
+
+Overfull \vbox (121.78238pt too high) detected at line 390
  []
 
 
@@ -1186,7 +1217,7 @@ Overfull \vbox (103.512pt too high) detected at line 472
 [10
 
 ]
-Overfull \vbox (60.41356pt too high) detected at line 563
+Overfull \vbox (60.41356pt too high) detected at line 481
  []
 
 
@@ -1194,7 +1225,7 @@ Overfull \vbox (60.41356pt too high) detected at line 563
 [11
 
 ]
-Overfull \vbox (50.6644pt too high) detected at line 621
+Overfull \vbox (50.6644pt too high) detected at line 539
  []
 
 
@@ -1202,7 +1233,7 @@ Overfull \vbox (50.6644pt too high) detected at line 621
 [12
 
 ]
-Overfull \vbox (41.37737pt too high) detected at line 664
+Overfull \vbox (41.37737pt too high) detected at line 582
  []
 
 
@@ -1210,23 +1241,35 @@ Overfull \vbox (41.37737pt too high) detected at line 664
 [13
 
 ]
-Overfull \vbox (51.51479pt too high) detected at line 704
+Missing character: There is no 加 (U+52A0) in font [lmsans10-regular]:mapping=te
+x-text;!
+Missing character: There is no 个 (U+4E2A) in font [lmsans10-regular]:mapping=te
+x-text;!
+Missing character: There is no 极 (U+6781) in font [lmsans10-regular]:mapping=te
+x-text;!
+Missing character: There is no 化 (U+5316) in font [lmsans10-regular]:mapping=te
+x-text;!
+Missing character: There is no ， (U+FF0C) in font [lmsans10-regular]:mapping=te
+x-text;!
+Missing character: There is no 能 (U+80FD) in font [lmsans10-regular]:mapping=te
+x-text;!
+Missing character: There is no 量 (U+91CF) in font [lmsans10-regular]:mapping=te
+x-text;!
+
+Overfull \vbox (51.51479pt too high) detected at line 623
  []
+
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
 
 
 
 [14
 
 ]
-Overfull \vbox (98.28288pt too high) detected at line 733
- []
 
-
-
-[15
-
-]
-Overfull \vbox (46.53456pt too high) detected at line 772
+[15]
+Overfull \vbox (98.28288pt too high) detected at line 652
  []
 
 
@@ -1234,7 +1277,7 @@ Overfull \vbox (46.53456pt too high) detected at line 772
 [16
 
 ]
-Overfull \vbox (35.31856pt too high) detected at line 808
+Overfull \vbox (46.53456pt too high) detected at line 691
  []
 
 
@@ -1242,32 +1285,66 @@ Overfull \vbox (35.31856pt too high) detected at line 808
 [17
 
 ]
+Missing character: There is no 直 (U+76F4) in font [lmsans10-regular]:mapping=te
+x-text;!
+Missing character: There is no 接 (U+63A5) in font [lmsans10-regular]:mapping=te
+x-text;!
+Missing character: There is no 放 (U+653E) in font [lmsans10-regular]:mapping=te
+x-text;!
+Missing character: There is no 附 (U+9644) in font [lmsans10-regular]:mapping=te
+x-text;!
+Missing character: There is no 录 (U+5F55) in font [lmsans10-regular]:mapping=te
+x-text;!
+Missing character: There is no ！ (U+FF01) in font [lmsans10-regular]:mapping=te
+x-text;!
+Missing character: There is no 直 (U+76F4) in font [lmsans10-regular]:mapping=te
+x-text;!
+Missing character: There is no 接 (U+63A5) in font [lmsans10-regular]:mapping=te
+x-text;!
+Missing character: There is no 放 (U+653E) in font [lmsans10-regular]:mapping=te
+x-text;!
+Missing character: There is no 附 (U+9644) in font [lmsans10-regular]:mapping=te
+x-text;!
+Missing character: There is no 录 (U+5F55) in font [lmsans10-regular]:mapping=te
+x-text;!
+Missing character: There is no ！ (U+FF01) in font [lmsans10-regular]:mapping=te
+x-text;!
+Missing character: There is no 直 (U+76F4) in font [lmsans10-regular]:mapping=te
+x-text;!
+Missing character: There is no 接 (U+63A5) in font [lmsans10-regular]:mapping=te
+x-text;!
+Missing character: There is no 放 (U+653E) in font [lmsans10-regular]:mapping=te
+x-text;!
+Missing character: There is no 附 (U+9644) in font [lmsans10-regular]:mapping=te
+x-text;!
+Missing character: There is no 录 (U+5F55) in font [lmsans10-regular]:mapping=te
+x-text;!
+Missing character: There is no ！ (U+FF01) in font [lmsans10-regular]:mapping=te
+x-text;!
+
+Overfull \vbox (35.31856pt too high) detected at line 728
+ []
+
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+
 
 [18
 
 ]
 
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\translate ' on input line 827.
-
-
-Overfull \vbox (33.02466pt too high) detected at line 870
- []
-
-
-
-[19
-
-]
-Overfull \vbox (59.33939pt too high) detected at line 902
- []
-
-
+[19]
 
 [20
 
 ]
-Overfull \vbox (17.33656pt too high) detected at line 951
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `\translate ' on input line 747.
+
+
+Overfull \vbox (33.02466pt too high) detected at line 790
  []
 
 
@@ -1275,11 +1352,15 @@ Overfull \vbox (17.33656pt too high) detected at line 951
 [21
 
 ]
+Overfull \vbox (59.33939pt too high) detected at line 822
+ []
+
+
 
 [22
 
 ]
-Overfull \vbox (16.6042pt too high) detected at line 1051
+Overfull \vbox (17.33656pt too high) detected at line 871
  []
 
 
@@ -1291,7 +1372,7 @@ Overfull \vbox (16.6042pt too high) detected at line 1051
 [24
 
 ]
-Overfull \vbox (9.77637pt too high) detected at line 1141
+Overfull \vbox (16.6042pt too high) detected at line 971
  []
 
 
@@ -1303,7 +1384,7 @@ Overfull \vbox (9.77637pt too high) detected at line 1141
 [26
 
 ]
-Overfull \vbox (67.65768pt too high) detected at line 1229
+Overfull \vbox (9.77637pt too high) detected at line 1061
  []
 
 
@@ -1311,19 +1392,19 @@ Overfull \vbox (67.65768pt too high) detected at line 1229
 [27
 
 ]
-Overfull \vbox (58.95158pt too high) detected at line 1266
- []
-
-
 
 [28
 
 ]
+Overfull \vbox (67.65768pt too high) detected at line 1149
+ []
+
+
 
 [29
 
 ]
-Overfull \vbox (11.41086pt too high) detected at line 1349
+Overfull \vbox (58.95158pt too high) detected at line 1186
  []
 
 
@@ -1333,6 +1414,18 @@ Overfull \vbox (11.41086pt too high) detected at line 1349
 ]
 
 [31
+
+]
+Overfull \vbox (11.41086pt too high) detected at line 1269
+ []
+
+
+
+[32
+
+]
+
+[33
 
 ]
 \tf@nav=\write6
@@ -1349,23 +1442,16 @@ Overfull \vbox (11.41086pt too high) detected at line 1349
 LaTeX2e <2025-06-01> patch level 1
 L3 programming layer <2025-08-13>
  ***********
-
-
-Package rerunfilecheck Warning: File `beamer_pre.out' has changed.
-(rerunfilecheck)                Rerun to get outlines right
-(rerunfilecheck)                or use package `bookmark'.
-
-Package rerunfilecheck Info: Checksums for `beamer_pre.out':
-(rerunfilecheck)             Before: F0A342CE24DB35F9499B0352845F0F08;949
-(rerunfilecheck)             After:  44DE757758CE2DB283D48117E5B4EDE6;1002.
+Package rerunfilecheck Info: File `beamer_pre.out' has not changed.
+(rerunfilecheck)             Checksum: AEB806E3BD27F29E0D74F1BAD3CCC77F;1007.
  ) 
 Here is how much of TeX's memory you used:
- 28398 strings out of 468441
- 597008 string characters out of 5445089
- 993307 words of memory out of 5000000
- 56263 multiletter control sequences out of 15000+600000
- 634744 words of font info for 85 fonts, out of 8000000 for 9000
+ 28498 strings out of 468441
+ 599687 string characters out of 5445089
+ 993747 words of memory out of 5000000
+ 56340 multiletter control sequences out of 15000+600000
+ 640177 words of font info for 114 fonts, out of 8000000 for 9000
  1348 hyphenation exceptions out of 8191
  128i,15n,123p,423b,976s stack positions out of 10000i,1000n,20000p,200000b,200000s
 
-Output written on beamer_pre.pdf (31 pages).
+Output written on beamer_pre.pdf (33 pages).

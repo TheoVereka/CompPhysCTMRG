@@ -68,7 +68,7 @@
 % ============================================================
 % PART 1: From 1D to 2D - The Exponential Wall
 % ============================================================
-\section{From 1D to 2D: The Exponential Wall}
+\section{From 1D to 2D: The Contraction Issue}
 
 % ------------------------------------------------------------
 % Slide 1.1: 1D Ising Review
@@ -82,15 +82,22 @@
             H = -J \sum_i \sigma_i \sigma_{i+1}
             \]
             
-            \vspace{0.5cm}
+            \vspace{0.3cm}
             
-            \textbf{Transfer Matrix:}
+            \textbf{Partition function as contraction:}
             \[
-            Z = \text{Tr}(T^N), \quad T \in \mathbb{R}^{2 \times 2}
+            Z = \text{Tr}(T \cdot T \cdot T \cdots T) = \text{Tr}(T^N)
             \]
             
+            \vspace{0.2cm}
+            
+            where $T \in \mathbb{R}^{2 \times 2}$ encodes local interactions.
+            
+            \vspace{0.3cm}
+            
+            \textbf{Local observable:}
             \[
-            T = \begin{pmatrix} e^{\beta J} & e^{-\beta J} \\ e^{-\beta J} & e^{\beta J} \end{pmatrix}
+            \langle \sigma_k \rangle = \frac{\text{Tr}(T^{k} \cdot f(\uparrow,\downarrow) \cdot T^{N-k})}{\text{Tr}(T^N)}
             \]
         \end{column}
         
@@ -102,18 +109,20 @@
         \end{column}
     \end{columns}
     
-    \vspace{0.3cm}
+    \vspace{0.2cm}
     \begin{block}{Key Point}
-        $T$ is $2 \times 2$ $\Rightarrow$ \goodpoint{Exact diagonalization is trivial!}
+        \textbf{Translational invariance:} All $T$ are identical $\Rightarrow$ they \goodpoint{commute}!
+        
+        Huge contraction bypassed: $T^N = U \Lambda^N U^\dagger$ with single diagonalization.
     \end{block}
 \end{frame}
 
 % ------------------------------------------------------------
 % Slide 1.2: When 1D Becomes Hard
 % ------------------------------------------------------------
-\begin{frame}{When Even 1D Has an Exponential Wall}
+\begin{frame}{When Even 1D Classical Needs Renormalization Group}
     
-    \textbf{Recall:} For uniform 1D Ising, $Z = \text{Tr}(T^N)$ with $T \in \mathbb{R}^{2\times 2}$ is \goodpoint{exact}.
+    \textbf{Recall:} For uniform 1D Ising, $Z = \text{Tr}(T^N)$ has no contraction issues.
     
     \vspace{0.3cm}
     
@@ -136,23 +145,9 @@
         \end{column}
         
         \begin{column}{0.5\textwidth}
-            % === FIGURE PLACEHOLDER ===
-            % Concept: Chain with varying couplings
-            %
-            % ASCII draft:
-            %   ○──J₁──○──J₂──○──J₃──○──J₄──○
-            %      T₁     T₂     T₃     T₄
-            %   
-            %   Z = Tr(T₁ · T₂ · T₃ · T₄ · ...)
-            %   
-            %   "No single eigenvalue trick!"
+            % === FIGURE: 1D chain with varying couplings ===
             \begin{center}
-                \fbox{\parbox{0.95\textwidth}{
-                    \centering
-                    \vspace{2cm}
-                    \textit{[Figure: 1D chain with non-uniform couplings $J_i$]}
-                    \vspace{2cm}
-                }}
+                \includegraphics[width=0.95\textwidth]{figures/fig_1d_varying_couplings.pdf}
             \end{center}
             
             \begin{alertblock}{The Problem}
@@ -170,65 +165,46 @@
 \begin{frame}{Solution: Transfer Matrix Renormalization Group (TMRG)}
     
     \begin{center}
-        \textbf{Key Insight:} Not all configurations contribute equally to $Z$.
-        
-        \vspace{0.2cm}
-        
-        $\Rightarrow$ Keep only the \goodpoint{most relevant} ones!
+        \textbf{Insight:} Not all configurations contribute equally to $Z$ $\Rightarrow$ Keep only the \goodpoint{most relevant} ones!
     \end{center}
     
-    \vspace{0.3cm}
     
     \begin{columns}
-        \begin{column}{0.55\textwidth}
-            % === FIGURE PLACEHOLDER ===
-            % Concept: Left environment - local site - Right environment
-            %
-            % ASCII draft:
-            %   Z = Tr([L] · T · T · [R])
-            %         ↑              ↑
-            %    Left env.      Right env.
-            %   (compressed)    (compressed)
-            %   
-            %   L = sum over all left configs  → χ states
-            %   R = sum over all right configs → χ states
+    	\vspace{1.8cm}
+        \begin{column}{0.6\textwidth}
+            % === FIGURE: TMRG environments ===
             \begin{center}
-                \fbox{\parbox{0.95\textwidth}{
-                    \centering
-                    \vspace{2.5cm}
-                    \textit{[Figure: $Z \approx \text{Tr}(L \cdot T \cdot T \cdot R)$]}
-                    \vspace{2.5cm}
-                }}
+                \includegraphics[width=0.8\textwidth]{figures/fig_1d_tmrg_environments.png}
             \end{center}
+            
+            
+            \vspace{0.1cm}
+            
+            {\small \textit{$\chi$ = bond dimension (most relevant configurations in compressed basis)}}
         \end{column}
         
-        \begin{column}{0.45\textwidth}
+        \begin{column}{0.5\textwidth}
             \textbf{TMRG Algorithm:}
             \begin{enumerate}
-                \item \textbf{Grow:} $L' = L \cdot T$ 
+                \item \textbf{Grow:} $L' = L \cdot T~,~R'=T\cdot R$ 
                 
-                (add sites $\approx$ decimation)
+                {\small (add sites)}
                 
                 \item \textbf{Truncate:} SVD $\to$ keep $\chi$ largest
                 
-                (coarse-grain $\approx$ rescaling)
+                {\small (coarse-grain)}
             \end{enumerate}
+            \vspace{0.15cm}
+            
+            \begin{block}{RG Fixed Point}
+            Iterate until $L^*, R^*$ converge $\Rightarrow$ Thermodynamic limit!
+            \end{block}
             
             \vspace{0.3cm}
             
-            \begin{block}{RG Fixed Point}
-                Iterate until $L^*, R^*$ converge.
-                
-                $\Rightarrow$ Thermodynamic limit!
-            \end{block}
+            \textit{Kind-of like infinite-DMRG by adding new pair of sites}
         \end{column}
     \end{columns}
-    
-    \vspace{0.2cm}
-    
-    \begin{center}
-        \textit{(Detailed derivation in Appendix)}
-    \end{center}
 \end{frame}
 
 % ============================================================
@@ -260,26 +236,9 @@
         \end{column}
         
         \begin{column}{0.55\textwidth}
-            % === FIGURE PLACEHOLDER ===
-            % Concept: 2D lattice showing each site has 4 bonds
-            %
-            % ASCII draft:
-            %   σ_{i,j-1}
-            %       │
-            %   σ_{i-1,j}──[T]──σ_{i+1,j}
-            %       │
-            %   σ_{i,j+1}
-            %
-            %   Z = Σ_{all σ} Π_{sites} T^σ_{neighbors}
-            %
-            %   "No natural ordering for contraction!"
+            % === FIGURE: 2D tensor network ===
             \begin{center}
-                \fbox{\parbox{0.95\textwidth}{
-                    \centering
-                    \vspace{2.5cm}
-                    \textit{[Figure: 2D lattice --- each site is a rank-4 tensor]}
-                    \vspace{2.5cm}
-                }}
+                \includegraphics[width=\textwidth]{figures/fig_2d_tensor_network.pdf}
             \end{center}
         \end{column}
     \end{columns}
@@ -363,26 +322,9 @@
     
     \begin{columns}
         \begin{column}{0.5\textwidth}
-            % === FIGURE PLACEHOLDER ===
-            % Concept: Local site surrounded by environment
-            %
-            % ASCII draft:
-            %   ┌─────────────────┐
-            %   │  Environment    │
-            %   │    ┌───┐        │
-            %   │    │ σ │ ← local│
-            %   │    └───┘        │
-            %   │                 │
-            %   └─────────────────┘
-            %
-            %   "Environment encodes the rest of the lattice"
+            % === FIGURE: Local site surrounded by environment ===
             \begin{center}
-                \fbox{\parbox{0.95\textwidth}{
-                    \centering
-                    \vspace{2.2cm}
-                    \textit{[Figure: Local site surrounded by 2D environment]}
-                    \vspace{2.2cm}
-                }}
+                \includegraphics[width=\textwidth]{figures/fig_2d_local_environment.pdf}
             \end{center}
         \end{column}
         
@@ -423,35 +365,11 @@
 % ------------------------------------------------------------
 \begin{frame}{2D Analog: Four Corners + Four Edges}
     
-    \textbf{Key Idea:} Divide infinite 2D lattice into \highlight{4 corners} + \highlight{4 edges}.
-    
-    \vspace{0.3cm}
-    
-    % === FIGURE PLACEHOLDER ===
-    % Concept: The full 2D environment structure
-    %
-    % ASCII draft:
-    %        C₄ ─── T₄ ─── C₁
-    %         │             │
-    %        T₃      ●     T₁
-    %         │             │
-    %        C₃ ─── T₂ ─── C₂
-    %
-    % C = corner matrices (χ × χ)
-    % T = edge tensors (χ × d × χ)
-    % ● = local tensor (center)
-    %
-    % Color code: corners in one color, edges in another
     \begin{center}
-        \fbox{\parbox{0.55\textwidth}{
-            \centering
-            \vspace{3.5cm}
-            \textit{[Figure: 2D environment structure --- 4 corners + 4 edges]}
-            \vspace{3.5cm}
-        }}
+        \includegraphics[width=0.75\textwidth]{figures/fig_2d_ctmrg_structure.pdf}
     \end{center}
     
-    \vspace{0.3cm}
+    \vspace{0.2cm}
     
     \begin{columns}
         \begin{column}{0.5\textwidth}
