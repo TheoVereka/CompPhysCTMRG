@@ -202,7 +202,7 @@
             
             \vspace{0.3cm}
             
-            \textit{Kind-of like infinite-DMRG by adding new pair of sites}
+            \textit{Kind-of like infinite-DMRG by \\adding new pair of sites}
         \end{column}
     \end{columns}
 \end{frame}
@@ -218,6 +218,7 @@
 \begin{frame}{2D: The Transfer Matrix Becomes a \highlight{Network}}
     
     \begin{columns}
+    	\vspace{-1.1cm}
         \begin{column}{0.45\textwidth}
             \textbf{1D:} Ordered product of matrices
             \[
@@ -225,12 +226,12 @@
             \]
             Contract left-to-right: $O(N)$.
             
-            \vspace{0.5cm}
+            \vspace{0.6cm}
             
-            \textbf{2D:} $T$ still $2 \times 2$ on each \highlight{bond},
+            \textbf{2D:} $T$ still $2 \times 2$ {\tiny (from now on }$d \times d$\\{\tiny in order to distinguish physical dimension $D=2$) }\\on each \highlight{bond},
             
-            but bonds form a \highlight{2D network}!
-            
+            but bonds form a \highlight{2D network}!\\
+            \vspace{0.2cm}
             $\Rightarrow$ No natural ordering.
         \end{column}
         
@@ -242,10 +243,10 @@
         \end{column}
     \end{columns}
     
-    \vspace{-0.8cm}
+    \vspace{-0.4cm}
     
     \begin{alertblock}{The Fundamental Problem}
-        \highlight{No natural contraction order!} The 2D tensor network cannot be reduced to a simple trace of matrix products. \textbf{Exact contraction is way too slow!}
+        \highlight{No natural contraction order!} 2D tensor network cannot be reduced to a simple trace.
     \end{alertblock}
 \end{frame}
 
@@ -254,7 +255,7 @@
 % ------------------------------------------------------------
 \begin{frame}{One Approach: Row-to-Row Transfer (DMRG-style)}
     
-    \textbf{Idea:} Group one row of $L$ spins $\to$ treat as a ``super-spin'' with $2^L$ states.
+    \textbf{Idea:} Group one row of $L$ spins $\to$ treat as a ``super-spin'' with $d^L$ states.
     
     \vspace{0.3cm}
     
@@ -273,12 +274,12 @@
                 \fbox{\parbox{0.95\textwidth}{
                     \centering
                     \vspace{1.8cm}
-                    \textit{[Figure: Row $\to$ super-spin, $T_{\text{row}} \in \mathbb{R}^{2^L \times 2^L}$]}
+                    \textit{[Figure: Row $\to$ super-spin, $T_{\text{row}} \in \mathbb{R}^{d^L \times d^L}$]}
                     \vspace{1.8cm}
                 }}
             \end{center}
             
-            Then $Z = \text{Tr}(T_{\text{row}}^M)$ looks like 1D!
+            Then $Z = \text{Tr}(T_{\text{row}}^L)$ looks like 1D!
         \end{column}
         
         \begin{column}{0.5\textwidth}
@@ -392,7 +393,7 @@
     \vspace{0.1cm}
     
     \begin{block}{Key: What is $a$?}
-        $a$ is a \highlight{rank-4 tensor} --- for computing $Z$: $a = W$ \textit{plaquette tensor}; for $\langle \sigma \rangle$: $a = s_1\delta_{s_1s_2s_3s_4}$, etc.
+        $a$ is a \highlight{rank-4 tensor} --- for computing $Z$: $a = W$ \textit{plaquette tensor}; for $\langle \sigma_1 \rangle$: $a = s_1 W_{s_1s_2s_3s_4}$, etc.
     \end{block}
 \end{frame}
 
@@ -402,24 +403,19 @@
 \begin{frame}{The Plaquette Tensor: From Bonds to Faces}
     
     \begin{center}
-        \includegraphics[width=0.9\textwidth]{figures/fig_plaquette_tensor.pdf}
+        \includegraphics[width=0.85\textwidth]{figures/fig_plaquette_tensor.pdf}
     \end{center}
     
-    \vspace{-0.3cm}
+    \vspace{-0.2cm}
     
-    \begin{columns}
-        \begin{column}{0.5\textwidth}
-            \textbf{For 2D Ising:}
-            \[
-            W_{u,d,l,r} = \sum_{\sigma} T_{\sigma,u} T_{\sigma,d} T_{\sigma,l} T_{\sigma,r}
-            \]
-        \end{column}
-        \begin{column}{0.5\textwidth}
-            \textbf{Result:} $W$ is the \highlight{rank-4 local tensor}
-            
-            Each $W$ encodes one \textit{face} of the tilted lattice.
-        \end{column}
-    \end{columns}
+    \begin{block}{Key: Simple scalar multiplication of 4 bond weights}
+        \vspace{-0.2cm}
+        \[
+        W_{s_1,s_2,s_3,s_4} = T_{s_1,s_2} \cdot T_{s_2,s_3} \cdot T_{s_3,s_4} \cdot T_{s_4,s_1}
+        \quad\text{where}\quad
+        T_{s,s'} = e^{\frac{\beta J}{2} s \cdot s'}
+        \]
+    \end{block}
 \end{frame}
 
 % ------------------------------------------------------------
@@ -438,7 +434,7 @@
 \begin{frame}{CTMRG Iteration: Step 2 --- Truncate}
     
     \begin{center}
-        \includegraphics[width=0.85\textwidth]{figures/fig_ctmrg_truncate.pdf}
+        \includegraphics[width=0.83\textwidth]{figures/fig_ctmrg_truncate.pdf}
     \end{center}
 \end{frame}
 
@@ -464,7 +460,7 @@
 % Slide 5.1: Core Steps
 % ------------------------------------------------------------
 \begin{frame}{Summary: The Core of CTMRG}
-    
+    \vspace{0.2cm}
     \begin{block}{CTMRG in Three Steps}
         \begin{enumerate}
             \item \textbf{Decompose:} Infinite square lattice $\to$ 4 corners + 4 edges (customed for other lattice);
@@ -486,14 +482,15 @@
     %
     % Show as three-panel diagram
     \begin{center}
-        \fbox{\parbox{0.85\textwidth}{
-            \centering
-            \vspace{2.5cm}
-            \textit{[Figure: Visual summary --- Decompose $\to$ Grow $\to$ Truncate]}
-            \vspace{2.5cm}
-        }}
+    	\includegraphics[width=0.95\textwidth]{figures/aaa.png}
     \end{center}
 \end{frame}
+
+
+
+	\newcounter{framenumbervorappendix}
+	\setcounter{framenumbervorappendix}{\value{framenumber}}
+
 
 % ============================================================
 % Thank You Slide
@@ -505,6 +502,9 @@
         \vspace{1cm}
         
         \Large And thanks to Prof. Tommaso Roscilde, Dr. Fabio Mezzacapo, Filippo Caleca and Saverio Bocini for your teaching and assistance!
+        \\
+        \vspace{1cm}
+        \small also a small thanks to Claude Opus that assists me generating \textit{all} the schemas and teaching me \texttt{beamer}.
     \end{center}
 \end{frame}
 
@@ -1108,4 +1108,50 @@
     \end{itemize}
 \end{frame}
 
+% ------------------------------------------------------------
+% Appendix A.6: Original CTMRG Results
+% ------------------------------------------------------------
+\begin{frame}{Appendix: Original CTMRG Results --- 2D Ising Model}
+    
+    \begin{center}
+        \textbf{From T. Nishino \& K. Okunishi, \textit{J. Phys. Soc. Jpn.} \textbf{65}, 891 (1996)}
+    \end{center}
+    
+    
+    \begin{center}
+        \includegraphics[width=0.5\textwidth]{figures/fig_nishino_result.png}
+    \end{center}
+    
+    \vspace{0.2cm}
+    
+    \begin{block}{Key Result}
+        Local energy $E(T)$ computed via CTMRG converges rapidly with iterations $N$. 
+        The critical temperature $T_c$ (inset) can be accurately determined from finite-size scaling.
+    \end{block}
+\end{frame}
+
+% ------------------------------------------------------------
+% Appendix A.7: CTMRG on Other Lattices
+% ------------------------------------------------------------
+\begin{frame}{Appendix: CTMRG on Other 2D Lattices --- Ruby Lattice}
+    
+    \vspace{-0.2cm}
+    \begin{center}
+        \textbf{Extension to non-square lattices}
+    \end{center}
+    
+    
+    \begin{center}
+        \includegraphics[width=0.5\textwidth]{figures/fig_ruby_lattice.png}
+    \end{center}
+    
+    
+    \begin{block}{Generalization}
+        CTMRG can be adapted to various 2D lattice geometries (honeycomb, triangular, Ruby, etc.) 
+        by modifying the corner/edge tensor definitions while preserving the RG iteration structure.
+    \end{block}
+\end{frame}
+
+\addtocounter{framenumbervorappendix}{-\value{framenumber}}
+\addtocounter{framenumber}{\value{framenumbervorappendix}} 
 \end{document}

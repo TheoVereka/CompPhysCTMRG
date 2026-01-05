@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.141592653-2.6-0.999997 (TeX Live 2025) (preloaded format=xelatex 2025.9.11)  5 JAN 2026 19:44
+This is XeTeX, Version 3.141592653-2.6-0.999997 (TeX Live 2025) (preloaded format=xelatex 2025.9.11)  5 JAN 2026 21:09
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1190,7 +1190,7 @@ File: figures/fig_2d_tensor_network.pdf Graphic file (type pdf)
 File: figures/fig_2d_local_environment.pdf Graphic file (type pdf)
 <use figures/fig_2d_local_environment.pdf>
 
-Overfull \vbox (20.84874pt too high) detected at line 355
+Overfull \vbox (20.84874pt too high) detected at line 356
  []
 
 
@@ -1201,12 +1201,12 @@ Overfull \vbox (20.84874pt too high) detected at line 355
 File: figures/fig_2d_ctmrg_structure.png Graphic file (type bmp)
 <figures/fig_2d_ctmrg_structure.png>
 LaTeX Font Info:    Font shape `TU/lmss/m/it' in size <12> not available
-(Font)              Font shape `TU/lmss/m/sl' tried instead on input line 397.
+(Font)              Font shape `TU/lmss/m/sl' tried instead on input line 398.
 LaTeX Font Info:    Font shape `TU/lmss/bx/it' in size <12> not available
-(Font)              Font shape `TU/lmss/bx/sl' tried instead on input line 397.
+(Font)              Font shape `TU/lmss/bx/sl' tried instead on input line 398.
 
 
-Overfull \vbox (1.09706pt too high) detected at line 397
+Overfull \vbox (11.74257pt too high) detected at line 398
  []
 
 
@@ -1217,7 +1217,7 @@ Overfull \vbox (1.09706pt too high) detected at line 397
 File: figures/fig_plaquette_tensor.pdf Graphic file (type pdf)
 <use figures/fig_plaquette_tensor.pdf>
 
-Overfull \vbox (57.41158pt too high) detected at line 423
+Overfull \vbox (30.78264pt too high) detected at line 419
  []
 
 
@@ -1228,10 +1228,6 @@ Overfull \vbox (57.41158pt too high) detected at line 423
 File: figures/fig_ctmrg_grow.pdf Graphic file (type pdf)
 <use figures/fig_ctmrg_grow.pdf>
 
-Overfull \vbox (31.53311pt too high) detected at line 433
- []
-
-
 
 [11
 
@@ -1239,7 +1235,7 @@ Overfull \vbox (31.53311pt too high) detected at line 433
 File: figures/fig_ctmrg_truncate.pdf Graphic file (type pdf)
 <use figures/fig_ctmrg_truncate.pdf>
 
-Overfull \vbox (58.34627pt too high) detected at line 443
+Overfull \vbox (13.36398pt too high) detected at line 439
  []
 
 
@@ -1254,14 +1250,15 @@ File: figures/fig_ctmrg_algorithm.pdf Graphic file (type pdf)
 [13
 
 ]
-Overfull \vbox (50.49191pt too high) detected at line 496
- []
-
+File: figures/aaa.png Graphic file (type bmp)
+<figures/aaa.png>
 
 
 [14
 
 ]
+\c@framenumbervorappendix=\count374
+
 
 [15
 
@@ -1363,6 +1360,28 @@ Overfull \vbox (11.41086pt too high) detected at line 1074
 [29
 
 ]
+File: figures/fig_nishino_result.png Graphic file (type bmp)
+<figures/fig_nishino_result.png>
+
+Overfull \vbox (80.91356pt too high) detected at line 1131
+ []
+
+
+
+[30
+
+]
+File: figures/fig_ruby_lattice.png Graphic file (type bmp)
+<figures/fig_ruby_lattice.png>
+
+Overfull \vbox (50.4952pt too high) detected at line 1153
+ []
+
+
+
+[31
+
+]
 \tf@nav=\write6
 \openout6 = `beamer_pre.nav'.
 
@@ -1381,12 +1400,12 @@ Package rerunfilecheck Info: File `beamer_pre.out' has not changed.
 (rerunfilecheck)             Checksum: E3DCB196726149DACE0B298426B90CA1;929.
  ) 
 Here is how much of TeX's memory you used:
- 28540 strings out of 468441
- 600984 string characters out of 5445089
- 994008 words of memory out of 5000000
- 56372 multiletter control sequences out of 15000+600000
- 642667 words of font info for 125 fonts, out of 8000000 for 9000
+ 28598 strings out of 468441
+ 602761 string characters out of 5445089
+ 994332 words of memory out of 5000000
+ 56425 multiletter control sequences out of 15000+600000
+ 642675 words of font info for 126 fonts, out of 8000000 for 9000
  1348 hyphenation exceptions out of 8191
  128i,15n,123p,423b,976s stack positions out of 10000i,1000n,20000p,200000b,200000s
 
-Output written on beamer_pre.pdf (29 pages).
+Output written on beamer_pre.pdf (31 pages).

@@ -7,9 +7,9 @@ import numpy as np
 # Slide 3.3: Corner absorbs edge and local tensor
 # ============================================================
 
-fig, ax = plt.subplots(figsize=(14, 9))
+fig, ax = plt.subplots(figsize=(14, 7.5))
 ax.set_xlim(0, 14)
-ax.set_ylim(0, 9)
+ax.set_ylim(0.5, 8)
 ax.axis('off')
 
 # Colors
@@ -23,7 +23,7 @@ local_edge_color = '#B8860B'
 # ============================================================
 # LEFT SIDE: Before absorption
 # ============================================================
-left_cx, left_cy = 3.5, 5
+left_cx, left_cy = 3.5, 4.5
 
 # Corner C (top-left)
 C_size = 1.4
@@ -86,7 +86,7 @@ a_rect = patches.FancyBboxPatch(
     zorder=2
 )
 ax.add_patch(a_rect)
-ax.text(a_x, a_y, r'$a$', ha='center', va='center',
+ax.text(a_x, a_y, r'$W$', ha='center', va='center',
        fontsize=22, fontweight='bold', color='#8B4513', zorder=3)
 
 # Bonds connecting them
@@ -124,15 +124,15 @@ ax.text(C_x + 0.3, C_y - 0.9, r'$\chi$', ha='center', va='center',
 # ARROW
 # ============================================================
 arrow_x = 7
-ax.annotate('', xy=(arrow_x + 1.0, 5), xytext=(arrow_x - 1.0, 5),
+ax.annotate('', xy=(arrow_x + 1.0, 4.5), xytext=(arrow_x - 1.0, 4.5),
            arrowprops=dict(arrowstyle='->', color='darkred', lw=4))
-ax.text(arrow_x, 5.6, 'Absorb', ha='center', va='center',
+ax.text(arrow_x, 5.1, 'Absorb', ha='center', va='center',
        fontsize=20, fontweight='bold', color='darkred')
 
 # ============================================================
 # RIGHT SIDE: After absorption
 # ============================================================
-right_cx, right_cy = 10.5, 5
+right_cx, right_cy = 10.5, 4.5
 
 # New corner C' (larger, highlighting growth)
 Cp_size = 2.2
@@ -190,6 +190,17 @@ ax.plot([Cp_x, T4p_x], [Cp_y - Cp_size/2, T4p_y + T4p_h/2], 'k-', linewidth=bond
 ax.plot([T1p_x + T1p_w/2, T1p_x + T1p_w/2 + 0.6], [T1p_y, T1p_y], 'k-', linewidth=bond_width, zorder=1)
 ax.plot([T4p_x, T4p_x], [T4p_y - T4p_h/2, T4p_y - T4p_h/2 - 0.6], 'k-', linewidth=bond_width, zorder=1)
 
+# Internal bonds to center (d dimension) - from T1' going down and T4' going right
+d_leg_length = 0.7
+ax.plot([T1p_x, T1p_x], [T1p_y - T1p_h/2, T1p_y - T1p_h/2 - d_leg_length], 'k-', linewidth=bond_width, zorder=1)
+ax.plot([T4p_x + T4p_w/2, T4p_x + T4p_w/2 + d_leg_length], [T4p_y, T4p_y], 'k-', linewidth=bond_width, zorder=1)
+
+# d labels near the internal bonds
+ax.text(T1p_x + 0.35, T1p_y - T1p_h/2 - d_leg_length/2, r'$d$', ha='center', va='center',
+       fontsize=16, fontweight='bold', color='purple')
+ax.text(T4p_x -5 + T4p_w/2 + d_leg_length/2, T4p_y + 0.3, r'$d$', ha='center', va='center',
+       fontsize=16, fontweight='bold', color='purple')
+
 # Ellipsis
 ax.text(T1p_x + T1p_w/2 + 0.9, T1p_y, '···', ha='center', va='center', fontsize=28, color='gray')
 ax.text(T4p_x, T4p_y - T4p_h/2 - 0.9, '⋮', ha='center', va='center', fontsize=28, color='gray')
@@ -198,38 +209,38 @@ ax.text(T4p_x, T4p_y - T4p_h/2 - 0.9, '⋮', ha='center', va='center', fontsize=
 ax.text(right_cx, right_cy + 3.3, 'After Absorption',
        ha='center', va='center', fontsize=22, fontweight='bold', color='#333333')
 
-# Bond dimension label (grown!)
-ax.text(Cp_x + 0.5, Cp_y - 1.4, r'$\chi \cdot d$', ha='center', va='center',
-       fontsize=18, fontweight='bold', color='darkred')
+# Bond dimension label (grown!) - near the bond from C' to T1'
+ax.text(Cp_x + 4.0, Cp_y + 0.3, r'$\chi \cdot d$', ha='center', va='center',
+       fontsize=16, fontweight='bold', color='darkred')
 
 # ============================================================
 # Bottom message
 # ============================================================
-ax.text(7, 0.8,
+ax.text(7, 0.75,
        r"Bond dimension grows: $\chi \to \chi \cdot d$ — Need truncation!",
-       ha='center', va='center', fontsize=24, fontweight='bold',
+       ha='center', va='center', fontsize=22, fontweight='bold',
        color='white',
-       bbox=dict(boxstyle='round,pad=0.5', facecolor='darkred',
+       bbox=dict(boxstyle='round,pad=0.4', facecolor='darkred',
                 edgecolor='darkred', linewidth=2.5))
 
 # ============================================================
 # Formulas at top
 # ============================================================
-ax.text(3.5, 8.3, r"$C' = C \cdot T \cdot a$", ha='center', va='center',
-       fontsize=22, fontweight='bold', color='darkgreen',
-       bbox=dict(boxstyle='round,pad=0.4', facecolor='#E8F5E9',
+ax.text(3.5, 7.1, r"$C' = C \cdot T \cdot a$", ha='center', va='center',
+       fontsize=20, fontweight='bold', color='darkgreen',
+       bbox=dict(boxstyle='round,pad=0.3', facecolor='#E8F5E9',
                 edgecolor='darkgreen', linewidth=2))
-ax.text(10.5, 8.3, r"$T' = T \cdot a$", ha='center', va='center',
-       fontsize=22, fontweight='bold', color='darkgreen',
-       bbox=dict(boxstyle='round,pad=0.4', facecolor='#E8F5E9',
+ax.text(10.5, 7.1, r"$T' = T \cdot a$", ha='center', va='center',
+       fontsize=20, fontweight='bold', color='darkgreen',
+       bbox=dict(boxstyle='round,pad=0.3', facecolor='#E8F5E9',
                 edgecolor='darkgreen', linewidth=2))
 
 # ============================================================
 # Save figure
 # ============================================================
 plt.tight_layout()
-plt.savefig('figures/fig_ctmrg_grow.pdf', format='pdf', bbox_inches='tight', dpi=300)
-plt.savefig('figures/fig_ctmrg_grow.png', format='png', bbox_inches='tight', dpi=150)
+plt.savefig('fig_ctmrg_grow.pdf', format='pdf', bbox_inches='tight', dpi=300)
+plt.savefig('fig_ctmrg_grow.png', format='png', bbox_inches='tight', dpi=300)
 print("Saved: figures/fig_ctmrg_grow.pdf")
 print("Saved: figures/fig_ctmrg_grow.png")
 plt.close()

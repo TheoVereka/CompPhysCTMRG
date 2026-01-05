@@ -23,8 +23,8 @@ output_color = '#FCE4EC'
 output_edge = '#C2185B'
 
 # Box parameters
-box_width = 5.5
-box_height = 1.0
+box_width = 6.0
+box_height = 0.85
 box_x = 7  # center x
 
 # ============================================================
@@ -42,7 +42,7 @@ init_rect = patches.FancyBboxPatch(
 )
 ax.add_patch(init_rect)
 ax.text(box_x, y0, r'Initialize: $C_1, C_2, C_3, C_4$ and $T_1, T_2, T_3, T_4$',
-       ha='center', va='center', fontsize=18, fontweight='bold', color=init_edge, zorder=3)
+       ha='center', va='center', fontsize=20, fontweight='bold', color=init_edge, zorder=3)
 
 # Arrow down
 ax.annotate('', xy=(box_x, y0 - box_height/2 - 0.6), xytext=(box_x, y0 - box_height/2 - 0.1),
@@ -63,7 +63,7 @@ step1_rect = patches.FancyBboxPatch(
 )
 ax.add_patch(step1_rect)
 ax.text(box_x, y1, r"1. Absorb: $C' = C \cdot T \cdot a$, $T' = T \cdot a$",
-       ha='center', va='center', fontsize=17, fontweight='bold', color=step_edge, zorder=3)
+       ha='center', va='center', fontsize=19, fontweight='bold', color=step_edge, zorder=3)
 
 # Step number on left
 ax.text(box_x - box_width/2 - 0.5, y1, '①', ha='center', va='center',
@@ -88,7 +88,7 @@ step2_rect = patches.FancyBboxPatch(
 )
 ax.add_patch(step2_rect)
 ax.text(box_x, y2, r"2. Compute projector: $\rho \to P$ (SVD)",
-       ha='center', va='center', fontsize=17, fontweight='bold', color=step_edge, zorder=3)
+       ha='center', va='center', fontsize=19, fontweight='bold', color=step_edge, zorder=3)
 
 # Step number on left
 ax.text(box_x - box_width/2 - 0.5, y2, '②', ha='center', va='center',
@@ -113,7 +113,7 @@ step3_rect = patches.FancyBboxPatch(
 )
 ax.add_patch(step3_rect)
 ax.text(box_x, y3, r"3. Truncate: $C_{\mathrm{new}} = P^\dagger C' P$, same for $T$",
-       ha='center', va='center', fontsize=17, fontweight='bold', color=step_edge, zorder=3)
+       ha='center', va='center', fontsize=19, fontweight='bold', color=step_edge, zorder=3)
 
 # Step number on left
 ax.text(box_x - box_width/2 - 0.5, y3, '③', ha='center', va='center',
@@ -177,7 +177,7 @@ output_rect = patches.FancyBboxPatch(
 )
 ax.add_patch(output_rect)
 ax.text(box_x, yo, r'Output: Fixed-point $C^*, T^*$',
-       ha='center', va='center', fontsize=17, fontweight='bold', color=output_edge, zorder=3)
+       ha='center', va='center', fontsize=20, fontweight='bold', color=output_edge, zorder=3)
 
 # ============================================================
 # Side annotations
@@ -203,8 +203,8 @@ ax.text(loop_x + 0.8, (y1 + y4)/2, 'Iterate',
 # Save figure
 # ============================================================
 plt.tight_layout()
-plt.savefig('figures/fig_ctmrg_algorithm.pdf', format='pdf', bbox_inches='tight', dpi=300)
-plt.savefig('figures/fig_ctmrg_algorithm.png', format='png', bbox_inches='tight', dpi=150)
+plt.savefig('fig_ctmrg_algorithm.pdf', format='pdf', bbox_inches='tight', dpi=300)
+plt.savefig('fig_ctmrg_algorithm.png', format='png', bbox_inches='tight', dpi=300)
 print("Saved: figures/fig_ctmrg_algorithm.pdf")
 print("Saved: figures/fig_ctmrg_algorithm.png")
 plt.close()
