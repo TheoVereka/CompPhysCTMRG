@@ -227,23 +227,22 @@
             
             \vspace{0.5cm}
             
-            \textbf{2D:} Each site couples to \highlight{4 neighbors}!
-            \[
-            T^{\sigma_i}_{\sigma_\text{up}, \sigma_\text{down}, \sigma_\text{left}, \sigma_\text{right}}
-            \]
+            \textbf{2D:} $T$ still $2 \times 2$ on each \highlight{bond},
             
-            This is a \highlight{rank-4 tensor}, not a matrix!
+            but bonds form a \highlight{2D network}!
+            
+            $\Rightarrow$ No natural ordering.
         \end{column}
         
         \begin{column}{0.55\textwidth}
-            % === FIGURE: 2D tensor network ===
+            % === FIGURE: 2D tensor network (45° tilted) ===
             \begin{center}
                 \includegraphics[width=\textwidth]{figures/fig_2d_tensor_network.pdf}
             \end{center}
         \end{column}
     \end{columns}
     
-    \vspace{0.3cm}
+    \vspace{-0.8cm}
     
     \begin{alertblock}{The Fundamental Problem}
         \highlight{No natural contraction order!} The 2D tensor network cannot be reduced to a simple trace of matrix products. \textbf{Exact contraction is \#P-hard!}
@@ -366,56 +365,60 @@
 \begin{frame}{2D Analog: Four Corners + Four Edges}
     
     \begin{center}
-        \includegraphics[width=0.75\textwidth]{figures/fig_2d_ctmrg_structure.pdf}
+        \includegraphics[width=0.7\textwidth]{figures/fig_2d_ctmrg_structure.pdf}
     \end{center}
     
-    \vspace{0.2cm}
+    \vspace{0.1cm}
     
     \begin{columns}
-        \begin{column}{0.5\textwidth}
-            \textbf{Corners $C_1, C_2, C_3, C_4$:}
+        \begin{column}{0.33\textwidth}
+            \textbf{Corners $C$:}
             \begin{itemize}
-                \item Encode quadrant contributions
-                \item Size: $\chi \times \chi$
+                \item Quadrant ($\chi \times \chi$)
             \end{itemize}
         \end{column}
-        \begin{column}{0.5\textwidth}
-            \textbf{Edges $T_1, T_2, T_3, T_4$:}
+        \begin{column}{0.33\textwidth}
+            \textbf{Edges $T$:}
             \begin{itemize}
-                \item Half-infinite row/column
-                \item Size: $\chi \times d \times \chi$
+                \item Half-strip ($\chi \times d \times \chi$)
+            \end{itemize}
+        \end{column}
+        \begin{column}{0.33\textwidth}
+            \textbf{Local tensor $a$:}
+            \begin{itemize}
+                \item Rank-4 ($d^4$)
             \end{itemize}
         \end{column}
     \end{columns}
+    
+    \vspace{0.2cm}
+    
+    \begin{block}{Key: What is $a$?}
+        $a$ is a \highlight{rank-4 local tensor} --- for computing $Z$: $a = W$; for $\langle \sigma \rangle$: $a = \sigma \cdot W$.
+    \end{block}
 \end{frame}
 
 % ------------------------------------------------------------
 % Slide 3.2: Local Tensor
 % ------------------------------------------------------------
-\begin{frame}{The Local Tensor: Building Block}
+\begin{frame}{The Plaquette Tensor: From Bonds to Faces}
     
     \begin{columns}
         \begin{column}{0.5\textwidth}
-            \textbf{Local Boltzmann weight tensor $a$:}
+            \textbf{Key transformation:}
+            
+            \vspace{0.3cm}
+            
+            Bond-based $T$ (rank-2) $\to$ Plaquette-based $W$ (rank-4)
             
             \vspace{0.5cm}
             
             % === FIGURE PLACEHOLDER ===
-            % Concept: 4-leg tensor for one site
-            %
-            % ASCII draft:
-            %              up
-            %               │
-            %    left ──── [a] ──── right
-            %               │
-            %             down
-            %
-            % Each leg connects to a neighbor
             \begin{center}
                 \fbox{\parbox{0.8\textwidth}{
                     \centering
                     \vspace{2cm}
-                    \textit{[Figure: Local tensor $a$ with 4 legs]}
+                    \textit{[Figure: 4 bonds around a plaquette $\to$ $W$]}
                     \vspace{2cm}
                 }}
             \end{center}
@@ -423,19 +426,20 @@
         
         \begin{column}{0.5\textwidth}
             \textbf{For 2D Ising:}
+            
+            Combine 4 bond tensors $T$ around a face:
             \[
-            a_{u,d,l,r} = \sum_{\sigma} W_{\sigma,u} W_{\sigma,d} W_{\sigma,l} W_{\sigma,r}
+            W_{u,d,l,r} = \sum_{\sigma} T_{\sigma,u} T_{\sigma,d} T_{\sigma,l} T_{\sigma,r}
             \]
             
-            where
-            \[
-            W_{\sigma, \sigma'} = e^{\frac{\beta J}{2} \sigma \sigma'}
-            \]
+            where $T_{\sigma, \sigma'} = e^{\frac{\beta J}{2} \sigma \sigma'}$
             
             \vspace{0.3cm}
             
-            \begin{block}{Physical Meaning}
-                $a$ encodes the Boltzmann weight at one site, with bond weights split symmetrically.
+            \begin{block}{Why Plaquette?}
+                $W$ is the \highlight{rank-4 local tensor} used in CTMRG.
+                
+                Each $W$ encodes one face of the tilted lattice.
             \end{block}
         \end{column}
     \end{columns}

@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.141592653-2.6-0.999997 (TeX Live 2025) (preloaded format=xelatex 2025.9.11)  5 JAN 2026 18:09
+This is XeTeX, Version 3.141592653-2.6-0.999997 (TeX Live 2025) (preloaded format=xelatex 2025.9.11)  5 JAN 2026 18:54
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1179,7 +1179,7 @@ Overfull \hbox (23.86797pt too wide) detected at line 208
 File: figures/fig_2d_tensor_network.pdf Graphic file (type pdf)
 <use figures/fig_2d_tensor_network.pdf>
 
-Overfull \vbox (31.69101pt too high) detected at line 251
+Overfull \vbox (5.08139pt too high) detected at line 250
  []
 
 
@@ -1194,7 +1194,7 @@ Overfull \vbox (31.69101pt too high) detected at line 251
 File: figures/fig_2d_local_environment.pdf Graphic file (type pdf)
 <use figures/fig_2d_local_environment.pdf>
 
-Overfull \vbox (29.38464pt too high) detected at line 356
+Overfull \vbox (29.38464pt too high) detected at line 355
  []
 
 
@@ -1205,7 +1205,7 @@ Overfull \vbox (29.38464pt too high) detected at line 356
 File: figures/fig_2d_ctmrg_structure.pdf Graphic file (type pdf)
 <use figures/fig_2d_ctmrg_structure.pdf>
 
-Overfull \vbox (121.78238pt too high) detected at line 390
+Overfull \vbox (121.78238pt too high) detected at line 389
  []
 
 
@@ -1213,11 +1213,15 @@ Overfull \vbox (121.78238pt too high) detected at line 390
 [9
 
 ]
+Overfull \vbox (3.58585pt too high) detected at line 436
+ []
+
+
 
 [10
 
 ]
-Overfull \vbox (60.41356pt too high) detected at line 481
+Overfull \vbox (60.41356pt too high) detected at line 475
  []
 
 
@@ -1225,7 +1229,7 @@ Overfull \vbox (60.41356pt too high) detected at line 481
 [11
 
 ]
-Overfull \vbox (50.6644pt too high) detected at line 539
+Overfull \vbox (50.6644pt too high) detected at line 533
  []
 
 
@@ -1233,7 +1237,7 @@ Overfull \vbox (50.6644pt too high) detected at line 539
 [12
 
 ]
-Overfull \vbox (41.37737pt too high) detected at line 582
+Overfull \vbox (41.37737pt too high) detected at line 576
  []
 
 
@@ -1256,7 +1260,7 @@ x-text;!
 Missing character: There is no 量 (U+91CF) in font [lmsans10-regular]:mapping=te
 x-text;!
 
-Overfull \vbox (51.51479pt too high) detected at line 623
+Overfull \vbox (51.51479pt too high) detected at line 617
  []
 
 
@@ -1269,7 +1273,7 @@ Underfull \vbox (badness 10000) has occurred while \output is active []
 ]
 
 [15]
-Overfull \vbox (98.28288pt too high) detected at line 652
+Overfull \vbox (98.28288pt too high) detected at line 646
  []
 
 
@@ -1277,7 +1281,7 @@ Overfull \vbox (98.28288pt too high) detected at line 652
 [16
 
 ]
-Overfull \vbox (46.53456pt too high) detected at line 691
+Overfull \vbox (46.53456pt too high) detected at line 685
  []
 
 
@@ -1322,7 +1326,7 @@ x-text;!
 Missing character: There is no ！ (U+FF01) in font [lmsans10-regular]:mapping=te
 x-text;!
 
-Overfull \vbox (35.31856pt too high) detected at line 728
+Overfull \vbox (35.31856pt too high) detected at line 722
  []
 
 
@@ -1341,10 +1345,10 @@ Underfull \vbox (badness 10000) has occurred while \output is active []
 ]
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\translate ' on input line 747.
+(hyperref)                removing `\translate ' on input line 741.
 
 
-Overfull \vbox (33.02466pt too high) detected at line 790
+Overfull \vbox (33.02466pt too high) detected at line 784
  []
 
 
@@ -1352,7 +1356,7 @@ Overfull \vbox (33.02466pt too high) detected at line 790
 [21
 
 ]
-Overfull \vbox (59.33939pt too high) detected at line 822
+Overfull \vbox (59.33939pt too high) detected at line 816
  []
 
 
@@ -1360,7 +1364,7 @@ Overfull \vbox (59.33939pt too high) detected at line 822
 [22
 
 ]
-Overfull \vbox (17.33656pt too high) detected at line 871
+Overfull \vbox (17.33656pt too high) detected at line 865
  []
 
 
@@ -1372,7 +1376,7 @@ Overfull \vbox (17.33656pt too high) detected at line 871
 [24
 
 ]
-Overfull \vbox (16.6042pt too high) detected at line 971
+Overfull \vbox (16.6042pt too high) detected at line 965
  []
 
 
@@ -1384,7 +1388,7 @@ Overfull \vbox (16.6042pt too high) detected at line 971
 [26
 
 ]
-Overfull \vbox (9.77637pt too high) detected at line 1061
+Overfull \vbox (9.77637pt too high) detected at line 1055
  []
 
 
@@ -1396,7 +1400,7 @@ Overfull \vbox (9.77637pt too high) detected at line 1061
 [28
 
 ]
-Overfull \vbox (67.65768pt too high) detected at line 1149
+Overfull \vbox (67.65768pt too high) detected at line 1143
  []
 
 
@@ -1404,7 +1408,7 @@ Overfull \vbox (67.65768pt too high) detected at line 1149
 [29
 
 ]
-Overfull \vbox (58.95158pt too high) detected at line 1186
+Overfull \vbox (58.95158pt too high) detected at line 1180
  []
 
 
@@ -1416,7 +1420,7 @@ Overfull \vbox (58.95158pt too high) detected at line 1186
 [31
 
 ]
-Overfull \vbox (11.41086pt too high) detected at line 1269
+Overfull \vbox (11.41086pt too high) detected at line 1263
  []
 
 
@@ -1447,8 +1451,8 @@ Package rerunfilecheck Info: File `beamer_pre.out' has not changed.
  ) 
 Here is how much of TeX's memory you used:
  28498 strings out of 468441
- 599687 string characters out of 5445089
- 993747 words of memory out of 5000000
+ 599699 string characters out of 5445089
+ 993745 words of memory out of 5000000
  56340 multiletter control sequences out of 15000+600000
  640177 words of font info for 114 fonts, out of 8000000 for 9000
  1348 hyphenation exceptions out of 8191
