@@ -285,7 +285,6 @@ def fit_m_xi(rows: list[dict], *, absolute: bool, power: bool) -> dict | None:
     y = np.asarray([row["m"] for row in rows])
     sy = _safe_sigma(np.asarray([row["m_error"] for row in rows]))
     slope, intercept = np.polyfit(x, y, 1)
-
     def model(parameters, xx):
         m0, c = parameters[:2]
         alpha = parameters[2] if power else 1.0
@@ -295,7 +294,9 @@ def fit_m_xi(rows: list[dict], *, absolute: bool, power: bool) -> dict | None:
         alpha = parameters[2] if power else 1.0
         c = parameters[1]
         derivative = c * alpha * np.maximum(x, 1e-15) ** (alpha - 1.0)
-        sigma = np.sqrt(sy**2 + (derivative * sx) ** 2)
+        sigma = np.sqrt(
+            sy**2 + (derivative * sx) ** 2 + intrinsic_scatter**2
+        )
         return (y - model(parameters, x)) / sigma
 
     lower = [0.0 if absolute else -np.inf, 0.0]
@@ -307,7 +308,19 @@ def fit_m_xi(rows: list[dict], *, absolute: bool, power: bool) -> dict | None:
     if power:
         lower.append(cfg.POWER_ALPHA_BOUNDS[0])
         upper.append(cfg.POWER_ALPHA_BOUNDS[1])
-        guesses = [guess + [alpha] for alpha in (0.5, 1.0, 1.5, 2.0) for guess in guesses]
+        alpha_lo, alpha_hi = cfg.POWER_ALPHA_BOUNDS
+        alpha_seeds = (alpha_lo, 0.5 * (alpha_lo + alpha_hi), alpha_hi)
+        guesses = [guess + [alpha] for alpha in alpha_seeds for guess in guesses]
+
+    # Linear finite-correlation-length scaling has a visible model-discrepancy
+    # scatter, which prevents one nearly zero environment-spread bar from
+    # dictating m0.  The already constrained power fits retain their direct
+    # x/y-error likelihood so their extra exponent is not assigned that same
+    # scatter twice.
+    intrinsic_scatter = (
+        0.0 if power else rms(y - (intercept + slope * x))
+    )
+
     best = None
     for guess in guesses:
         try:
@@ -323,7 +336,9 @@ def fit_m_xi(rows: list[dict], *, absolute: bool, power: bool) -> dict | None:
     covariance = _covariance(best, len(rows), absolute_sigma=True)
     errors = np.sqrt(np.maximum(0.0, np.diag(covariance)))
     names = ["m0", "c"] + (["alpha"] if power else [])
-    return {"names": names, "values": best.x, "errors": errors, "model": model, "n": len(rows)}
+    return {"names": names, "values": best.x, "errors": errors,
+            "model": model, "n": len(rows),
+            "intrinsic_scatter": intrinsic_scatter}
 
 
 def _covariance(result, n_data: int, *, absolute_sigma: bool = False) -> np.ndarray:
@@ -451,7 +466,8 @@ def _fit_rows(figure: int, ansatz: str, j2: float, result: dict,
          "error": error, "fit_bans": repr(excluded),
          "statistic_Ds": repr(result.get("Ds", "")),
          "measurement_error_rms": result.get("measurement_error_rms", ""),
-         "spreading_rms": result.get("spreading_rms", "")}
+         "spreading_rms": result.get("spreading_rms", ""),
+         "intrinsic_scatter": result.get("intrinsic_scatter", "")}
         for name, value, error in zip(result["names"], result["values"], result["errors"])
     ]
 
@@ -574,17 +590,24 @@ def _raw_vs_j2(ax, figure: int, rows: list[dict], *, observable: str,
 def _m_extrap(figure: int, rows: list[dict]) -> tuple[list[dict], list[dict]]:
     points, fit_rows = [], []
     for j2, group in _groups(rows, "J2").items():
-        fit_group = [row for row in group if not _fit_banned(figure, j2, row["D"])]
-        result = fit_linear_invD(fit_group)
+        fit_group = [
+            row for row in group
+            if not _fit_banned(figure, j2, row["D"])
+            and np.isfinite(row["inverse_xi"])
+            and np.isfinite(row["inverse_xi_error"])
+        ]
+        result = fit_m_xi(fit_group, absolute=False, power=False)
         if result is None:
             continue
-        central = max(0.0, float(result["values"][0]))
+        raw_central = float(result["values"][0])
+        central = max(0.0, raw_central)
         sigma = float(result["errors"][0])
-        lower, upper = max(0.0, central - sigma), max(0.0, central + sigma)
+        lower = max(0.0, raw_central - sigma)
+        upper = max(0.0, raw_central + sigma)
         points.append({"ansatz": ANSATZ_NEEL, "J2": j2, "D": 0, "value": central,
                        "lower_error": central - lower, "upper_error": upper - central})
         excluded = [_key(j2, row["D"]) for row in group if _fit_banned(figure, j2, row["D"])]
-        fit_rows.extend(_fit_rows(figure, ANSATZ_NEEL, j2, result, "linear_m_vs_invD", excluded))
+        fit_rows.extend(_fit_rows(figure, ANSATZ_NEEL, j2, result, "linear_m_vs_invxi", excluded))
     return points, fit_rows
 
 
@@ -611,8 +634,16 @@ def _draw_m_extrap(ax, figure: int, rows: list[dict], *, label=r"$m_{\mathrm{ext
         _errorbar(ax, [p["J2"] for p in plotted], [p["value"] for p in plotted],
                   yerr=[[p["lower_error"] for p in plotted], [p["upper_error"] for p in plotted]],
                   color=PURPLE, label=label, marker="s", linestyle="-", zorder=5)
-    data = [_row(figure, p, series="m_extrap", x=p["J2"], y=p["value"],
-                 y_error=max(p["lower_error"], p["upper_error"])) for p in points]
+    data = []
+    for point in points:
+        exported = _row(
+            figure, point, series="m_extrap",
+            x=point["J2"], y=point["value"],
+            y_error=max(point["lower_error"], point["upper_error"]),
+        )
+        exported["y_error_lower"] = point["lower_error"]
+        exported["y_error_upper"] = point["upper_error"]
+        data.append(exported)
     return data, fits
 
 
