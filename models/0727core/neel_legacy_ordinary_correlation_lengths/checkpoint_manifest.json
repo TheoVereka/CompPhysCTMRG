@@ -1,6 +1,6 @@
 {
   "bundle_kind": "D345678910_neel_legacy_ordinary_only",
-  "created_utc": "2026-09-08T14:54:56.639105+00:00",
+  "created_utc": "2026-09-09T09:15:33.179393+00:00",
   "items": [
     {
       "D": 4,
@@ -1066,7 +1066,7 @@
       "legacy_correlation_filename": "correlation_length_D_9.json",
       "legacy_observable": "D_9_chi_126_energy_magnetization_correlation.txt",
       "legacy_run_relative_path": "neel_symmetrized__J2_0p26_20260510_182106_20260516_113317_D456",
-      "original_relative_path": "0713core/0730newdata/0801core/neel_symmetrized__J2_0p26_20260827_220248/sweep_D9_chi126_best.pt",
+      "original_relative_path": "0713core/0730olddata/0801core/neel_symmetrized__J2_0p26_20260827_220248/sweep_D9_chi126_best.pt",
       "selected_for_rerun": false,
       "selection_reason": "current_result_matches_tensor",
       "sha256": "e503dbcef6a663d6297f7c0d1425f273fe6263ef28237b2b816b30495c691b2c",

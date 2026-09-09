@@ -101,6 +101,31 @@ def within(path: Path, root: Path) -> bool:
     return True
 
 
+def summary_case_paths(
+    summary_root: Path,
+    ansatz_directory: str,
+    j2_directory: str,
+    D_bond: int,
+) -> tuple[Path, Path]:
+    """Return the canonical checkpoint and plot-visible result paths.
+
+    Derive these paths from the parsed result key instead of trusting a path
+    copied into the manifest.  Consequently every newly added J2 value is
+    imported into the exact tree consumed by plot_analysis_Windows and
+    PublicationPlots.
+    """
+    summary_root = summary_root.resolve()
+    case_directory = (
+        summary_root / j2_directory / ansatz_directory / f"D_{D_bond}"
+    ).resolve()
+    if not within(case_directory, summary_root):
+        raise ValueError(f"Result destination escapes summary root: {case_directory}")
+    return (
+        case_directory / "tensor_best.pt",
+        case_directory / "correlation_length.json",
+    )
+
+
 def sha256(path: Path) -> str:
     digest = hashlib.sha256()
     with path.open("rb") as handle:
@@ -312,12 +337,25 @@ def main() -> int:
             failed += 1
             continue
 
-        checkpoint = (
+        try:
+            checkpoint, destination = summary_case_paths(
+                summary_root,
+                ansatz_directory,
+                j2_directory,
+                D_bond,
+            )
+        except ValueError as error:
+            print(f"REJECT {error}")
+            failed += 1
+            continue
+        manifest_checkpoint = (
             summary_root / str(item["original_relative_path"])
         ).resolve()
-        destination = checkpoint.with_name("correlation_length.json")
-        if not within(checkpoint, summary_root):
-            print(f"REJECT manifest path escapes summary root: {checkpoint}")
+        if manifest_checkpoint != checkpoint:
+            print(
+                "REJECT manifest checkpoint is not at its canonical "
+                f"plot-visible path: {manifest_checkpoint} != {checkpoint}"
+            )
             failed += 1
             continue
         if not checkpoint.is_file():
